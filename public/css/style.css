@@ -9,13 +9,14 @@
 }
 
 .card-title{
-    font-family: Roboto Slab,Times New Roman,serif;
+    font-family: 'Montserrat',Roboto Slab,Times New Roman,serif;
     font-weight: 700
 }
 
 .login-section{
   background: url(../img/home_bg2.jpg) no-repeat center center;
   background-size: cover;
+  font-family: 'Montserrat',Roboto Slab,Times New Roman,serif;
 }
 .login-section::after, .login-section::before {
   position: absolute;

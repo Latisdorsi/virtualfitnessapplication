@@ -1,0 +1,66 @@
+<div class="row">
+   <% include ../partials/header %>
+   <div class="col-md-10">
+      <a href="/account/create" class="btn btn-primary">Create New Account</a>
+      <table class="table table-striped">
+         <tr>
+            
+            <th>Email</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Registered</th>
+            <th>Action</th>
+         </tr>
+
+         <% users.forEach( user => { %>
+         <tr>
+            <td><%= user.email %></td>
+            <td><%= user.name.firstName %></td>
+            <td><%= user.name.lastName %></td>
+            <td><%= user.createdDate %></td>
+            <td><a href="/account/detail/<%= user._id %>"><i class="fa fa-edit"></i></a><a href="/account/delete/<%= user._id %>"><i class="fa fa-trash-alt"></i></a>
+            </td>
+
+         </tr>
+         <% }); %>
+      </table>
+
+      <nav>
+      <!-- Pagination -->
+      <% if (pages > 1) { %>
+      <ul class="pagination text-center">
+
+         <% if (current == 1) { %>
+         <li class="disabled page-item"><a>First</a></li>
+         <% } else { %>
+         <li class="page-item"><a href="/account/list/<%= role %>/1">First</a></li>
+         <% } %>
+
+
+         <% let i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+         <% if (i !== 1) { %>
+            <li class="disabled page-item"><a>...</a></li>
+         <% } %>
+         <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+            <% if (i == current) { %>
+               <li class="active disabled page-item"><a><%= i %></a></li>
+            <% } else { %>
+               <li class="page-item"><a href="/account/list/<%= role %>/<%= i %>"><%= i %></a></li>
+            <% } %>
+            <% if (i == Number(current) + 4 && i < pages) { %>
+               <li class="disabled page-item"><a>...</a></li>
+            <% } %>
+         <% } %>
+
+
+         <% if (current == pages) { %>
+            <li class="disabled page-item"><a>Last</a></li>
+         <% } else { %>
+            <li class="page-item"><a href="/account/list/<%= role %>/<%= pages %>">Last</a></li>
+         <% } %>
+
+      </ul>
+      <% } %>
+   </nav>
+   </div>
+</div>

@@ -5,20 +5,29 @@ const ExerciseSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please enter an exercise name']
     },
-    videoURL:{
+    
+    videoURL: {
         type: String,
         required: [true, 'Please Enter a video URL']
     },
-    type:{
+
+    type: {
         type: String,
         enum: ['core', 'cardio', 'exercises', 'flexibility']
     },
-    rate:{
-        type: Number,
-        default: 0
+
+    rate: {
+        cardio: { type: Number }, 
+        core: { type: Number }, 
+        flexibility: { type: Number }, 
+        strength: { type: Number }, 
     },
-    goal:{
+
+    goal: {
         type: String
     }
 
 })
+
+const Exercise = mongoose.model('Exercise', ExerciseSchema)
+module.exports = Exercise

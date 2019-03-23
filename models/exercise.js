@@ -11,16 +11,12 @@ const ExerciseSchema = new mongoose.Schema({
         required: [true, 'Please Enter a video URL']
     },
 
-    type: {
-        type: String,
-        enum: ['core', 'cardio', 'exercises', 'flexibility']
-    },
-
-    rate: {
-        cardio: { type: Number }, 
-        core: { type: Number }, 
-        flexibility: { type: Number }, 
-        strength: { type: Number }, 
+    category: {
+        name:{
+            type: String,
+            enum: ['core', 'cardio', 'exercises', 'flexibility']
+        },
+        rate: number
     },
 
     goal: {

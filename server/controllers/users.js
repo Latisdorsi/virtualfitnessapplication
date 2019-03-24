@@ -109,20 +109,8 @@ module.exports = {
         const role = req.params.role
 
         User.find({ role })
-            .skip((perPage * page) - perPage)
-            .limit(perPage)
             .exec((err, users) => {
-                User.countDocuments({ role }).exec((err, count) => {
-                    if (err) return next(err)
-                    /*res.render('account/list', {
-                        users: users,
-                        current: page,
-                        role: role,
-                        pages: Math.ceil(count / perPage)
-                    })
-                    */
-                   res.json(users)
-                })
+                res.json(users)
             })
     },
 

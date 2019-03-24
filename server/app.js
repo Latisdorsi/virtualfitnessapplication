@@ -1,6 +1,7 @@
 const express = require('express')
 const expressLayouts = require('express-ejs-layouts')
 const mongoose = require('mongoose')
+const cors = require('cors')
 const path = require('path')
 const flash = require('connect-flash')
 const session = require('express-session')
@@ -39,6 +40,8 @@ mongoose.connect(config.MONGODB_URI,
     mongoose.set('useFindAndModify', false)
 
 
+//CORS
+app.use(cors())
 
 // EJS
 app.use(expressLayouts)

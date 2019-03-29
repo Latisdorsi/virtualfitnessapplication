@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
-import AccountCell from './AccountCell'
 import { Link } from 'react-router-dom'
 import axios from 'axios';
+import ExerciseCell from './ExerciseCell'
 
-export class Accounts extends Component {
+export class Exercises extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            users: [],
+            exercises: [],
             currentPage: 1,
             documentsPerPage: 15,
 
@@ -23,11 +23,9 @@ export class Accounts extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props.role)
-        axios.get('http://127.0.0.1:3000/account/list/' + this.props.role)
+        axios.get('http://127.0.0.1:3000/exercise/list')
             .then(response => {
-
-                this.setState({ users: response.data })
+                this.setState({ exercises: response.data })
             })
             .catch(err => {
                 console.error(err)
@@ -35,41 +33,43 @@ export class Accounts extends Component {
     }
 
     render() {
-        const { currentPage, documentsPerPage, users } = this.state
+        const { currentPage, documentsPerPage, exercises } = this.state
 
         // Logic for displaying todos
         const indexOfLastTodo = currentPage * documentsPerPage;
         const indexOfFirstTodo = indexOfLastTodo - documentsPerPage;
-        const currentUsers = users.slice(indexOfFirstTodo, indexOfLastTodo);
+        const currentExercises = exercises.slice(indexOfFirstTodo, indexOfLastTodo);
 
-        const populateTable = currentUsers.map(function (user, i) {
-            return <AccountCell user={user} key={i} />
+        const populateTable = currentExercises.map(function (exercise, i) {
+            return <ExerciseCell exercise={exercise} key={i} />
         })
 
 
         // Logic for displaying page numbers
         const pageNumbers = [];
 
-        for (let i = 1; i <= Math.ceil(users.length / documentsPerPage); i++) {
+        for (let i = 1; i <= Math.ceil(exercises.length / documentsPerPage); i++) {
             pageNumbers.push(i);
         }
 
+
         const firstPage = 1;
         const lastPage = pageNumbers.length;
+
 
         const renderPageNumbers = pageNumbers.map(number => {
             return (
                 <li
                     className="page-item"
                 >
-                    <Link
+                    <a
                         className="page-link"
                         key={number}
                         id={number}
                         onClick={this.handleClick}>
 
                         {number}
-                    </Link>
+                    </a>
                 </li>
             );
         });
@@ -82,32 +82,30 @@ export class Accounts extends Component {
                     <div className="row">
                         <div className="col-md-12">
                             <div className="page-title-wrapper">
-                                <h4>Account Management</h4>
+                                <h4>Exercise Management</h4>
                                 <p className="text-muted">Lorem ipsum, dolor sit amet consectetur adipisicing.</p>
                             </div>
-                            <Link to={"/account/create"} className="btn btn-primary">Create New Account</Link>
+                            <Link to={"/exercise/create"} className="btn btn-primary">Create New Exercise</Link>
                         </div>
                     </div>
                     <div className="row mt-4">
                         <div className="col-md-12">
                             <div className="card">
                                 <div className="card-body">
-                                    <h4 className="header-title">Manage {this.props.role}Accounts</h4>
+                                    <h4 className="header-title">Manage Exercises</h4>
                                     <p className="text-muted mb-4">Lorem ipsum, dolor sit amet consectetur adipisicing.</p>
                                     <table className="table table-striped">
                                         <thead>
                                             <tr>
-                                                <th>Email</th>
-                                                <th>First Name</th>
-                                                <th>Last Name</th>
-                                                <th>Registered</th>
+                                                <th>Name</th>
+                                                <th>Category Name</th>
+                                                <th>Category Rate</th>
+                                                <th>Goal</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-
                                             {populateTable}
-
                                         </tbody>
                                     </table>
                                     <ul id="page-numbers" className="pagination">
@@ -143,4 +141,4 @@ export class Accounts extends Component {
     }
 }
 
-export default Accounts
+export default Exercises

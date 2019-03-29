@@ -16,7 +16,7 @@ const ExerciseSchema = new mongoose.Schema({
             type: String,
             enum: ['core', 'cardio', 'exercises', 'flexibility']
         },
-        rate: number
+        rate: Number
     },
 
     goal: {

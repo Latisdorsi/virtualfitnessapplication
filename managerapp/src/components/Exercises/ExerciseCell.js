@@ -3,26 +3,26 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 
-export class AccountCell extends Component {
+export class ExerciseCell extends Component {
     constructor(props) {
         super(props);
         this.delete = this.delete.bind(this);
     }
     delete() {
-        axios.delete('http://localhost:3000/account/detail/' + this.props.user._id)
+        axios.delete('http://localhost:3000/exercise/detail/' + this.props.exercise._id)
             .then(console.log('Deleted'))
             .catch(err => console.log(err))
     }
     render() {
-        const { user } = this.props;
+        const { exercise } = this.props;
         return (
             <tr>
-                <td>{user.email}</td>
-                <td>{user.name.firstName}</td>
-                <td>{user.name.lastName}</td>
-                <td>{user.createdDate}</td>
+                <td>{exercise.name}</td>
+                <td>{exercise.category.name}</td>
+                <td>{exercise.category.rate}</td>
+                <td>{exercise.goal}</td>
                 <td>
-                    <Link to={"/account/edit/" + user._id}><i className="dripicons dripicons-pencil"></i></Link>&nbsp;
+                    <Link to={"/exercise/edit/" + exercise._id}><i className="dripicons dripicons-pencil"></i></Link>&nbsp;
                     <Link onClick={this.delete}><i className="dripicons dripicons-trash"></i></Link>
                 </td>
             </tr>
@@ -30,4 +30,4 @@ export class AccountCell extends Component {
     }
 }
 
-export default AccountCell
+export default ExerciseCell

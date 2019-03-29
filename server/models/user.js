@@ -3,6 +3,9 @@ const bcrypt = require('bcryptjs')
 const validator = require('validator');
 
 const UserSchema = new mongoose.Schema({
+    avatarURL:{
+        type: String
+    },
     name: {
         firstName: {
             type: String,
@@ -10,18 +13,25 @@ const UserSchema = new mongoose.Schema({
         },
         lastName: {
             type: String,
-            required: [true, 'Please enter your last name.']
+            required: [true, 'Please enter your last name.'],
+            trim: true
+        },
+        middleInitial: {
+            type:String,
+            required: [true, 'Please enter your middle initial.']
         }
     },
     email: {
         type: String,
         required: [true, 'Please enter your email.'],
         unique: [true, 'This email already exists'],
+        default: '',
         lowercase: true,
         validate: function (email) { validator.isEmail(email) }
     },
     password: {
         type: String,
+        default: '',
         required: [true, 'Please enter your password.'],
     },
     createdDate: {
@@ -33,15 +43,30 @@ const UserSchema = new mongoose.Schema({
     },
     role: {
         type: String,
+        lowercase: true,
         enum: ['admin', 'manager', 'trainer', 'member'],
+        required: [true, 'Please enter a role'],
         default: ['member'],
+    },
+    contactDetails: {
+        address: String,
+        phone: {
+            mobile: Number,
+            home: Number,
+            work: Number
+        }
+    },
+    emergencyContact: {
+        fullName: String,
+        contactNumber: Number,
+        relationship: String
     }
-});
 
+});
 
 UserSchema.pre('save', function (next) {
     if (!this.isModified('password')) return next()
-    else{
+    else {
         bcrypt.genSalt(10, (err, salt) => {
             bcrypt.hash(this.password, salt, (err, hash) => {
                 this.password = hash;

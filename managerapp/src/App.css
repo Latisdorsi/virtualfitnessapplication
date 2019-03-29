@@ -204,3 +204,8 @@ ul.subMenu {
   padding: 10px 70px;
   border-radius: 5px;
 }
+
+.avatar-img{
+  height: 250px;
+  width: 250px;
+}

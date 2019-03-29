@@ -80,7 +80,7 @@ app.use((req, res, next) => {
 app.use('/', require('./routes/index'))
 app.use('/admin', require('./routes/admin/index'))
 app.use('/account',  require('./routes/admin/account'))
-
+app.use('/exercise',  require('./routes/admin/exercise'))
 
 // Start Node.js Server
 

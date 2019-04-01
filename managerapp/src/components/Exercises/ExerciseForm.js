@@ -9,6 +9,9 @@ const ExerciseForm = props => {
         errors,
         handleChange,
         handleBlur,
+        isSubmitting, 
+        dirty,
+        handleReset,
         handleSubmit,
         setFieldValue,
         setFieldTouched,
@@ -76,7 +79,24 @@ const ExerciseForm = props => {
                 error={errors.goal}
                 touched={touched.goal}
             />
-            <button type="submit">Test</button>
+                   <div className="col-md-4 offset-md-9">
+                <button
+                    type="button"
+                    className="btn btn-primary  btn-custom mt-3 mr-1"
+                    onClick={handleReset}
+                    disabled={!dirty || isSubmitting}>
+                    Reset
+                </button>
+                <button
+                    type="submit"
+                    className="btn btn-primary btn-custom mt-3"
+                    
+                    disabled={isSubmitting}>
+                    {!isSubmitting
+                        ? 'Save'
+                        : 'Saving...'}
+                </button>
+            </div>
         </form>
     );
 };

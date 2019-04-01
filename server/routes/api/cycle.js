@@ -1,9 +1,9 @@
 const express = require('express')
 const router = express.Router()
-const exercise = require('../../controllers/exercises')
 
 // User Model
 const Exercise = require('../../models/exercise')
+const Cycle = require('../../models/cycle')
 
 // Get All Member Cycle
 router.get('/cycles', (req, res) => {
@@ -33,8 +33,22 @@ router.post('/cycle', (req,res) => {
 })
 
 // Create New Cycle
-router.post('/cycle', (req,res) => {
+router.post('/cycle/:id', (req,res) => {
+    const userId = req.params.id
+    const {targetDate, targetGoal} = req.body
+    const newCycle= new Cycle( {
+        userId,
+        targetDate,
+        targetGoal 
+    })
 
+    newCycle.save()
+    .then(cycle =>{
+        res.json(cycle)
+    })
+    .catch(error =>{
+        res.send(error)
+    })
 })
 
 // Get specific Cycle Id
@@ -52,3 +66,4 @@ router.delete('/cycle/:id', (req, res) =>{
 
 })
 
+module.exports = router

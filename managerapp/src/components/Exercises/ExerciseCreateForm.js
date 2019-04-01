@@ -55,14 +55,6 @@ export class ExerciseCreateForm extends Component {
                             </div>
                             <p className="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing.</p>
                         </div>
-                        <div className="col-md-3">
-                            <button
-                                type="submit"
-                                className="btn btn-primary float-lg-right btn-custom mt-3"
-                                stlye="margin-right:10px">
-                                Save
-                                    </button>
-                        </div>
                     </div>
                     <div className="row">
                         <div className="col-md-12">

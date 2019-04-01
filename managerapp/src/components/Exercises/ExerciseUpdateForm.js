@@ -39,7 +39,7 @@ export class ExerciseUpdateForm extends Component {
                     .url("Enter a valid URL")
             });
 
-        const createExercise = (values, { setSubmitting }) => {
+        const updateExercise = (values, { setSubmitting }) => {
             const obj = {
                 name: values.name,
                 videoURL: values.videoURL,
@@ -52,10 +52,9 @@ export class ExerciseUpdateForm extends Component {
             console.log(obj)
 
             axios
-                .post('http://localhost:3000/exercise/create', obj)
+                .put('http://localhost:3000/exercise/detail/' + this.props.match.params.id , obj)
                 .then(response => {
                     console.log(response)
-                    this.setState({ name: '', videoURL: '', categoryName: '', categoryRate: '', goal: 'Goal 1' })
                 })
                 .catch(err => {
                     console.error('Request failed', err.response)
@@ -72,14 +71,7 @@ export class ExerciseUpdateForm extends Component {
                             </div>
                             <p className="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing.</p>
                         </div>
-                        <div className="col-md-3">
-                            <button
-                                type="submit"
-                                className="btn btn-primary float-lg-right btn-custom mt-3"
-                                stlye="margin-right:10px">
-                                Save
-                            </button>
-                        </div>
+
                     </div>
                     <div className="row">
                         <div className="col-md-12">
@@ -92,7 +84,7 @@ export class ExerciseUpdateForm extends Component {
                                         }}
                                         render={props => <ExerciseForm {...props} />}
                                         validationSchema={validationSchema}
-                                        onSubmit={createExercise} />
+                                        onSubmit={updateExercise} />
                                 </div>
                             </div>
                         </div>

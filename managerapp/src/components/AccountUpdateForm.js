@@ -10,7 +10,7 @@ import avatar from '../avatar.png'
 import { storage } from '../config/firebase-keys'
 import FileUploader from 'react-firebase-file-uploader';
 
-export class AccountCreatePage extends Component {
+export class AccountUpdateForm extends Component {
 
     constructor(props) {
         super(props);
@@ -69,26 +69,26 @@ export class AccountCreatePage extends Component {
             });
 
     };
-    deletePhoto= (event) => {
-        axios.put('http://localhost:3000/account/detail/' + this.props.match.params.id + '/avatar', { avatarURL: ''})
-        .then(response => {
-            storage.refFromURL(this.state.avatarURL).delete()
-            this.setState({
-                avatarURL: avatar
+    deletePhoto = (event) => {
+        axios.put('http://localhost:3000/account/detail/' + this.props.match.params.id + '/avatar', { avatarURL: '' })
+            .then(response => {
+                storage.refFromURL(this.state.avatarURL).delete()
+                this.setState({
+                    avatarURL: avatar
+                })
             })
-        })
-        .catch(err =>{
-            console.error(err)
-        })
-        
-        
- 
-      };
+            .catch(err => {
+                console.error(err)
+            })
+
+
+
+    };
     componentDidMount() {
         axios
             .get('http://localhost:3000/account/detail/' + this.props.match.params.id)
             .then(response => {
-
+                console.log(response.data)
                 this.setState({
                     email: response.data.email,
                     password: response.data.password,
@@ -101,16 +101,24 @@ export class AccountCreatePage extends Component {
                         avatarURL: response.data.avatarURL
                     })
                 }
-                else{
+                else {
                     this.setState({
                         avatarURL: avatar
                     })
                 }
                 if (typeof response.data.contactDetails != "undefined") {
-                    this.setState({ address: response.data.contactDetails.address, mobile: response.data.contactDetails.phone.mobile, home: response.data.contactDetails.phone.home, work: response.data.contactDetails.phone.work })
+                    this.setState({
+                        address: response.data.contactDetails.address,
+                        mobilePhone: response.data.contactDetails.phone.mobile,
+                        homePhone: response.data.contactDetails.phone.home,
+                        workPhone: response.data.contactDetails.phone.work
+                    })
                 }
                 if (typeof response.data.emergencyContact != "undefined") {
-                    this.setState({ emergencyFullName: response.data.emergencyContact.fullName, emergencyNumber: response.data.emergencyContact.contactNumber, emergencyRelationship: response.data.emergencyContact.relationship })
+                    this.setState({ 
+                        emergencyFullName: response.data.emergencyContact.fullName, 
+                        emergencyNumber: response.data.emergencyContact.contactNumber, 
+                        emergencyRelationship: response.data.emergencyContact.relationship })
                 }
 
                 console.log(this.state)
@@ -130,6 +138,43 @@ export class AccountCreatePage extends Component {
                     .max(50, "Maximums of 5 characters allowed for exercise")
                     .required("Name is required")
             });
+
+        const updateAccountContact = (values, { setSubmitting }) => {
+            const obj = {
+                address: values.address,
+                mobile: values.mobilePhone,
+                home: values.homePhone,
+                work: values.workPhone
+            }
+            console.log(obj)
+            axios
+                .put('http://localhost:3000/account/detail/' + this.props.match.params.id + '/contact', obj)
+                .then(response => {
+                    setSubmitting(false);
+                    console.log(response)
+                })
+                .catch(err => {
+                    console.error('Request failed', err.response)
+                });
+        }
+
+        const updateAccountEmergency = (values, { setSubmitting }) => {
+            const obj = {
+                emergencyFullName: values.emergencyFullName,
+                emergencyNumber: values.emergencyNumber,
+                emergencyRelationship: values.emergencyRelationship
+            }
+            console.log(obj)
+            axios
+                .put('http://localhost:3000/account/detail/' + this.props.match.params.id + '/emergency', obj)
+                .then(response => {
+                    setSubmitting(false);
+                    console.log(response)
+                })
+                .catch(err => {
+                    console.error('Request failed', err.response)
+                });
+        }
 
         const createAccount = (values, { setSubmitting }) => {
             const obj = {
@@ -184,7 +229,7 @@ export class AccountCreatePage extends Component {
                                     <h4>Profile Picture</h4>
                                     {this.state.isUploading && <p>Progress: {this.state.progress}</p>}
                                     {this.state.avatarURL && <img src={this.state.avatarURL} className="avatar-img" />}
-                                    <label className="btn btn-primary mt-3">
+                                    <label className="btn btn-primary mt-3 mr-2">
 
                                         Change Avatar
                                         <FileUploader
@@ -202,7 +247,7 @@ export class AccountCreatePage extends Component {
                                             onProgress={this.handleProgress} />
                                     </label>
                                     <button
-                                    className="btn btn-primary mt-2"
+                                        className="btn btn-primary mt-2"
                                         onClick={this.deletePhoto}
                                         filename={file => this.state.email + file
                                             .name
@@ -239,13 +284,13 @@ export class AccountCreatePage extends Component {
                                         enableReinitialize="true"
                                         initialValues={{
                                             address: this.state.address,
-                                            mobilePhone: this.state.mobile,
-                                            homePhone: this.state.home,
-                                            workPhone: this.state.work
+                                            mobilePhone: this.state.mobilePhone,
+                                            homePhone: this.state.homePhone,
+                                            workPhone: this.state.workPhone
                                         }}
                                         render={props => <ContactForm {...props} />}
-                                        validationSchema={validationSchema}
-                                        onSubmit={createAccount} />
+
+                                        onSubmit={updateAccountContact} />
                                 </div>
                             </div>
                         </div>
@@ -261,8 +306,7 @@ export class AccountCreatePage extends Component {
                                             emergencyRelationship: this.state.emergencyRelationship
                                         }}
                                         render={props => <EmergencyForm {...props} />}
-                                        validationSchema={validationSchema}
-                                        onSubmit={createAccount} />
+                                        onSubmit={updateAccountEmergency} />
                                 </div>
                             </div>
                         </div>
@@ -273,7 +317,7 @@ export class AccountCreatePage extends Component {
     }
 }
 
-export default AccountCreatePage
+export default AccountUpdateForm
 
 /*
 

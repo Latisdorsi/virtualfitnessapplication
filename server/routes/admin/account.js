@@ -33,16 +33,72 @@ router.put('/detail/:id/avatar', (req, res, next) => {
         .update({
             _id: req.params.id
         },
-        {
-            avatarURL
-        }
+            {
+                avatarURL
+            }
         )
         .then(response => {
             res.json(response)
         })
-        .catch(error =>{
+        .catch(error => {
             console.error(error)
         })
+})
+
+router.put('/detail/:id/contact', (req, res, next) => {
+    const {
+        address,
+        mobile,
+        home,
+        work,
+    } = req.body
+
+    let errors = []
+    User
+    .update({
+        _id: req.params.id
+    },{
+        contactDetails: {
+            address,
+            phone: {
+                mobile,
+                home,
+                work
+            }
+        }
+    })
+    .then(response =>{
+        res.json(response)
+    })
+    .catch(error =>{
+        console.error(error)
+    })
+})
+
+
+router.put('/detail/:id/emergency', (req, res, next) => {
+    const {
+        emergencyFullName,
+        emergencyNumber,
+        emergencyRelationship
+    } = req.body
+    let errors = []
+    User
+    .update({
+        _id: req.params.id
+    },{
+        emergencyContact: {
+            fullName: emergencyFullName,
+            contactNumber: emergencyNumber,
+            relationship: emergencyRelationship
+        }
+    })
+    .then(response =>{
+        res.json(response)
+    })
+    .catch(error =>{
+        console.error(error)
+    })
 })
 
 //Update User Avatar
@@ -51,14 +107,14 @@ router.delete('/detail/:id/avatar', (req, res, next) => {
         .update({
             _id: req.params.id
         },
-        {
-            avatarURL: ''
-        }
+            {
+                avatarURL: ''
+            }
         )
         .then(response => {
             res.json(response)
         })
-        .catch(error =>{
+        .catch(error => {
             console.error(error)
         })
 })

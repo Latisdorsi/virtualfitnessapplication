@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Field} from 'formik';
 import Select from 'react-select'
 
-const AccountCredentialsForm = props => {
+const AccountContactForm = props => {
     const {
         values,
         touched,
@@ -83,4 +83,4 @@ const AccountCredentialsForm = props => {
     );
 };
 
-export default AccountCredentialsForm
+export default AccountContactForm

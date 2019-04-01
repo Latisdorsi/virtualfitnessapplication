@@ -8,10 +8,17 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@material-ui/core": "^3.9.3",
     "@react-native-community/netinfo": "^1.4.1",
+    "axios": "^0.18.0",
+    "formik": "^1.5.1",
+    "native-base": "^2.12.1",
     "react": "16.8.3",
     "react-native": "0.59.2",
+    "react-native-elements": "^1.1.0",
     "react-native-gesture-handler": "^1.1.0",
+    "react-native-modal-datetime-picker": "^6.1.0",
+    "react-native-vector-icons": "^6.4.2",
     "react-navigation": "^3.5.1"
   },
   "devDependencies": {

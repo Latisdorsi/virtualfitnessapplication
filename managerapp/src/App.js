@@ -3,6 +3,8 @@ import { render } from 'react-dom';
 
 import './App.css';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import axios from 'axios';
+
 import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
 import Accounts from './components/Accounts';
@@ -13,7 +15,35 @@ import Exercises from './components/Exercises/Exercises';
 import ExerciseCreateForm from './components/Exercises/ExerciseCreateForm';
 import ExerciseUpdateForm from './components/Exercises/ExerciseUpdateForm';
 
+
 class App extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state ={
+      avatarURL: '',
+      email: '',
+      password: '',
+      firstName: '',
+      lastName: '',
+      role: ''
+    }
+  }
+  componentDidMount() {
+    axios
+      .get('http://localhost:3000/account/detail/5c9a0cfaa6eebe3c3474480c')
+      .then(response => {
+        console.log(response.data)
+        this.setState({
+          avatarURL: response.data.avatarURL,
+          email: response.data.email,
+          password: response.data.password,
+          firstName: response.data.name.firstName,
+          lastName: response.data.name.lastName,
+          role: response.data.role
+        });
+      })
+  }
   render() {
     const roles = ['manager', 'trainer', 'member']
     return (
@@ -21,7 +51,11 @@ class App extends Component {
         <div className="wrapper">
           <Sidebar />
 
-          <Navbar />
+          <Navbar
+            firstName={this.state.firstName}
+            lastName={this.state.lastName}
+            avatarURL={this.state.avatarURL}
+          />
           <Route
             path="/account/manager"
             exact

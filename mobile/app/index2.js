@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { createDrawerNavigator, createAppContainer } from 'react-navigation'
-import { Dashboard } from './app/config/router'
-//import {root} from './app/config/router';
-import { isSignedIn } from './app/config/auth'
 import axios from 'axios'
 
+
+import Router from './config/router'
 
 export default class App extends Component {
     constructor(props) {
@@ -22,6 +21,8 @@ export default class App extends Component {
         };
     }
     componentDidMount() {
+
+        //Get User Data From State
         axios
         .get('http://10.0.2.2:3000/account/detail/' + this.state.userId)
         .then(response => {
@@ -34,28 +35,13 @@ export default class App extends Component {
             
         })
         .catch(err => {
-            console.warn(err)
+            console.error(err)
         })
-
-
-        isSignedIn()
-            .then(res => this.setState({ signedIn: res, checkedSignIn: true }))
-            .catch(err => alert("An error occurred"));
     }
     render() {
-        const { checkedSignIn, signedIn } = this.state;
-        // If we haven't checked AsyncStorage yet, don't render anything (better ways to
-        // do this)
-
-        return <DashboardContainer screenProps={{email: this.state.email, avatarURL: this.state.avatarURL, fullName: this.state.firstName + ' ' + this.state.lastName}}/>
-
+        return <Router screenProps={{email: this.state.email, avatarURL: this.state.avatarURL, fullName: this.state.firstName + ' ' + this.state.lastName}}/>
     }
 }
-
-
-
-//const LoginContainer = createAppContainer(Login);
-const DashboardContainer = createAppContainer(Dashboard)
 
 const styles = StyleSheet.create({
     container: {

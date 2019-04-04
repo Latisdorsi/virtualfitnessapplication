@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { FlatList, View, TouchableOpacity, StyleSheet, Button, NetInfo } from 'react-native';
 import { Text, Card, Header } from "react-native-elements";
-import { onSignOut } from '../auth'
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import axios from 'axios'

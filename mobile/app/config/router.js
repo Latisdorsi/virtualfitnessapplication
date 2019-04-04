@@ -1,37 +1,20 @@
 import React, { Component } from 'react'
 import { StyleSheet, ScrollView, Text, Image, View } from 'react-native'
-import { createStackNavigator, createDrawerNavigator, DrawerItems, SafeAreaView } from "react-navigation";
+import { createStackNavigator, createDrawerNavigator, createSwitchNavigator, DrawerItems, SafeAreaView, createAppContainer } from "react-navigation";
 
-import SignIn from "./screens/SignIn";
-import SignUp from "./screens/SignUp";
+import HomeScreen from "../screens/HomeScreen";
 
-import HomeScreen from './screens/HomeScreen';
-
-export const createRootNavigator = (signedIn = false) => {
-    return createSwitchNavigator({
-        SignedIn: {
-            screen: Login
-        },
-        SignedOut: {
-            screen: Dashboard
-        }
-    }, {
-            initialRouteName: signedIn
-                ? "SignedIn"
-                : "SignedOut"
-        });
-};
-
-export const Login = createStackNavigator({
+//Stack Navigator For Logging In and Signing Up
+const AuthStack = createStackNavigator({
     SignIn: {
-        screen: SignIn,
+        screen: HomeScreen,
         navigationOptions: {
             headerVisible: false,
             header: null
         }
     },
     SignUp: {
-        screen: SignUp,
+        screen: HomeScreen,
         navigationOptions: {
             title: null
         }
@@ -40,6 +23,7 @@ export const Login = createStackNavigator({
     headerMode: 'none'
 });
 
+// Drawer Navigator Custom Content
 const CustomDrawerContentComponent = props => {
     return (
         <ScrollView>
@@ -66,7 +50,8 @@ const CustomDrawerContentComponent = props => {
     );
 }
 
-export const Dashboard = createDrawerNavigator({
+//Drawer Navigator For Main App Contents
+const AppStack = createDrawerNavigator({
     Home: {
         screen: HomeScreen,
         navigationOptions: {
@@ -95,3 +80,16 @@ const styles = StyleSheet.create({
         flex: 1
     }
 });
+
+
+export default createAppContainer(createSwitchNavigator(
+    {
+        SignedIn: AppStack,
+        SignedOut: AuthStack
+    }, {
+        initialRouteName: 'SignedIn'
+    }
+));
+
+
+

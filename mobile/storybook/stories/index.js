@@ -5,22 +5,33 @@ import { storiesOf } from '@storybook/react-native';
 import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 
-import Button from './Button';
-import CenterView from './CenterView';
-import Welcome from './Welcome';
+import Exercises from '../components/Exercises'
+import ExerciseHeader from '../decorators/ExerciseHeader'
+const currentDate = new Date(Date.now())
+
+const ExerciseData = [
+  {
+    name: 'Barbel Squat',
+    sets: [
+      {
+        reps: 0,
+        weight: 0
+      },
+      {
+        reps: 0,
+        weight: 0
+      }
+    ],
+    previous: {
+      date: currentDate.getMonth() + '/' + currentDate.getDay() + '/' + currentDate.getFullYear(),
+      oneRepMax: 190,
+      volume: 300
+    }
+  }
+  ]
 
 storiesOf('Exercise', module)
-.add('Add', () => <Welcome showApp={linkTo('Button')} />);
+  .addDecorator(story => <ExerciseHeader>{story()}</ExerciseHeader>)
+  .add('Blank Data', () => (<Exercises />))
+  .add('1 Exercise', () => <Exercises data={ExerciseData} />);
 
-storiesOf('Button', module)
-  .addDecorator(getStory => <CenterView>{getStory()}</CenterView>)
-  .add('with text', () => (
-    <Button onPress={action('clicked-text')}>
-      <Text>Hello Button</Text>
-    </Button>
-  ))
-  .add('with some emoji', () => (
-    <Button onPress={action('clicked-emoji')}>
-      <Text>😀 😎 👍 💯</Text>
-    </Button>
-  ));

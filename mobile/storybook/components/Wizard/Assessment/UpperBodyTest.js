@@ -2,6 +2,117 @@ import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView, TextInput, StyleSheet } from "react-native"
 import { Headline, Subheading, Card } from "react-native-paper";
 
+const setScore = () => {
+    if (age < 20) {
+        if (point > 1.76) {
+
+        }
+        if (point < 1.76 && point > 1.34) {
+
+        }
+        if (point < 1.34 && point > 1.19) {
+
+        }
+        if (point < 1.119 && point > 1.06) {
+
+        }
+        if (point < 1.06 && point > 0.89) {
+
+        }
+
+        if (point < 0.89) {
+
+        }
+
+    }
+    else if (age > 20 && age < 30) {
+        if (point > 1.63) {
+
+        }
+        if (point < 1.63 && point > 1.32) {
+
+        }
+        if (point < 1.32 && point > 1.14) {
+
+        }
+        if (point < 1.14 && point > 0.99) {
+
+        }
+        if (point < 0.99 && point > 0.88) {
+
+        }
+
+        if (point < 0.88) {
+
+        }
+    }
+
+    else if (age > 30 && age < 30) {
+        if (point > 1.35) {
+
+        }
+        if (point < 1.35 && point > 1.08) {
+
+        }
+        if (point < 1.08 && point > 0.96) {
+
+        }
+        if (point < 0.96 && point > 0.86) {
+
+        }
+        if (point < 0.86 && point > 0.75) {
+
+        }
+
+        if (point < 0.75) {
+
+        }
+    }
+    else if (age > 40 && age < 30) {
+        if (point > 1.76) {
+
+        }
+        if (point < 1.76 && point > 1.34) {
+
+        }
+        if (point < 1.34 && point > 1.19) {
+
+        }
+        if (point < 1.119 && point > 1.06) {
+
+        }
+        if (point < 1.06 && point > 0.89) {
+
+        }
+
+        if (point < 0.89) {
+
+        }
+    }
+    else if (age > 50 && age <= 60) {
+        if (point > 1.76) {
+
+        }
+        if (point < 1.76 && point > 1.34) {
+
+        }
+        if (point < 1.34 && point > 1.19) {
+
+        }
+        if (point < 1.119 && point > 1.06) {
+
+        }
+        if (point < 1.06 && point > 0.89) {
+
+        }
+
+        if (point < 0.89) {
+
+        }
+    }
+}
+
+
 export default function UpperBodyTest() {
     const [data, setData] = useState({
         reps: 0,
@@ -27,7 +138,7 @@ export default function UpperBodyTest() {
     return (
         <View >
             <View style={{
-                alignItems:'center'
+                alignItems: 'center'
             }}>
                 <Subheading >Upper Body Strength Test</Subheading>
                 <Text>Instructions</Text>

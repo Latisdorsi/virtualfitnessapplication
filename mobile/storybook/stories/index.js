@@ -6,12 +6,14 @@ import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 
 import Records from '../components/Records'
-import Wizard, { Profile, Assessment, Goal, Exercise, Schedule } from '../components/Wizard'
+import Wizard, { Profile, Assessment, Goal, Exercise, Schedule, MultiStep } from '../components/Wizard'
 import Schedules from '../components/Schedules'
 
 
 import ExerciseHeader from '../decorators/ExerciseHeader'
 import ScheduleHeader from '../decorators/ScheduleHeader'
+import WizardHeader from '../decorators/WizardHeader'
+
 
 const currentDate = new Date(Date.now())
 
@@ -44,12 +46,13 @@ storiesOf('Exercise', module)
   .add('1 Exercise', () => <Records ExerciseData={ExerciseData} />);
 
 storiesOf('Wizard', module)
-  .add('profile', () => <Wizard>< Profile /></Wizard>)
-  .add('assessment', () => <Wizard><Assessment /></Wizard>)
-  .add('goal', () => <Wizard><Goal /></Wizard>)
-  .add('schedule', () => <Wizard><Schedule /></Wizard>)
-  .add('exercise', () => <Wizard><Exercise /></Wizard>)
-
+  .addDecorator(story => <WizardHeader>{story()}</WizardHeader>)
+  .add('Profile', () => <Wizard>< Profile /></Wizard>)
+  .add('Assessment', () => <Wizard><Assessment /></Wizard>)
+  .add('Goal', () => <Wizard><Goal /></Wizard>)
+  .add('Schedule', () => <Wizard><Schedule /></Wizard>)
+  .add('Exercise', () => <Wizard><Exercise /></Wizard>)
+  .add('Multi Step', () => <Wizard><MultiStep /></Wizard>)
 
 storiesOf('Calendar', module)
   .addDecorator(story => <ScheduleHeader>{story()}</ScheduleHeader>)

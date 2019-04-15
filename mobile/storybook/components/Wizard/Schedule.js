@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { View, Text, TouchableHighlight, ScrollView, TextInput } from "react-native"
 import Modal from "react-native-modal";
 import { Headline, Subheading, Button, Card } from "react-native-paper";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 
+import WizardContext from './StepContext'
 
 const radio_props = [
     { label: '3 Days a Week', value: 0 },
@@ -14,6 +15,7 @@ const radio_props = [
 
 
 export default function Schedule() {
+    let [step, setStep] = useContext(WizardContext)
     return (
         <View style={{
             paddingHorizontal: 15,
@@ -27,6 +29,11 @@ export default function Schedule() {
                     onPress={(value) => { }}
                 />
             </View>
+            <Button onPress={() => {
+                setStep(4)
+            }}>
+                Next
+        </Button>
         </View >
     )
 }

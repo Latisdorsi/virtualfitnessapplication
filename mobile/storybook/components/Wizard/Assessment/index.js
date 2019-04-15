@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { View, Text, ScrollView, TextInput, StyleSheet } from "react-native"
-import { Headline, Subheading, Divider } from "react-native-paper";
+import { Headline, Subheading, Divider, Button } from "react-native-paper";
 
 import { default as CardioRespiratoryTest } from './CardioRespiratoryTest'
 import { default as UpperBodyTest } from './UpperBodyTest'
@@ -8,7 +8,11 @@ import { default as LowerBodyTest } from './LowerBodyTest'
 import { default as MuscleEnduranceTest } from './MuscleEnduranceTest'
 import { default as FlexibilityTest } from './FlexibilityTest'
 
+import WizardContext from '../StepContext'
+
 export default function Assessment() {
+
+  let [step, setStep] = useContext(WizardContext)
     return (
         <ScrollView>
             <View style={{ paddingHorizontal: 15, paddingVertical: 15 }}>
@@ -44,7 +48,11 @@ export default function Assessment() {
                 <View style={{ marginVertical: 15, padding: 15 }}>
                     <FlexibilityTest />
                 </View>
-
+                <Button onPress={() => {
+                    setStep(3)
+                }}>
+                    Next
+        </Button>
             </View>
         </ScrollView>
     )

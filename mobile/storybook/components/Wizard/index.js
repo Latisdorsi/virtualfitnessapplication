@@ -7,16 +7,17 @@ import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'reac
 
 
 export { default as Profile } from './Profile'
-export { default as Assessment} from './Assessment'
-export { default as Goal} from './Goal'
-export { default as Schedule} from './Schedule'
-export { default as Exercise} from './Exercise'
+export { default as Assessment } from './Assessment'
+export { default as Goal } from './Goal'
+export { default as Schedule } from './Schedule'
+export { default as Exercise } from './Exercise'
+export { default as MultiStep } from './MultiStep'
 
 
 export default function Wizard({ children }) {
     return (
-        <View>
-            {children}
-        </View>
+            <View>
+                {children}
+            </View>
     );
 }

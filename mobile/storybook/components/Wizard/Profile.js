@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { View, ScrollView, Text } from 'react-native'
-import { Subheading, Headline } from "react-native-paper";
+import { Subheading, Headline, Button } from "react-native-paper";
 
 import ModalSelector from 'react-native-modal-selector'
 
+
+import WizardContext from './StepContext'
 
 let index = 0;
 
@@ -101,6 +103,9 @@ const hipsData = [
 
 
 function Measurement({ name, suffix, data, value, setValue }) {
+
+
+
   return (
     <View
       style={{
@@ -110,6 +115,7 @@ function Measurement({ name, suffix, data, value, setValue }) {
         alignContent: 'center',
         marginVertical: 15
       }}>
+
       <Text
         style={{ fontSize: 16 }}>
         {name}
@@ -165,7 +171,7 @@ const percentageGroup = (sex, bodyFatPercent) => {
     }
 
   }
-  else{
+  else {
     return 'Undefined'
   }
 }
@@ -192,6 +198,7 @@ const Profile = () => {
   let leanBodyMass = 0
 
   let [category, setCategory] = useState('Undefined')
+  let [step, setStep] = useContext(WizardContext)
 
   useEffect(() => {
     if (weight > 0 && height > 0 && neck > 0 && waist > 0 && hips > 0) {
@@ -217,7 +224,7 @@ const Profile = () => {
     }
 
   })
-
+  
   return (
     <ScrollView>
       <View
@@ -231,6 +238,7 @@ const Profile = () => {
         <Headline>
           Please enter your body measurements
       </Headline>
+
         <View
           style={{
             justifyContent: 'center'
@@ -264,6 +272,11 @@ const Profile = () => {
             </View>
           </View>
         </View>
+        <Button onPress={() => {
+          setStep(2)
+        }}>
+          Next
+        </Button>
       </View >
     </ScrollView>
 

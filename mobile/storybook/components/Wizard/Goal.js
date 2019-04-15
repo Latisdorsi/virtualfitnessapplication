@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { View, Text, TouchableHighlight, ScrollView, TextInput } from "react-native"
 import Modal from "react-native-modal";
 import { Headline, Subheading, Button, Card } from "react-native-paper";
@@ -11,9 +11,11 @@ const radio_props = [
     { label: 'General Fitness', value: 3 }
 ];
 
+import WizardContext from './StepContext'
 
 
 export default function Goal() {
+    let [step, setStep] = useContext(WizardContext)
     return (
         <View
             style={{
@@ -29,6 +31,11 @@ export default function Goal() {
                     onPress={(value) => { }}
                 />
             </View>
+            <Button onPress={() => {
+                setStep(4)
+            }}>
+                Next
+        </Button>
         </View>
     )
 }

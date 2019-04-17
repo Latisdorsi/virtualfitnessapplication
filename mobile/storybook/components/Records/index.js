@@ -31,13 +31,11 @@ export default function Records({ ExerciseData, children }) {
     return (
         //Load Exercise Data From State
         <RecordContext.Provider value={exerciseState}>
-            <ScrollView>
                 <View style={{
                     padding: 15
                 }}>
                     <ExercisesWrapper />
                 </View>
-            </ScrollView>
         </RecordContext.Provider>
     )
 }

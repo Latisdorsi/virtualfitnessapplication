@@ -20,12 +20,14 @@ export default function MultiStep() {
     let [step, stepStep] = useContext(WizardContext)
 
     switch (step) {
-        case 1:
+        case 0:
             return <Profile />
-        case 2:
+        case 1:
             return <Assessment />
-        case 3:
+        case 2:
             return <Goal />
+        case 3:
+            return <Schedule />
         case 4:
             return <Exercise />
     }

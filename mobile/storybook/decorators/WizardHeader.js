@@ -1,32 +1,40 @@
-import React, { Children, useState } from 'react';
+import React, { Children, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { View } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { Appbar, ProgressBar } from 'react-native-paper'
 import StepContext from '../components/Wizard/StepContext'
 
+const Header = () => {
+    let [step, setStep] = useContext(StepContext)
+    goBackOneStep = () => {
+        setStep(step - 1)
+    }
+
+    return (
+        <Appbar.Header style={{ backgroundColor: '#ffffff' }}>
+        { step > 0 &&
+            <Appbar.BackAction onPress={() => {
+                goBackOneStep()
+            }} />
+        }
+            <Appbar.Content
+                title="Setup"
+            />
+        </Appbar.Header>
+    )
+}
+
 export default function WizardHeader({ children }) {
 
-    const stepState = useState(1)
+    const stepState = useState(0)
+
     return (
+
         <StepContext.Provider value={stepState}>
-            <View>
-                <Appbar.Header style={{ backgroundColor: '#ffffff' }}>
-                    {stepState > 1 &&
-                        <Appbar.BackAction onPress={() => console.log('Pressed archive')} />
-
-                    }
-                    <Appbar.Content
-                        title="Setup"
-                    />
-                </Appbar.Header>
-                <View style={{ margin: 0, padding: 0, paddingHorizontal: 15, height: 15}}>
-                <ProgressBar
-
-                    progress={0.8}
-                />
-            </View>
-            {children}
-
+              
+            <View style={{ flex: 1 }}>
+                <Header />
+                    {children}
             </View>
         </StepContext.Provider >
     )

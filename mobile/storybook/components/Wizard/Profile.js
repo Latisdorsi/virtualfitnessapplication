@@ -5,7 +5,9 @@ import { Subheading, Headline, Button } from "react-native-paper";
 import ModalSelector from 'react-native-modal-selector'
 
 
-import WizardContext from './StepContext'
+import StepContext from './StepContext'
+
+import WizardContext from './WizardContext'
 
 let index = 0;
 
@@ -103,9 +105,6 @@ const hipsData = [
 
 
 function Measurement({ name, suffix, data, value, setValue }) {
-
-
-
   return (
     <View
       style={{
@@ -178,6 +177,10 @@ const percentageGroup = (sex, bodyFatPercent) => {
 
 const Profile = () => {
 
+  let [step, setStep] = useContext(StepContext)
+  let [setupData, setSetupData] = useContext(WizardContext)
+
+
   let [age, setAge] = useState(0)
   let [sex, setSex] = useState('')
   let [height, setHeight] = useState(0)
@@ -186,10 +189,10 @@ const Profile = () => {
   let [waist, setWaist] = useState(0)
   let [hips, setHips] = useState(0)
 
-
-
   let [percentBodyFat, setPercentBodyFat] = useState(0)
   let [percentLeanMass, setPercentLeanMass] = useState(0)
+  let [category, setCategory] = useState('Undefined')
+
 
   let percentBodyFatValue = 0
   let percentLeanMassValue = 0
@@ -197,8 +200,7 @@ const Profile = () => {
   let bodyFatMass = 0
   let leanBodyMass = 0
 
-  let [category, setCategory] = useState('Undefined')
-  let [step, setStep] = useContext(WizardContext)
+
 
   useEffect(() => {
     if (weight > 0 && height > 0 && neck > 0 && waist > 0 && hips > 0) {
@@ -221,64 +223,75 @@ const Profile = () => {
       setPercentLeanMass(percentLeanMassValue)
       setCategory(percentageGroup(sex, percentBodyFat))
 
+      let bodyComposition = {
+        compositionLevel: category,
+        bodyFatPercentage: percentBodyFat,
+        leanBodyMassPercentage: percentLeanMass
+      }
+
+      let newData = {
+        ...setupData,
+        bodyComposition,
+        age,
+        sex,
+        height,
+        weight,
+        neck,
+        waist,
+        hips,
+      }
+      setSetupData(newData)
+      console.log(setupData)
     }
 
   })
-  
+
   return (
-    <ScrollView>
-      <View
-        style={{
-          paddingHorizontal: 15,
-          paddingVertical: 15,
-          display: 'flex',
-          justifyContent: 'center'
-        }}
-      >
-        <Headline>
-          Please enter your body measurements
+    <View>
+
+      <Headline>
+        Please enter your body measurements
       </Headline>
 
-        <View
-          style={{
-            justifyContent: 'center'
-          }}>
-          <Measurement name="Age" data={ageData} suffix="" value={age} setValue={setAge} />
+      <View
+        style={{
+          justifyContent: 'center'
+        }}>
+        <Measurement name="Age" data={ageData} suffix="" value={age} setValue={setAge} />
 
-          <Measurement name="Sex" data={sexData} suffix="" value={sex} setValue={setSex} />
+        <Measurement name="Sex" data={sexData} suffix="" value={sex} setValue={setSex} />
 
-          <Measurement name="Height" data={heightData} suffix="cm" value={height} setValue={setHeight} />
+        <Measurement name="Height" data={heightData} suffix="cm" value={height} setValue={setHeight} />
 
-          <Measurement name="Weight" data={weightData} suffix="kg" value={weight} setValue={setWeight} />
+        <Measurement name="Weight" data={weightData} suffix="kg" value={weight} setValue={setWeight} />
 
-          <Measurement name="Neck" data={neckData} suffix="cm" value={neck} setValue={setNeck} />
+        <Measurement name="Neck" data={neckData} suffix="cm" value={neck} setValue={setNeck} />
 
-          <Measurement name="Waist" data={waistData} suffix="cm" value={waist} setValue={setWaist} />
+        <Measurement name="Waist" data={waistData} suffix="cm" value={waist} setValue={setWaist} />
 
-          <Measurement name="Hips" data={hipsData} suffix="cm" value={hips} setValue={setHips} />
+        <Measurement name="Hips" data={hipsData} suffix="cm" value={hips} setValue={setHips} />
 
+        <View style={{
+
+        }}>
           <View style={{
 
+            alignItems: 'center',
+            justifyContent: 'center'
           }}>
-            <View style={{
-
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <Subheading>Body Composition</Subheading>
-              <Text>Composition Level: {category}</Text>
-              <Text>Body Fat Percentage: {percentBodyFat.toString().substr(0, 5)}%</Text>
-              <Text>Lean Body Mass Percentage: {percentLeanMass.toString().substr(0, 5)}%</Text>
-            </View>
+            <Subheading>Body Composition</Subheading>
+            <Text>Composition Level: {category}</Text>
+            <Text>Body Fat Percentage: {percentBodyFat.toString().substr(0, 5)}%</Text>
+            <Text>Lean Body Mass Percentage: {percentLeanMass.toString().substr(0, 5)}%</Text>
           </View>
         </View>
-        <Button onPress={() => {
-          setStep(2)
-        }}>
-          Next
+      </View>
+      <Button onPress={() => {
+        setStep(1)
+      }}>
+        Next
         </Button>
-      </View >
-    </ScrollView>
+    </View >
 
   );
 }

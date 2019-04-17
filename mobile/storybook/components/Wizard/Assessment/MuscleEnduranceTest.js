@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView, TextInput, StyleSheet } from "react-native"
 import { Headline, Subheading, Card } from "react-native-paper";
 
@@ -50,16 +50,54 @@ const pushUpData = [
     { key: index++, label: '36' }
 ]
 
-export default function MuscleEnduranceTest() {
+
+const calculateScore = (gender, pushUpScore, age) => {
+    if (gender == 'Male') {
+        if (age > 20 && age < 30) {
+            if (pushUpScore >= 36) {
+                return 'Excellent'
+            }
+            if (pushUpScore <= 35 && pushUpScore >= 29) {
+                return 'Very Good'
+            }
+            if (pushUpScore <= 28 && pushUpScore >= 22) {
+                return 'Good'
+            }
+            if (pushUpScore <= 21 && pushUpScore >= 17) {
+                return 'Fair'
+            }
+            if (pushUpScore < 17) {
+                return 'Poor'
+            }
+        }
+    }
+}
+
+export default function MuscleEnduranceTest({setValue}) {
+
+    const gender = 'Male'
+    const weight = 63;
+    const age = 23;
     const [pushUp, setPushUp] = useState(0)
     const [score, setScore] = useState('None')
+
+    useEffect(() => {
+        setScore(calculateScore(gender, pushUp, age))
+        const newMuscleEndurance ={
+            pushUp,
+            score
+        }
+        setValue(newMuscleEndurance)
+    }, [pushUp])
+
+
     return (
         <View style={{
             alignItems: 'center'
         }}>
             <Subheading>Muscular Endurance</Subheading>
             <Text>Instructions</Text>
-            <Text>Score: </Text>
+            <Text>Score: {score}</Text>
             <ModalSelector
                 data={pushUpData}
                 initValue="Enter Max Push-Up"

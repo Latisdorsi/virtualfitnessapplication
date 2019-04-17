@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView, TextInput, StyleSheet } from "react-native"
 import { Headline, Subheading, Card } from "react-native-paper";
 
@@ -33,19 +33,57 @@ const flexibilityData = [
 
 ]
 
+const calculateScore = (gender, flexibilityScore, age) => {
+    if (gender == 'Male') {
+        if (age > 20 && age < 30) {
+            if (flexibilityScore >= 40) {
+                return 'Excellent'
+            }
+            if (flexibilityScore <= 39 && flexibilityScore >= 34) {
+                return 'Very Good'
+            }
+            if (flexibilityScore <= 33 && flexibilityScore >= 30) {
+                return 'Good'
+            }
+            if (flexibilityScore <= 29 && flexibilityScore >= 25) {
+                return 'Fair'
+            }
+            if (flexibilityScore < 25) {
+                return 'Poor'
+            }
+        }
+    }
+}
 
-export default function FlexibilityTest() {
-    const [flexibility, setFlexibility] = useState(0)
+export default function FlexibilityTest({ setValue }) {
+    const gender = 'Male'
+    const age = 23;
+
+    const [flexibilityScore, setFlexibilityScore] = useState(0)
+    const [level, setLevel] = useState('None')
+
+
+    useEffect(() => {
+        setLevel(calculateScore(gender, flexibilityScore, age))
+        const newFlexibilityScore = {
+            level,
+            flexibilityScore
+        }
+        setValue(newFlexibilityScore)
+    }, [flexibilityScore])
+
+
+
     return (
         <View style={{
             alignItems: 'center'
         }}>
             <Subheading>Flexibility Test</Subheading>
-            <Text>Score:</Text>
+            <Text>Score: {level}</Text>
             <ModalSelector
                 data={flexibilityData}
                 initValue="Enter Reach Length"
-                onChange={(option) => { setFlexibility(option.label) }} />
+                onChange={(option) => { setFlexibilityScore(option.label) }} />
         </View>
     )
 }

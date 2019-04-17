@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { View, Text, TouchableHighlight, ScrollView, TextInput } from "react-native"
 import Modal from "react-native-modal";
 import { Headline, Subheading, Button, Card } from "react-native-paper";
@@ -11,28 +11,38 @@ const radio_props = [
     { label: 'General Fitness', value: 3 }
 ];
 
-import WizardContext from './StepContext'
+import StepContext from './StepContext'
+import WizardContext from './WizardContext'
 
 
 export default function Goal() {
-    let [step, setStep] = useContext(WizardContext)
-    return (
-        <View
-            style={{
-                paddingHorizontal: 15,
-                paddingVertical: 15,
+    let [setupData, setSetupData] = useContext(WizardContext)
 
-            }}>
+    let [step, setStep] = useContext(StepContext)
+
+    let [goal, setGoal] = useState(0)
+
+    useEffect(() => {
+        let newData = {
+            ...setupData,
+            goal
+        }
+        setSetupData(newData)
+        console.log(setupData)
+    })
+
+    return (
+        <View>
             <Subheading>Goal</Subheading>
             <View>
                 <RadioForm
                     radio_props={radio_props}
                     initial={0}
-                    onPress={(value) => { }}
+                    onPress={(value) => { setGoal(value) }}
                 />
             </View>
             <Button onPress={() => {
-                setStep(4)
+                setStep(3)
             }}>
                 Next
         </Button>

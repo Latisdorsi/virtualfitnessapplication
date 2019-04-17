@@ -13,6 +13,7 @@ import Schedules from '../components/Schedules'
 import ExerciseHeader from '../decorators/ExerciseHeader'
 import ScheduleHeader from '../decorators/ScheduleHeader'
 import WizardHeader from '../decorators/WizardHeader'
+import ProfileHeader from '../decorators/ProfileHeader'
 
 
 const currentDate = new Date(Date.now())
@@ -56,4 +57,11 @@ storiesOf('Wizard', module)
 
 storiesOf('Calendar', module)
   .addDecorator(story => <ScheduleHeader>{story()}</ScheduleHeader>)
-  .add('Empty Calendar', () => <Schedules />)
+  .add('Main Calendar w/ Agenda', () => <Schedules />)
+
+
+//Add Decorator with Navbar and Profile Image
+storiesOf('Profile', module)
+  .addDecorator(story => <ProfileHeader>{story()}</ProfileHeader>)
+  .add('User Detail', () => { })
+  .add('Records', () => { })

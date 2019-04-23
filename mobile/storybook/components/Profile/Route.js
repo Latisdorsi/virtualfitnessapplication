@@ -1,9 +1,14 @@
-import React, {useState} from 'react'
-import {createMaterialTopTabNavigator} from 'react-native'
+import React, { useState } from 'react'
+import { createAppContainer, createMaterialTopTabNavigator } from 'react-navigation'
+
+import UserProfile from './UserProfile'
+import UserRecords from './UserRecords'
+import UserChart from './UserChart'
 
 const ProfileNavigator = createMaterialTopTabNavigator({
-    Home: UserProfile,
-    Records: UserRecords
-}, TabNavigatorConfig)
+    Profile: { screen: UserProfile },
+    Measurement: { screen: UserRecords },
+    Charts: {screen: UserChart}
+})
 
-export default ProfileNavigator
+export default createAppContainer(ProfileNavigator)

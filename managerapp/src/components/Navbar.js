@@ -12,7 +12,6 @@ export class Navbar extends Component {
                     <div className="container-fluid">
                         <div className="float-left"><i className="dripicons dripicons-menu"></i></div>
                         <ul className="float-right">
-                            <li><i className="dripicons dripicons-bell"></i></li>
                             <li className="account">
                                 <span className="account-avatar">
                                     <img src={this.props.avatarURL} className="rounded-corner" alt="" />

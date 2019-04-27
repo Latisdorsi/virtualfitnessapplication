@@ -98,9 +98,7 @@ export class Exercises extends Component {
                                         <thead>
                                             <tr>
                                                 <th>Name</th>
-                                                <th>Category Name</th>
-                                                <th>Category Rate</th>
-                                                <th>Goal</th>
+                                                <th>Instructions</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>

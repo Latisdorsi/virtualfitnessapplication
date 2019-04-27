@@ -18,7 +18,6 @@ export class Sidebar extends Component {
                         <ul className="collapse subMenu" id="accountMenu">
                             <li><Link to="/account/create">Create New</Link></li>
                             <li><Link to="/account/manager">Manager</Link></li>
-                            <li><Link to="/account/trainer">Trainer</Link></li>
                             <li><Link to="/account/member">Member</Link></li>
                         </ul>
                     </li>
@@ -31,9 +30,6 @@ export class Sidebar extends Component {
                             <li><Link to="/exercise">All Exercises</Link></li>
                         </ul>
                     </li>
-                    <li className="nav-title nav-item">Member Records</li>
-                    <li className="nav-item"><Link to="/admin"><i className="dripicons dripicons-user-group"></i>Members</Link></li>
-                    <li className="nav-item"><Link to="/admin"><i className="dripicons dripicons-browser-upload"></i>API Logs</Link></li>
                     <li className="nav-title nav-item">Other</li>
                     <li className="nav-item"><Link to="/admin"><i className="dripicons dripicons-information"></i>Help</Link></li>
                 </ul>

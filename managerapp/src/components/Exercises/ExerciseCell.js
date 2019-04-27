@@ -18,9 +18,7 @@ export class ExerciseCell extends Component {
         return (
             <tr>
                 <td>{exercise.name}</td>
-                <td>{exercise.category.name}</td>
-                <td>{exercise.category.rate}</td>
-                <td>{exercise.goal}</td>
+                <td>{exercise.instruction}</td>
                 <td>
                     <Link to={"/exercise/edit/" + exercise._id}><i className="dripicons dripicons-pencil"></i></Link>&nbsp;
                     <Link onClick={this.delete}><i className="dripicons dripicons-trash"></i></Link>

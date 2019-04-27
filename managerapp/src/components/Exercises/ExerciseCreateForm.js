@@ -3,9 +3,23 @@ import { Formik } from 'formik';
 import * as Yup from 'yup'
 import ExerciseForm from './ExerciseForm';
 import axios from 'axios'
+import avatar from '../../no-img.jpg'
 
 export class ExerciseCreateForm extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            //Avatar
+            avatar: '',
+            isUploading: false,
+            progress: 0,
 
+            imageName: '',
+            imageUrl: avatar,
+            name: '',
+            instruction: '',
+        }
+    }
     render() {
         const validationSchema = Yup.object().shape({
             name: Yup.string("Enter a name")
@@ -17,131 +31,49 @@ export class ExerciseCreateForm extends Component {
         });
 
         const createExercise = (values, { setSubmitting }) => {
+            let {imageName, imageUrl, name, instruction} = values
+
             const obj = {
-                name: values.name,
-                videoURL: values.videoURL,
-                category: {
-                    name: values.categoryName,
-                    rate: values.categoryRate,
-                },
-                goal: values.goal.value
+                imageName,
+                imageUrl,
+                name,
+                instruction
             };
             console.log(obj)
-
+     
             axios.post('http://localhost:3000/exercise/create', obj)
                 .then(response => {
                     console.log(response)
                     this.setState({
+                        imageName: '',
+                        imageUrl: avatar,
                         name: '',
-                        videoURL: '',
-                        categoryName: '',
-                        categoryRate: '',
-                        goal: 'Goal 1'
+                        instruction: '',
                     })
                 })
                 .catch(err => {
                     console.error('Request failed', err.response)
                 });
-
+            setSubmitting(false)
         }
 
         return (
             <div className="content-wrapper">
-                <div className="container-fluid mt-4">
-                    <div className="row mt-4 mb-2">
-                        <div className="col-md-9">
-                            <div className="page-title-wrapper">
-                                <h4 className="page-title">Exercise Details</h4>
-                            </div>
-                            <p className="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing.</p>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-md-12">
-                            <div className="card">
-                                <div className="card-body">
-                                    <Formik
-                                        initialValues={{ name: '' }}
-                                        render={props => <ExerciseForm {...props} />}
-                                        validationSchema={validationSchema}
-                                        onSubmit={createExercise}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
+                <div className="card-body">
+                    <Formik
+                        initialValues={{
+                            ...this.state
+                        }}
+                        render={props => <ExerciseForm {...props} />}
+                        validationSchema={validationSchema}
+                        onSubmit={createExercise}
+                    />
                 </div>
             </div>
+
         )
     }
 }
 
-export default ExerciseCreateForm;
-
-
-/*
-constructor(props) {
-                    super(props);
-                this.handleChange = this.handleChange.bind(this);
-                this.onSubmit = this.onSubmit.bind(this);
-
-this.state = {
-                    name: '',
-                videoURL: '',
-                categoryName: '',
-                categoryRate: '',
-                goal: 'Goal 1'
-            }
-        }
-handleChange(e) {
-                    this.setState({ [e.target.name]: e.target.value });
-                }
-
-onSubmit(e) {
-                    e.preventDefault();
-                const obj = {
-                    name: this.state.name,
-                videoURL: this.state.videoURL,
-category: {
-                    name: this.state.categoryName,
-                rate: this.state.categoryRate,
-            },
-            goal: this.state.goal
-        };
-        axios.post('http://localhost:3000/exercise/create', obj)
-.then(response => {
-                    console.log(response)
-this.setState({
-                    name: '',
-                videoURL: '',
-                categoryName: '',
-                categoryRate: '',
-                goal: 'Goal 1'
-            })
-        })
-.catch(err => {
-                    console.error('Request failed', err.response)
-                });
-
-
-        }
-
-render() {
-const {name, videoURL, categoryName, categoryRate, goal } = this.state
-
-                return (
-
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                        </form>
-                    </div>
-                </div>
-
-                )
-            }
-              */
+export default ExerciseCreateForm

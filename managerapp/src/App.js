@@ -7,11 +7,11 @@ import axios from 'axios';
 
 import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
-import Accounts from './components/Accounts';
-import AccountCreatePage from './components/AccountCreatePage';
-import AccountUpdateForm from './components/AccountUpdateForm';
+import Accounts from './components/Account/Accounts';
+import AccountCreatePage from './components/Account/AccountCreateForm/';
+import AccountUpdateForm from './components/Account/AccountUpdateForm/';
 
-import Exercises from './components/Exercises/Exercises';
+import Exercises from './components/Exercises';
 import ExerciseCreateForm from './components/Exercises/ExerciseCreateForm';
 import ExerciseUpdateForm from './components/Exercises/ExerciseUpdateForm';
 

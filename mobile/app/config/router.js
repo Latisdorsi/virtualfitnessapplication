@@ -1,93 +1,98 @@
 import React, { Component } from 'react'
 import { StyleSheet, ScrollView, Text, Image, View } from 'react-native'
-import { createStackNavigator, createDrawerNavigator, createSwitchNavigator, DrawerItems, SafeAreaView, createAppContainer } from "react-navigation";
+import { createStackNavigator, createBottomTabNavigator, createSwitchNavigator, createAppContainer } from "react-navigation";
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import HomeScreen from "../screens/HomeScreen";
+
+// Initial Loading Screen
+import LoadingScreen from '../screens/AuthLoadingScreen'
+
+//Auth Stack Screens
+import Login from "../screens/Auth/Login";
+import Register from "../screens/Auth/Register"
+
+//App Stack Screens
+import Profile from '../screens/App/Profile'
+import Exercises from '../screens/App/Exercises'
+import Dashboard from '../screens/App/Dashboard'
+import Settings from '../screens/App/Settings'
+import Calendar from '../screens/App/Calendar'
+import { IconButton } from 'react-native-paper';
 
 //Stack Navigator For Logging In and Signing Up
 const AuthStack = createStackNavigator({
-    SignIn: {
-        screen: HomeScreen,
+    Login: {
+        screen: Login,
         navigationOptions: {
             headerVisible: false,
             header: null
         }
     },
-    SignUp: {
-        screen: HomeScreen,
+    Register: {
+        screen: Register,
         navigationOptions: {
-            title: null
+            title: 'Register'
         }
 
     },
     headerMode: 'none'
 });
-
-// Drawer Navigator Custom Content
-const CustomDrawerContentComponent = props => {
-    return (
-        <ScrollView>
-            <SafeAreaView>
-                <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                    <Image
-                        style={{ width: 50, height: 50 }}
-                        source={{ uri: props.screenProps.avatarURL }}
-                    />
-                    <Text>{props.screenProps.fullName}</Text>
-                    <Text>{props.screenProps.email}</Text>
-                </View>
-            </SafeAreaView>
-
-            <SafeAreaView
-                style={styles.container}
-                forceInset={{
-                    top: 'always',
-                    horizontal: 'never'
-                }}>
-                <DrawerItems {...props} />
-            </SafeAreaView>
-        </ScrollView>
-    );
-}
-
-//Drawer Navigator For Main App Contents
-const AppStack = createDrawerNavigator({
-    Home: {
-        screen: HomeScreen,
+const AppStack = createBottomTabNavigator({
+    Profile: {
+        screen: Profile,
         navigationOptions: {
-            title: 'Home'
+            tabBarIcon: ({ tintColor }) => (
+                <Icon name="account-outline" size={25} />
+            )
         }
     },
-    Records: {
-        screen: HomeScreen
+    Exercises: {
+        screen: Exercises,
+        navigationOptions: {
+            tabBarIcon: ({ tintColor }) => (
+                <Icon name="run-fast" size={25} />
+            )
+        }
     },
-    Workout: {
-        screen: HomeScreen
+    Dashboard: {
+        screen: Dashboard,
+        navigationOptions: {
+            tabBarIcon: ({ tintColor }) => (
+                <Icon name="home-outline" size={25} />
+            )
+        }
     },
-    Cycle: {
-        screen: HomeScreen
+    Calendar: {
+        screen: Calendar,
+        navigationOptions: {
+            tabBarIcon: ({ tintColor }) => (
+                <Icon name="calendar" size={25} />
+            )
+        }
     },
     Settings: {
-        screen: HomeScreen
+        screen: Settings,
+        navigationOptions: {
+            tabBarIcon: ({ tintColor }) => (
+                <Icon name="settings-outline" size={25} />
+            )
+        }
+
     },
-    Logout: {
-        screen: HomeScreen
-    }
-}, { contentComponent: CustomDrawerContentComponent });
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    }
-});
-
+}, {
+        tabBarOptions: {
+            showLabel: false
+        }
+    })
 
 export default createAppContainer(createSwitchNavigator(
     {
-        SignedIn: AppStack,
-        SignedOut: AuthStack
+        AuthLoading: LoadingScreen,
+        LoggedIn: AppStack,
+        LoggedOut: AuthStack
     }, {
-        initialRouteName: 'SignedIn'
+        initialRouteName: 'AuthLoading'
     }
 ));
 

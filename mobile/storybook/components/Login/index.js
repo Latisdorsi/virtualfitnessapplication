@@ -1,11 +1,12 @@
 import React from 'react'
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity, Image } from 'react-native'
 import { TextInput, Button } from 'react-native-paper'
-
+import logo from 'res/images/af-logo-black.png'
 export default function Login() {
     return (
         <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center' }}>
             <View style={{ padding: 15 }}>
+               
                 <TextInput
                     label='Email'
                 />

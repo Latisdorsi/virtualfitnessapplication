@@ -7,7 +7,7 @@ import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'reac
 const radio_props = [
     { label: 'Tone Muscle and Lose Weight', value: 0 },
     { label: 'Increase Muscle Mass and Size', value: 1 },
-    { label: 'Tone Muscle and Lose Weight', value: 2 },
+    { label: 'Get Stronger Lifts', value: 2 },
     { label: 'General Fitness', value: 3 }
 ];
 

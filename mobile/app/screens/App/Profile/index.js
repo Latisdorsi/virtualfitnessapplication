@@ -1,16 +1,14 @@
-import React, { Component } from 'react'
-import { View, ScrollView } from 'react-native'
-import { createAppContainer } from 'react-navigation'
-import { Button } from 'react-native-paper';
+import React, { useState } from 'react'
+import { createAppContainer, createMaterialTopTabNavigator, createStackNavigator } from 'react-navigation'
 
-import Route from './Route'
+import UserProfile from './UserProfile'
+import UserRecords from './UserRecords'
+import UserChart from './UserChart'
 
-export default class Profile extends Component {
-    static navigationOptions = {
-        Title: 'Profile'
-    }
-    
-    render() {
-        return <Route />
-    }
-}
+const ProfileNavigator = createMaterialTopTabNavigator({
+    Profile: { screen: UserProfile },
+    Measurement: { screen: UserRecords },
+    Charts: { screen: UserChart }
+})
+
+export default ProfileNavigator

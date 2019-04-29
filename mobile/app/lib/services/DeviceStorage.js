@@ -9,21 +9,14 @@ const DeviceStorage = {
         }
     },
 
-    async loadToken() {
-        const value = await AsyncStorage.getItem('token')
+    async loadItem(key) {
+        let value = await AsyncStorage.getItem(key)
         return value
-    },
 
-    async deleteToken() {
+    },
+    async deleteItem(key) {
         try {
-            await AsyncStorage.removeItem('token')
-                .then(
-                    () => {
-                        this.setState({
-                            jwt: ''
-                        })
-                    }
-                );
+            await AsyncStorage.removeItem(key)
         } catch (error) {
             console.log('AsyncStorage Error: ' + error.message);
         }

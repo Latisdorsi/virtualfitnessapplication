@@ -7,17 +7,26 @@ import {
     Text
 } from 'react-native';
 import DeviceStorage from 'lib/services/DeviceStorage'
+import { parseToken } from 'lib/helpers/utils'
 import axios from 'axios'
 
 export default class AuthLoadingScreen extends React.Component {
     constructor(props) {
         super(props)
+        let token
         const loggedIn = false
-        const token = DeviceStorage.loadToken()
-        this.props.navigation.navigate(token ? 'LoggedIn' : 'LoggedOut')
+        token = token && DeviceStorage.loadItem('token').then(token => {
+            const userData = parseToken(token)
+            console.log(userData)
+            this.props.navigation.navigate(userData.active ? 'LoggedIn' : 'LoggedOut')
+        }
+        ).catch(err => {
+            console.warn(err)
+            this.props.navigation.navigate('LoggedOut')
+        })
+        this.props.navigation.navigate('LoggedOut')
     }
 
-    // Render any loading content that you like here
     render() {
         return (
             <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center' }}>

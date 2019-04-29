@@ -11,13 +11,140 @@ import AuthLoadingScreen from '../screens/Auth/AuthLoadingScreen'
 import Login from "../screens/Auth/Login";
 import Register from "../screens/Auth/Register"
 
-//App Stack Screens
-import Profile from '../screens/App/Profile'
-import Exercises from '../screens/App/Exercises'
+//Dashboard Screens
 import Dashboard from '../screens/App/Dashboard'
-import Settings from '../screens/App/Settings'
+
+//Profile Screens
+import Profile from '../screens/App/Profile'
+
+//Exercise Screens
+import Exercises from '../screens/App/Exercises'
+import Exercise from '../screens/App/Exercises/Details'
+
+//Calendar Screens
 import Calendar from '../screens/App/Calendar'
-import { IconButton } from 'react-native-paper';
+
+//Settings Screens
+import Settings from '../screens/App/Settings'
+import ChangeEmail from '../screens/App/Settings/ChangeEmail'
+import ChangePassword from '../screens/App/Settings/ChangePassword'
+import DeleteAccount from '../screens/App/Settings/DeleteAccount'
+import ExportAccount from '../screens/App/Settings/ExportAccount'
+
+
+// Profile Screen Stack NAvigation
+const ProfileStackNavigator = createStackNavigator({
+    Profile: {
+        screen: Profile,
+        navigationOptions: { title: 'Profile' }
+    }
+})
+
+
+// Exercise Screen Stack Navigation
+const ExerciseStackNavigator = createStackNavigator({
+    List: {
+        screen: Exercises,
+        navigationOptions: { title: 'Exercises' }
+    },
+    Details: {
+        screen: Exercise,
+        navigationOptions: ({ navigation }) => ({
+            title: navigation.state.params.itemName,
+        }),
+
+    },
+})
+
+
+// Calendar Screen Stack Navigation
+const CalendarStackNavigator = createStackNavigator({
+    Calendar: {
+        screen: Calendar,
+        navigationOptions: { title: 'Calendar' }
+    }
+})
+
+
+// Settings Screen Stack Navigation
+const SettingStackNavigator = createStackNavigator({
+    List: {
+        screen: Settings,
+        navigationOptions: { title: 'Settings' }
+    },
+    ChangeEmail: {
+        screen: ChangeEmail,
+        navigationOptions: { title: 'Change Email Address' }
+    },
+    ChangePassword: {
+        screen: ChangePassword,
+        navigationOptions: { title: 'Change Password' }
+    },
+    ExportAccount: {
+        screen: ExportAccount,
+        navigationOptions: { title: 'Export Account' }
+    },
+    DeleteAccount: {
+        screen: DeleteAccount,
+        navigationOptions: { title: 'Delete Account' }
+    },
+    Logout: {
+        screen: ExportAccount,
+        navigationOptions: { title: 'Logout' }
+    }
+})
+
+
+
+const AppStack = createAppContainer(createBottomTabNavigator({
+    Profile: {
+        screen: ProfileStackNavigator,
+        navigationOptions: {
+            tabBarIcon: ({ tintColor }) => (
+                <Icon name="account-outline" size={25} />
+            )
+        }
+    },
+    Exercises: {
+        screen: ExerciseStackNavigator,
+        navigationOptions: {
+            tabBarIcon: ({ tintColor }) => (
+                <Icon name="run-fast" size={25} />
+            )
+        }
+    },
+    Dashboard: {
+        screen: Dashboard,
+        navigationOptions: {
+            tabBarIcon: ({ tintColor }) => (
+                <Icon name="home-outline" size={25} />
+            )
+        }
+    },
+    Calendar: {
+        screen: CalendarStackNavigator,
+        navigationOptions: {
+            tabBarIcon: ({ tintColor }) => (
+                <Icon name="calendar" size={25} />
+            )
+        }
+    },
+    Settings: {
+        screen: SettingStackNavigator,
+        navigationOptions: {
+            tabBarIcon: ({ tintColor }) => (
+                <Icon name="settings-outline" size={25} />
+            )
+        }
+
+    },
+
+}, {
+        tabBarOptions: {
+            showLabel: false
+        }
+    })
+)
 
 //Stack Navigator For Logging In and Signing Up
 const AuthStack = createStackNavigator({
@@ -37,59 +164,14 @@ const AuthStack = createStackNavigator({
     },
     headerMode: 'none'
 });
-const AppStack = createBottomTabNavigator({
-    Profile: {
-        screen: Profile,
-        navigationOptions: {
-            tabBarIcon: ({ tintColor }) => (
-                <Icon name="account-outline" size={25} />
-            )
-        }
-    },
-    Exercises: {
-        screen: Exercises,
-        navigationOptions: {
-            tabBarIcon: ({ tintColor }) => (
-                <Icon name="run-fast" size={25} />
-            )
-        }
-    },
-    Dashboard: {
-        screen: Dashboard,
-        navigationOptions: {
-            tabBarIcon: ({ tintColor }) => (
-                <Icon name="home-outline" size={25} />
-            )
-        }
-    },
-    Calendar: {
-        screen: Calendar,
-        navigationOptions: {
-            tabBarIcon: ({ tintColor }) => (
-                <Icon name="calendar" size={25} />
-            )
-        }
-    },
-    Settings: {
-        screen: Settings,
-        navigationOptions: {
-            tabBarIcon: ({ tintColor }) => (
-                <Icon name="settings-outline" size={25} />
-            )
-        }
 
-    },
-
-}, {
-        tabBarOptions: {
-            showLabel: false
-        }
-    })
 
 export default createAppContainer(createSwitchNavigator(
     {
         AuthLoading: AuthLoadingScreen,
-        LoggedIn: AppStack,
+        LoggedIn: {
+            screen: ({ navigation }) => <AppStack screenProps={{ rootNavigation: navigation }} />
+        },
         LoggedOut: AuthStack
     }, {
         initialRouteName: 'AuthLoading'

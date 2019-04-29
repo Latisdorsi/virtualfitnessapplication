@@ -29,6 +29,7 @@ export default class Login extends Component {
             .then(response => {
                 if (response.status === 200) {
                     DeviceStorage.saveItem("token", response.data.token)
+                    console.log(DeviceStorage.loadItem("token"))
                     this.props.navigation.navigate('AuthLoading')
                 } else {
                     const error = new Error(response.error);
@@ -39,8 +40,8 @@ export default class Login extends Component {
                 console.error(err);
                 alert('Error logging in please try again');
             });
-
     }
+
     render() {
         return (
             <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center' }}>
@@ -53,7 +54,7 @@ export default class Login extends Component {
                         source={require('res/images/af-logo-black.png')}
                     />
                     <Formik
-                        initialValues={{ email: this.state.email,  password: this.state.password}}
+                        initialValues={{ email: this.state.email, password: this.state.password }}
                         onSubmit={values => this.loginUser(values)}
                     >
                         {props => (
@@ -63,12 +64,14 @@ export default class Login extends Component {
                                     onBlur={props.handleBlur('email')}
                                     value={props.values.email}
                                     label='Email'
+                                    keyboardType="email-address"
                                     style={{ marginVertical: 10, backgroundColor: 'none' }}
                                 />
                                 <TextInput
-                                   onChangeText={props.handleChange('password')}
-                                   onBlur={props.handleBlur('password')}
-                                   value={props.values.password}
+                                    onChangeText={props.handleChange('password')}
+                                    onBlur={props.handleBlur('password')}
+                                    value={props.values.password}
+                                    secureTextEntry={true}
                                     label='Password'
                                     style={{ marginVertical: 10, backgroundColor: 'none' }}
                                 />

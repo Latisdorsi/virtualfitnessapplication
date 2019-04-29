@@ -17,8 +17,7 @@ const UserSchema = new mongoose.Schema({
             trim: true
         },
         middleInitial: {
-            type:String,
-            required: [true, 'Please enter your middle initial.']
+            type:String
         }
     },
     email: {

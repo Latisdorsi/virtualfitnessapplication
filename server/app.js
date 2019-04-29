@@ -7,7 +7,7 @@ const flash = require('connect-flash')
 const session = require('express-session')
 const passport = require('passport')
 const node_acl = require('acl')
-
+const cookieParser = require('cookie-parser');
 
 //Keys for Deployment
 const config = require('./config/keys')
@@ -37,11 +37,24 @@ mongoose.connect(config.MONGODB_URI,
         console.log('Database Connected');
     })
     .catch(err => console.error(err));
-    mongoose.set('useFindAndModify', false)
+mongoose.set('useFindAndModify', false)
 
 
-//CORS
-app.use(cors())
+// Set up a whitelist and check against it:
+var whitelist = ['http://localhost:3001', 'http://localhost:8081']
+var corsOptions = {
+    credentials: true,
+    origin: function (origin, callback) {
+        if (whitelist.indexOf(origin) !== -1) {
+            callback(null, true)
+        } else {
+            callback(new Error('Not allowed by CORS'))
+        }
+    }
+}
+
+// Then pass them to cors:
+app.use(cors());
 
 // EJS
 app.use(expressLayouts)
@@ -61,9 +74,10 @@ app.use(session({
     saveUninitialized: true,
 }))
 
-// Passport Middleware
-app.use(passport.initialize());
-app.use(passport.session());
+//Cookie Parser
+app.use(cookieParser())
+
+
 
 // Connect Flash
 app.use(flash())
@@ -79,9 +93,9 @@ app.use((req, res, next) => {
 // Routes
 app.use('/', require('./routes/index'))
 app.use('/admin', require('./routes/admin/index'))
-app.use('/account',  require('./routes/admin/account'))
-app.use('/exercise',  require('./routes/admin/exercise'))
-app.use('/api/',  require('./routes/api/cycle'))
+app.use('/account', require('./routes/admin/account'))
+app.use('/exercise', require('./routes/admin/exercise'))
+app.use('/api/', require('./routes/api/cycle'))
 
 // Start Node.js Server
 

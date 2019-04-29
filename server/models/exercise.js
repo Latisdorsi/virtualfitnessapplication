@@ -1,28 +1,21 @@
 const mongoose = require('mongoose')
 
 const ExerciseSchema = new mongoose.Schema({
+    imageName:{
+        type: String
+    },
+    imageUrl:{
+        type: String
+    },
     name: {
         type: String,
         required: [true, 'Please enter an exercise name']
     },
     
-    videoURL: {
+    instruction: {
         type: String,
-        required: [true, 'Please Enter a video URL']
-    },
-
-    category: {
-        name:{
-            type: String,
-            enum: ['core', 'cardio', 'exercises', 'flexibility']
-        },
-        rate: Number
-    },
-
-    goal: {
-        type: String
+        required: [true, 'Please enter the exercise instruction']
     }
-
 })
 
 const Exercise = mongoose.model('Exercise', ExerciseSchema)

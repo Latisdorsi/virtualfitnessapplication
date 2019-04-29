@@ -12,14 +12,21 @@ router.get('/list', (req, res) => {
         })
 })
 
+router.get('/names', (req, res) => {
+    Exercise.find({}).select('name')
+        .exec( (err, exercises) => {
+            res.json(exercises)
+        })
+})
 
 router.post('/create', (req, res) => {
-    const { name, videoURL, category, goal } = req.body
+    const { imageName, imageUrl, name, instruction } = req.body
     let newExercise = new Exercise({
+        imageName,
+        imageUrl,
         name,
-        videoURL,
-        category,
-        goal
+        instruction
+
     })
 
     newExercise.save()
@@ -45,14 +52,13 @@ router.get('/detail/:id', (req, res) => {
 
 router.put('/detail/:id', (req, res) => {
     const _id = req.params.id
-    const { name, videoURL, category, goal } = req.body
-
+    const { imageName, imageUrl, name, instruction } = req.body
     Exercise.findOne({ _id })
         .then(exercise => {
+            exercise.imageName = imageName
+            exercise.imageUrl = imageUrl
             exercise.name = name
-            exercise.category = category
-            exercise.videoURL = videoURL
-            exercise.goal = goal
+            exercise.instruction = instruction
             exercise.save()
                 .then(exercise => {
                     res.json(exercise)
@@ -63,6 +69,25 @@ router.put('/detail/:id', (req, res) => {
         })
         .catch(err => {
             console.error(err)
+        })
+})
+
+//Update User Avatar
+router.put('/detail/:id/image', (req, res, next) => {
+    const { avatarURL } = req.body
+    User
+        .update({
+            _id: req.params.id
+        },
+            {
+                avatarURL
+            }
+        )
+        .then(response => {
+            res.json(response)
+        })
+        .catch(error => {
+            console.error(error)
         })
 })
 

@@ -82,6 +82,14 @@ class SettingList extends Component {
 
                             />
                         </TouchableOpacity>
+                        <TouchableOpacity onPress={() => {
+                            this.props.navigation.navigate('LoggedOut');
+                        }}>
+                            <List.Item
+                                title="Logout"
+
+                            />
+                        </TouchableOpacity>
                     </List.Section>
                 </ScrollView>
             </View >

@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 
 // Initial Loading Screen
-import LoadingScreen from '../screens/AuthLoadingScreen'
+import AuthLoadingScreen from '../screens/Auth/AuthLoadingScreen'
 
 //Auth Stack Screens
 import Login from "../screens/Auth/Login";
@@ -88,7 +88,7 @@ const AppStack = createBottomTabNavigator({
 
 export default createAppContainer(createSwitchNavigator(
     {
-        AuthLoading: LoadingScreen,
+        AuthLoading: AuthLoadingScreen,
         LoggedIn: AppStack,
         LoggedOut: AuthStack
     }, {

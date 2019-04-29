@@ -20,13 +20,17 @@ const SettingStackNavigator = createStackNavigator({
         screen: ChangePassword,
         navigationOptions: { title: 'Change Password' }
     },
+    ExportAccount: {
+        screen: ExportAccount,
+        navigationOptions: { title: 'Export Account' }
+    },
     DeleteAccount: {
         screen: DeleteAccount,
         navigationOptions: { title: 'Delete Account' }
     },
-    ExportAccount: {
+    Logout: {
         screen: ExportAccount,
-        navigationOptions: { title: 'Export Account' }
+        navigationOptions: { title: 'Logout' }
     }
 })
 

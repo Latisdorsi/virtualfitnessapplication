@@ -2,32 +2,45 @@ import React, { Component } from 'react'
 import { View, ScrollView, FlatList, Text } from 'react-native'
 import { List } from 'react-native-paper';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import axios from 'axios'
 
-const exerciseData = [
-    { id: 1, name: 'Barbell Squat' },
-    { id: 2, name: 'Bench Press' }
-]
 export default class Exercises extends Component {
 
     constructor(props) {
-        super(props)
+        super(props);
+        this.state = {
+            exercises: []
+        }
     }
 
+    componentDidMount() {
+        axios.get('http://10.0.2.2:3000/exercise/names')
+            .then(response => {
+                this.setState({
+                    exercises: response.data
+                });
+                console.log(this.state.exercises)
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+    }
 
     render() {
         return (<FlatList
-            data={exerciseData}
+            data={this.state.exercises}
             renderItem={({ item }) =>
-                <TouchableOpacity onPress={() => {
-                    this.props.navigation.navigate('Details', {
-                        itemId: item.id,
-                        itemName: item.name
-                    });
-                }}>
+                <TouchableOpacity
+                    onPress={() => {
+                        this.props.navigation.navigate('Details', {
+                            itemId: item._id,
+                            itemName: item.name
+                        });
+                    }}
+                >
                     <List.Item
                         title={item.name}
-                        left={props => <List.Icon {...props} icon="folder" />}
-
+                        left={props => <List.Icon {...props} icon="fitness-center" />}
                     />
                 </TouchableOpacity>
             }

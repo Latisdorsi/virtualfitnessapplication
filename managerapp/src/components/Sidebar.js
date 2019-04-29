@@ -32,6 +32,7 @@ export class Sidebar extends Component {
                     </li>
                     <li className="nav-title nav-item">Other</li>
                     <li className="nav-item"><Link to="/admin"><i className="dripicons dripicons-information"></i>Help</Link></li>
+                    <li className="nav-item"><Link to="/logout"><i className="dripicons dripicons-exit"></i>Logout</Link></li>
                 </ul>
             </div>
         )

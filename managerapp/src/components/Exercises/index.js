@@ -16,11 +16,14 @@ export class Exercises extends Component {
         this.handleClick = this.handleClick.bind(this);
     }
 
+
+
     handleClick(event) {
         this.setState({
             currentPage: Number(event.target.id)
         });
     }
+
 
     componentDidMount() {
         axios.get('http://127.0.0.1:3000/exercise/list')
@@ -39,9 +42,20 @@ export class Exercises extends Component {
         const indexOfLastTodo = currentPage * documentsPerPage;
         const indexOfFirstTodo = indexOfLastTodo - documentsPerPage;
         const currentExercises = exercises.slice(indexOfFirstTodo, indexOfLastTodo);
+        
+        const renderExercises = (event) => {
+            axios.get('http://127.0.0.1:3000/exercise/list')
+                .then(response => {
+                    this.setState({ exercises: response.data })
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+        }
+
 
         const populateTable = currentExercises.map(function (exercise, i) {
-            return <ExerciseCell exercise={exercise} key={i} />
+            return <ExerciseCell exercise={exercise} key={i} renderExercises={renderExercises} />
         })
 
 
@@ -61,6 +75,7 @@ export class Exercises extends Component {
             return (
                 <li
                     className="page-item"
+                    key={number}
                 >
                     <a
                         className="page-link"

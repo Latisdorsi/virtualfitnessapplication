@@ -19,7 +19,7 @@ body {
 }
 
 .login-section {
-    /*background: url(../img/home_bg2.jpg) no-repeat center center;*/
+    background: url(./library/res/img/home_bg.jpg) no-repeat center center;
     background-size: cover;
     font-family: 'Montserrat', Roboto Slab, Times New Roman, serif;
 }

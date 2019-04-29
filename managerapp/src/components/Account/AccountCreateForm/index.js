@@ -52,6 +52,8 @@ export class AccountCreatePage extends Component {
                 .catch(err => {
                     console.error('Request failed', err.response)
                 });
+
+                setSubmitting(false)
         }
 
         return (

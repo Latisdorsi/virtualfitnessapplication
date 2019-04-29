@@ -8,10 +8,15 @@ export class ExerciseCell extends Component {
         super(props);
         this.delete = this.delete.bind(this);
     }
-    delete() {
+
+    delete = (event) => {
+
         axios.delete('http://localhost:3000/exercise/detail/' + this.props.exercise._id)
-            .then(console.log('Deleted'))
+            .then(
+                this.props.renderExercises(event)
+            )
             .catch(err => console.log(err))
+
     }
     render() {
         const { exercise } = this.props;

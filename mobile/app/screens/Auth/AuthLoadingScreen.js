@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 import DeviceStorage from 'lib/services/DeviceStorage'
 import { parseToken } from 'lib/helpers/utils'
-import axios from 'axios'
 
 export default class AuthLoadingScreen extends React.Component {
     constructor(props) {
@@ -16,8 +15,8 @@ export default class AuthLoadingScreen extends React.Component {
         let token
         const loggedIn = false
         token = !token && DeviceStorage.loadItem('token').then(token => {
-            console.log(userData)
             const userData = parseToken(token)
+            console.log(userData + 'reached')
             this.props.navigation.navigate(userData.active ? 'LoggedIn' : 'LoggedOut')
         }
         ).catch(err => {

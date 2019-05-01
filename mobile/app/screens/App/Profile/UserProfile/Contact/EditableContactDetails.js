@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
 import { View } from 'react-native'
 import { TextInput, Button } from 'react-native-paper'
+import axios from 'axios'
 
 const EditableContactDetails = ({ value, setValue, editable }) => {
 
     const [contactDetails, setContactDetails] = useState(Object.assign(value.contactDetails))
-
-    
 
     const updateValues = (name, value) => {
         let newValueTemp = {
@@ -17,11 +16,29 @@ const EditableContactDetails = ({ value, setValue, editable }) => {
     }
 
     const saveValues = () => {
-        setValue({
-            ...value,
-            contactDetails: contactDetails
-        })
-        editable(false)
+        const newObj = {
+            address: contactDetails.address,
+            mobile: contactDetails.phone.mobile,
+            home: contactDetails.phone.home,
+            work: contactDetails.phone.work
+        }
+        console.log(newObj)
+
+        axios
+            .put('http://10.0.2.2:3000/account/detail/' + value._id + '/contact', newObj)
+            .then(response => {
+                if (response.status === 200) {
+                    setValue({
+                        ...value,
+                        contactDetails: contactDetails
+                    })
+                    editable(false)
+                }
+            })
+            .catch(err => {
+                console.error('Request failed', err.response)
+            });
+
     }
 
     return (

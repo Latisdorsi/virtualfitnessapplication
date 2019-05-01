@@ -13,12 +13,6 @@ export function Emergency() {
     const [isEmergencyEditable, setEmergencyEditable] = useState(false)
     const [user, setUser] = useContext(ProfileContext)
 
-    let [emergencyDetails, setEmergencyDetails] = useState({
-        name: 'N/A',
-        number: 0,
-        relationship: 'N/A'
-    })
-
     return (
         <View>
             <RowViewComponent>

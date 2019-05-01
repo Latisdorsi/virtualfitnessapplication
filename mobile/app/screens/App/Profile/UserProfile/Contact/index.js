@@ -1,26 +1,22 @@
-import React, { useState } from 'react'
-import { View } from 'react-native'
+import React, { useState, useContext } from 'react'
+import { View, Text } from 'react-native'
 import RowViewComponent from 'lib/components/RowViewComponent'
 import { IconButton, Subheading } from 'react-native-paper';
 
 import ContactDetails from './ContactDetails'
 import EditableContactDetails from './EditableContactDetails'
 
-export function Contact() {
+import ProfileContext from '../ProfileContext'
 
-    let [isContactEditable, setContactEditable] = useState(false)
+const Contact = () => {
 
-    let [contactDetails, setContactDetails] = useState({
-        address: 'N/A',
-        mobilePhone: 0,
-        homePhone: 0,
-        workPhone: 0
-    })
+    const [user, setUser] = useContext(ProfileContext)
+    const [isContactEditable, setContactEditable] = useState(false)
+
     return (
         <View>
             <RowViewComponent>
                 <Subheading>Contact Details</Subheading>
-
                 <IconButton
                     icon="edit"
                     size={20}
@@ -34,8 +30,8 @@ export function Contact() {
             </RowViewComponent>
             {
                 isContactEditable ?
-                    (<EditableContactDetails value={contactDetails} setValue={setContactDetails} />) :
-                    (<ContactDetails value={contactDetails} />)
+                    (<EditableContactDetails value={user} setValue={setUser} editable={setContactEditable} />) :
+                    (<ContactDetails value={user} />)
             }
         </View>
     )

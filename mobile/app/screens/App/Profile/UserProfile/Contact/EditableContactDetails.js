@@ -2,28 +2,33 @@ import React, { useState } from 'react'
 import { View } from 'react-native'
 import { TextInput, Button } from 'react-native-paper'
 
-const EditableContactDetails = ({ value, setValue }) => {
+const EditableContactDetails = ({ value, setValue, editable }) => {
 
-    let [newValue,
-        setNewValue] = useState(value)
+    const [contactDetails, setContactDetails] = useState(Object.assign(value.contactDetails))
+
+    
 
     const updateValues = (name, value) => {
         let newValueTemp = {
-            ...newValue,
+            ...contactDetails,
             [name]: value
         }
-        setNewValue(newValueTemp)
+        setContactDetails(newValueTemp)
     }
 
     const saveValues = () => {
-        setValue(newValue)
+        setValue({
+            ...value,
+            contactDetails: contactDetails
+        })
+        editable(false)
     }
 
     return (
         <View>
             <TextInput
-                label="Name"
-                value={newValue.address}
+                label="Address"
+                value={contactDetails.address}
                 onChangeText={(text) => {
                     updateValues('address', text)
                 }}
@@ -33,7 +38,7 @@ const EditableContactDetails = ({ value, setValue }) => {
                 }} />
             <TextInput
                 label="Mobile Number"
-                value={newValue.mobilePhone}
+                value={contactDetails.phone.mobile}
                 onChangeText={(text) => {
                     updateValues('mobilePhone', text)
                 }}
@@ -43,7 +48,7 @@ const EditableContactDetails = ({ value, setValue }) => {
                 }} />
             <TextInput
                 label="Home Number"
-                value={newValue.workPhone}
+                value={contactDetails.phone.work}
                 onChangeText={(text) => {
                     updateValues('workPhone', text)
                 }}
@@ -53,7 +58,7 @@ const EditableContactDetails = ({ value, setValue }) => {
                 }} />
             <TextInput
                 label="Work Number"
-                value={newValue.homePhone}
+                value={contactDetails.phone.home}
                 onChangeText={(text) => {
                     updateValues('homePhone', text)
                 }}

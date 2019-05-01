@@ -4,6 +4,7 @@ import RowViewComponent from 'lib/components/RowViewComponent'
 
 
 const EmergencyDetails = ({ value }) => {
+
     return (
         <View>
             <RowViewComponent>
@@ -11,21 +12,21 @@ const EmergencyDetails = ({ value }) => {
                     style={{ fontSize: 16 }}>
                     Name
                  </Text>
-                <Text>{value.name}</Text>
+                <Text>{value.emergencyDetails.name ? value.emergencyDetails.name : 'Not Set'}</Text>
             </RowViewComponent>
             <RowViewComponent>
                 <Text
                     style={{ fontSize: 16 }}>
                     Number
                  </Text>
-                <Text>{value.number}</Text>
+                <Text>{value.emergencyDetails.number ? value.emergencyDetails.number : 'Not Set'}</Text>
             </RowViewComponent>
             <RowViewComponent>
                 <Text
                     style={{ fontSize: 16 }}>
                     Relationship
                  </Text>
-                <Text>{value.relationship}</Text>
+                <Text>{value.emergencyDetails.relationship ? value.emergencyDetails.relationship : 'Not Set'}</Text>
             </RowViewComponent>
         </View>
     )

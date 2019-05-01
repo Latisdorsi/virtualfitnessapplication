@@ -15,9 +15,9 @@ export default class AuthLoadingScreen extends React.Component {
         super(props)
         let token
         const loggedIn = false
-        token = token && DeviceStorage.loadItem('token').then(token => {
-            const userData = parseToken(token)
+        token = !token && DeviceStorage.loadItem('token').then(token => {
             console.log(userData)
+            const userData = parseToken(token)
             this.props.navigation.navigate(userData.active ? 'LoggedIn' : 'LoggedOut')
         }
         ).catch(err => {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { View, Text } from 'react-native'
 import RowViewComponent from 'lib/components/RowViewComponent'
 import { IconButton, Subheading } from 'react-native-paper';
@@ -6,9 +6,12 @@ import { IconButton, Subheading } from 'react-native-paper';
 import EmergencyDetails from './EmergencyDetails'
 import EditableEmergencyDetails from './EditableEmergencyDetails'
 
+import ProfileContext from '../ProfileContext'
+
 export function Emergency() {
 
-    let [isEmergencyEditable, setEmergencyEditable] = useState(false)
+    const [isEmergencyEditable, setEmergencyEditable] = useState(false)
+    const [user, setUser] = useContext(ProfileContext)
 
     let [emergencyDetails, setEmergencyDetails] = useState({
         name: 'N/A',
@@ -34,8 +37,8 @@ export function Emergency() {
 
             {
                 isEmergencyEditable ?
-                    (<EditableEmergencyDetails value={emergencyDetails} setValue={setEmergencyDetails} />) :
-                    (<EmergencyDetails value={emergencyDetails} />)
+                    (<EditableEmergencyDetails value={user} setValue={setUser} editable={setEmergencyEditable} />) :
+                    (<EmergencyDetails value={user} />)
             }
         </View>
     )

@@ -29,7 +29,6 @@ export default class Login extends Component {
             .then(response => {
                 if (response.status === 200) {
                     DeviceStorage.saveItem("token", response.data.token)
-                    console.log(DeviceStorage.loadItem("token"))
                     this.props.navigation.navigate('AuthLoading')
                 } else {
                     const error = new Error(response.error);

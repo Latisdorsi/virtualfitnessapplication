@@ -2,28 +2,34 @@ import React, { useState } from 'react'
 import { View, Text } from 'react-native'
 import { TextInput, Button } from 'react-native-paper'
 
-const EditableEmergencyDetails = ({ value, setValue }) => {
+const EditableEmergencyDetails = ({ value, setValue, editable }) => {
 
-    let [newValue,
-        setNewValue] = useState(value)
+
+    const [emergencyDetails, setEmergencyDetails] = useState(Object.assign(value.emergencyDetails))
+
 
     const updateValues = (name, value) => {
         let newValueTemp = {
-            ...newValue,
+            ...emergencyDetails,
             [name]: value
         }
-        setNewValue(newValueTemp)
+        setEmergencyDetails(newValueTemp)
     }
 
     const saveValues = () => {
-        setValue(newValue)
+        setValue({
+            ...value,
+            emergencyDetails: emergencyDetails
+        })
+        editable(false)
     }
+
 
     return (
         <View>
             <TextInput
                 label="Name"
-                value={newValue.name}
+                value={emergencyDetails.name}
                 onChangeText={(text) => {
                     updateValues('name', text)
                 }}
@@ -33,7 +39,7 @@ const EditableEmergencyDetails = ({ value, setValue }) => {
                 }} />
             <TextInput
                 label="Number"
-                value={newValue.number}
+                value={emergencyDetails.number}
                 onChangeText={(text) => {
                     updateValues('number', text)
                 }}
@@ -43,7 +49,7 @@ const EditableEmergencyDetails = ({ value, setValue }) => {
                 }} />
             <TextInput
                 label="Relationship"
-                value={newValue.relationship}
+                value={emergencyDetails.relationship}
                 onChangeText={(text) => {
                     updateValues('relationship', text)
                 }}

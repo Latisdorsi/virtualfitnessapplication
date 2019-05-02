@@ -89,7 +89,7 @@ router.put('/detail/:id/emergency', (req, res, next) => {
         .update({
             _id: req.params.id
         }, {
-                emergencyContact: {
+                emergencyDetails: {
                     fullName: emergencyFullName,
                     contactNumber: emergencyNumber,
                     relationship: emergencyRelationship
@@ -126,9 +126,6 @@ const secret = 'asd2130asdE#asdd@'
 router.post('/authenticate', function (req, res) {
     const { email, password } = req.body;
     User.findOne({ email }, function (err, user) {
-
-
-
         if (err) { // Internal Error
             console.error(err);
             res.status(500)
@@ -142,7 +139,7 @@ router.post('/authenticate', function (req, res) {
                 });
         } else { //Password is Incorrect
             //Get user id from call
-            const _id = user._id
+            const {_id, active, first} = user
             user.comparePassword(password, function (err, same) {
                 if (err) {
                     res.status(500)
@@ -156,7 +153,7 @@ router.post('/authenticate', function (req, res) {
                         });
                 } else {
                     // Issue token
-                    const payload = { email, _id };
+                    const payload = { email, _id, active, first };
                     const token = jwt.sign(payload, secret, {
                         expiresIn: '1h'
                     });

@@ -3,8 +3,16 @@ const bcrypt = require('bcryptjs')
 const validator = require('validator');
 
 const UserSchema = new mongoose.Schema({
-    avatarURL:{
+    avatarURL: {
         type: String
+    },
+    active: {
+        type: Boolean,
+        default: false
+    },
+    first: {
+        type: Boolean,
+        default: true
     },
     name: {
         firstName: {
@@ -17,7 +25,7 @@ const UserSchema = new mongoose.Schema({
             trim: true
         },
         middleInitial: {
-            type:String
+            type: String
         }
     },
     email: {
@@ -55,7 +63,7 @@ const UserSchema = new mongoose.Schema({
             work: Number
         }
     },
-    emergencyContact: {
+    emergencyDetails: {
         fullName: String,
         contactNumber: Number,
         relationship: String

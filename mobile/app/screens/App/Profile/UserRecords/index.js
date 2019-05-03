@@ -3,115 +3,70 @@ import { View, Text, ScrollView } from 'react-native'
 import { Subheading, Card, IconButton, Button } from 'react-native-paper';
 
 import RowViewComponent from 'lib/components/RowViewComponent'
+import { CalculateComposition } from 'lib/helpers/utils'
+import DeviceStorage from 'lib/services/DeviceStorage'
 
 import RecordDetails from './RecordDetails'
 import EditableRecordDetails from './EditableRecordDetails'
-
-
-const CategorizeGroup = (sex, bodyFatPercent) => {
-    if (sex == 'Male') {
-        switch (true) {
-            case (bodyFatPercent < 2):
-                return 'Unacceptable'
-            case (bodyFatPercent >= 2 && bodyFatPercent <= 4):
-                return 'Essentail Fat';
-            case (bodyFatPercent >= 6 && bodyFatPercent <= 13):
-                return 'Athletes';
-            case (bodyFatPercent >= 14 && bodyFatPercent <= 17):
-                return 'Fitness';
-            case (bodyFatPercent >= 17 && bodyFatPercent <= 25):
-                return 'Acceptable';
-            case (bodyFatPercent > 25):
-                return 'Obese';
-        }
-    }
-    else if (sex == 'Female') {
-        switch (true) {
-            case (bodyFatPercent < 10):
-                return 'Unacceptable'
-            case (bodyFatPercent >= 10 && bodyFatPercent <= 12):
-                return 'Essentail Fat';
-            case (bodyFatPercent >= 14 && bodyFatPercent <= 20):
-                return 'Athletes';
-            case (bodyFatPercent >= 21 && bodyFatPercent <= 24):
-                return 'Fitness';
-            case (bodyFatPercent >= 25 && bodyFatPercent <= 31):
-                return 'Acceptable';
-            case (bodyFatPercent > 31):
-                return 'Obese';
-        }
-
-    }
-    else {
-        return 'Undefined'
-    }
-}
-
-function CalculateComposition(age, sex, weight, height, neck, waist, hips) {
-
-    let bodyComposition = {
-        category: 0,
-        percentBodyFat: 0,
-        percentLeanMass: 0
-    }
-
-    let category, percentBodyFat, percentLeanMass
-
-    if (weight > 0 && height > 0 && neck > 0 && waist > 0 && hips > 0) {
-        if (sex == 'Male') {
-
-            percentBodyFat = 495 / (1.0324 - 0.19077 * Math.log10(+waist - +neck) + 0.15456 * Math.log10(height)) - 450
-        }
-        else if (sex == 'Female') {
-            percentBodyFat = 495 / (1.29579 - 0.35004 * Math.log10(+waist + +hips - +neck) + 0.22100 * Math.log10(height)) - 450
-        }
-    }
-    console.log(percentBodyFat)
-    if (percentBodyFat > 0) {
-        bodyFatMass = ((weight * percentBodyFat) / 100)
-        leanBodyMass = weight - bodyFatMass
-        percentLeanMass = (leanBodyMass / weight) * 100
-
-        category = CategorizeGroup(sex, percentBodyFat)
-        return bodyComposition =
-            {
-                category,
-                percentBodyFat,
-                percentLeanMass
-            }
-
-    }
-
-    //Return if values are not met
-    return bodyComposition
-}
-
-
-const data = {
-    weight: 63,
-    neck: 32,
-    waist: 72,
-    hips: 73,
-    bicep: 0,
-    forearm: 0,
-    calf: 0,
-    thigh: 0
-}
-
-
+import Axios from 'axios';
 export default function UserRecords() {
+
     let height = 173
-    let [recordDetails, setRecordDetails] = useState(data)
-    let compositionValue = CalculateComposition(23, 'Male', recordDetails.weight, height, recordDetails.neck, recordDetails.waist, recordDetails.hips)
 
-    let [bodyComposition, setBodyComposition] = useState(compositionValue)
-    let [editable, setEditable] = useState(false)
+    //Receive Record Details
+    const [measurementDetails, setMeasurementDetails] = useState({
+        weight: 0,
+        neck: 0,
+        waist: 0,
+        hips: 0,
+        bicep: 0,
+        forearm: 0,
+        calf: 0,
+        thigh: 0,
+        bodyComposition: {
+            category: '',
+            percentBodyFat: 0,
+            percentLeanMass: 0
+        }
+    })
 
+    //Calculate Body Composition
+    const compositionValue = CalculateComposition(
+        23,
+        'Male',
+        measurementDetails.weight,
+        height,
+        measurementDetails.neck,
+        measurementDetails.waist,
+        measurementDetails.hips
+    )
+
+    //setMeasurementDetails({ bodyComposition: compositionValue })
+
+    const [editable, setEditable] = useState(false)
 
     useEffect(() => {
-        setBodyComposition(compositionValue)
-    }, [recordDetails])
+        DeviceStorage.loadItem('token').then(token => {
+            const tokenData = parseToken(token)
+            Axios.get('http://10.0.2.2:3000/measurement/' + tokenData._id)
+                .then(response => {
+                    //Do nothing for now
+                })
+                .catch(error => {
+                    console.log('An Error Occured')
+                })
+        })
+        .catch(err => {
+            console.log('An Error Occur')
+        })
+    }, [])
 
+    useEffect(() => {
+        setMeasurementDetails({
+            ...measurementDetails,
+            bodyComposition: compositionValue
+        })
+    }, [measurementDetails])
 
     return (
         <ScrollView>
@@ -127,13 +82,24 @@ export default function UserRecords() {
                     <Subheading>Body Composition</Subheading>
 
                     <View>
-                        <Text>Composition Level: {bodyComposition.category}</Text>
+                        <Text>Composition Level: {
+                            measurementDetails.bodyComposition.category ?
+                                measurementDetails.bodyComposition.category :
+                                'Not Set'
+                        }</Text>
                     </View>
                     <View>
-                        <Text>Body Fat Percentage: {Math.round(bodyComposition.percentBodyFat * 100) / 100}</Text>
+                        <Text>Body Fat Percentage: {
+                            measurementDetails.bodyComposition.percentBodyFat ?
+                                Math.round(measurementDetails.bodyComposition.percentBodyFat * 100) / 100 :
+                                'Not Set'}</Text>
                     </View>
                     <View>
-                        <Text>Lean Body Mass Percentage: {Math.round(bodyComposition.percentLeanMass * 100) / 100}</Text>
+                        <Text>Lean Body Mass Percentage: {
+                            measurementDetails.bodyComposition.percentLeanMass ?
+                                Math.round(measurementDetails.bodyComposition.percentLeanMass * 100) / 100 :
+                                'Not Set'
+                        }</Text>
                     </View>
                 </View>
 
@@ -153,8 +119,8 @@ export default function UserRecords() {
                     </RowViewComponent>
 
                     {editable ?
-                        <EditableRecordDetails value={recordDetails} setValue={setRecordDetails} /> :
-                        <RecordDetails value={recordDetails} />
+                        <EditableRecordDetails value={measurementDetails} setValue={setmeasurementDetails} /> :
+                        <RecordDetails value={measurementDetails} />
                     }
 
 

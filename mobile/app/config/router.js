@@ -142,7 +142,8 @@ const AppStack = createAppContainer(createBottomTabNavigator({
 }, {
         tabBarOptions: {
             showLabel: false
-        }
+        },
+        initialRouteName: 'Dashboard'
     })
 )
 

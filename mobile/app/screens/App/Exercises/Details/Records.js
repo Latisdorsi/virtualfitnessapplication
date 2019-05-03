@@ -1,36 +1,57 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { Text, View } from 'react-native'
 import { Subheading } from 'react-native-paper';
 
-const Charts = () => {
-    return (
-        <View style={{padding:15}}>
-            <Subheading>Best Set</Subheading>
-            <Subheading>Total Volume</Subheading>
-            <Subheading>Personal Records</Subheading>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Text>Esimated 1RM Record</Text>
-                <Text>60kg</Text>
-            </View>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Text>Max Volume</Text>
-                <Text>300kg</Text>
-            </View>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Text>Heaviest Weight</Text>
-                <Text>55kg</Text>
-            </View>
-            <Subheading>Lifetime Stats</Subheading>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Text>Total Reps</Text>
-                <Text>300</Text>
-            </View>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Text>Total Weight</Text>
-                <Text>1500kg</Text>
-            </View>
-        </View>
-    )
-}
+import RowViewComponent from 'lib/components/RowViewComponent'
 
-export default Charts
+export default class Charts extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            topRecordDetails: {
+                _id: '0',
+                oneRepMax: 0,
+                volume: 0,
+            },
+            totalRecords: {
+                reps: 0,
+                weight: 0
+            },
+            hasRecord: true
+        }
+    }
+
+    render() {
+        return (
+            this.state.hasRecord ?
+                <View style={{ padding: 15 }}>
+                    <Subheading>Best Set</Subheading>
+                    <Text>Charts Go Here</Text>
+                    <Subheading>Total Volume</Subheading>
+                    <Text>Charts Go Here</Text>
+                    <Subheading>Personal Records</Subheading>
+                    <RowViewComponent>
+                        <Text>Esimated 1RM Record</Text>
+                        <Text>{this.state.topRecordDetails.oneRepMax}kg</Text>
+                    </RowViewComponent>
+                    <RowViewComponent>
+                        <Text>Max Volume</Text>
+                        <Text>{this.state.topRecordDetails.volume}kg</Text>
+                    </RowViewComponent>
+                    <Subheading>Lifetime Stats</Subheading>
+                    <RowViewComponent>
+                        <Text>Total Reps</Text>
+                        <Text>{this.state.totalRecords.reps}</Text>
+                    </RowViewComponent>
+                    <RowViewComponent>
+                        <Text>Total Weight</Text>
+                        <Text>{this.state.totalRecords.weight}kg</Text>
+                    </RowViewComponent>
+                </View>
+                :
+                <View style={{ flex: 1, justifyContent: 'center', alignContent: 'center', alignItems: 'center' }}>
+                    <Text>No Previous Record</Text>
+                </View>
+        )
+    }
+}

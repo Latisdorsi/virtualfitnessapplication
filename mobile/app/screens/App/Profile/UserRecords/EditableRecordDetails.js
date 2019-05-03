@@ -1,15 +1,13 @@
 import React, { useState } from 'react'
 
-import { View, Text } from 'react-native'
-import ModalSelector from 'react-native-modal-selector';
+import { View } from 'react-native'
 import { Button } from 'react-native-paper'
 
+import MeasurementModal from 'lib/components/MeasurementModal'
 
 let index = 0;
 
-
 const ageData =
-
     [
         { key: index++, label: '16' },
         { key: index++, label: '17' },
@@ -100,39 +98,6 @@ const hipsData = [
 ]
 
 
-function Measurement({ name, suffix, data, value, setValue }) {
-    return (
-        <View
-            style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                alignContent: 'center',
-                marginVertical: 15
-            }}>
-
-            <Text
-                style={{ fontSize: 16 }}>
-                {name}
-            </Text>
-            <ModalSelector
-                data={data}
-                initValue="Enter"
-                onChange={(option) => { setValue(option.label) }}>
-                <Text style={{
-                    borderWidth: 1,
-                    borderColor: '#ccc',
-                    padding: 10,
-                    height: 40
-                }}>
-                    {(value > 0 || (value != '' && value != null)) ? value + ' ' + suffix : 'Enter'}
-                </Text>
-            </ModalSelector>
-        </View>
-    )
-}
-
-
 const EditableRecordDetails = ({ value, setValue }) => {
     let [weight, setWeight] = useState(value.weight)
     let [neck, setNeck] = useState(value.neck)
@@ -160,23 +125,23 @@ const EditableRecordDetails = ({ value, setValue }) => {
 
     return (
         <View>
-            <Measurement name="Weight" data={weightData} suffix="kg" value={weight} setValue={setWeight} />
+            <MeasurementModal name="Weight" data={weightData} suffix="kg" value={weight} setValue={setWeight} />
 
-            <Measurement name="Neck" data={neckData} suffix="cm" value={neck} setValue={setNeck} />
+            <MeasurementModal name="Neck" data={neckData} suffix="cm" value={neck} setValue={setNeck} />
 
-            <Measurement name="Waist" data={waistData} suffix="cm" value={waist} setValue={setWaist} />
+            <MeasurementModal name="Waist" data={waistData} suffix="cm" value={waist} setValue={setWaist} />
 
-            <Measurement name="Hips" data={hipsData} suffix="cm" value={hips} setValue={setHips} />
+            <MeasurementModal name="Hips" data={hipsData} suffix="cm" value={hips} setValue={setHips} />
 
-            <Measurement name="Bicep" data={hipsData} suffix="cm" value={bicep} setValue={setBicep} />
+            <MeasurementModal name="Bicep" data={hipsData} suffix="cm" value={bicep} setValue={setBicep} />
 
-            <Measurement name="Hips" data={hipsData} suffix="cm" value={forearm} setValue={setForearm} />
+            <MeasurementModal name="Hips" data={hipsData} suffix="cm" value={forearm} setValue={setForearm} />
 
-            <Measurement name="Calf" data={hipsData} suffix="cm" value={calf} setValue={setCalf} />
+            <MeasurementModal name="Calf" data={hipsData} suffix="cm" value={calf} setValue={setCalf} />
 
-            <Measurement name="Thigh" data={hipsData} suffix="cm" value={thigh} setValue={setThigh} />
+            <MeasurementModal name="Thigh" data={hipsData} suffix="cm" value={thigh} setValue={setThigh} />
 
-            <Button onPress={saveData}>Save</Button>
+            <Button mode="contained" onPress={saveData}>Save</Button>
         </View>
     )
 }

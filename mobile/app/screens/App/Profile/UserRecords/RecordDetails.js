@@ -8,19 +8,21 @@ const RecordDetails = ({ value }) => {
             {
 
                 Object.keys(value).map(function (key, index) {
-                    return (
-                        <RowViewComponent key={index}>
-                            <Text
-                                style={{ fontSize: 16 }}>
-                                {key.charAt(0).toUpperCase() + key.slice(1)}
-                            </Text>
-                            {value[key] > 0 ?
-                                <Text>{value[key]}</Text>
-                                :
-                                <Text>Not Set</Text>
-                            }
-                        </RowViewComponent>
-                    )
+                    if (key != 'bodyComposition') {
+                        return (
+                            <RowViewComponent key={index}>
+                                <Text
+                                    style={{ fontSize: 16 }}>
+                                    {key.charAt(0).toUpperCase() + key.slice(1)}
+                                </Text>
+                                {value[key] > 0 ?
+                                    <Text>{value[key]}</Text>
+                                    :
+                                    <Text>Not Set</Text>
+                                }
+                            </RowViewComponent>
+                        )
+                    }
                 })
 
             }

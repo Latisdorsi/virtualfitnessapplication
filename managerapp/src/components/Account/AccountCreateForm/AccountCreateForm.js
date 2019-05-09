@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {Field} from 'formik';
+import React, { Component } from 'react';
+import { Field } from 'formik';
 import Select from 'react-select'
 
 const AccountCreateForm = props => {
@@ -29,7 +29,7 @@ const AccountCreateForm = props => {
                     onBlur={handleBlur}
                     value={values.email}
                     name="email"
-                    placeholder="Enter Email Address"/> {errors.email && touched.email && <div id="feedback">{errors.email}</div>}
+                    placeholder="Enter Email Address" /> {errors.email && touched.email && <div id="feedback">{errors.email}</div>}
             </div>
             <div className="form-group">
                 <label htmlFor="password">Password</label>
@@ -40,7 +40,7 @@ const AccountCreateForm = props => {
                     onBlur={handleBlur}
                     value={values.password}
                     name="password"
-                    placeholder="Enter Password"/> {errors.password && touched.password && <div id="feedback">{errors.password}</div>}
+                    placeholder="Enter Password" /> {errors.password && touched.password && <div id="feedback">{errors.password}</div>}
             </div>
             <div className="form-group">
                 <label htmlFor="password2">Confirm Password</label>
@@ -51,7 +51,7 @@ const AccountCreateForm = props => {
                     onBlur={handleBlur}
                     value={values.password2}
                     name="password2"
-                    placeholder="Repeat Password"/> {errors.password2 && touched.password2 && <div id="feedback">{errors.password2}</div>}
+                    placeholder="Repeat Password" /> {errors.password2 && touched.password2 && <div id="feedback">{errors.password2}</div>}
             </div>
             <div className="form-group">
                 <label htmlFor="firstName">First Name</label>
@@ -62,7 +62,7 @@ const AccountCreateForm = props => {
                     onBlur={handleBlur}
                     value={values.firstName}
                     name="firstName"
-                    placeholder="Enter First Name"/> {errors.firstName && touched.firstName && <div id="feedback">{errors.firstName}</div>}
+                    placeholder="Enter First Name" /> {errors.firstName && touched.firstName && <div id="feedback">{errors.firstName}</div>}
             </div>
             <div className="form-group">
                 <label htmlFor="lastName">Last Name</label>
@@ -73,7 +73,7 @@ const AccountCreateForm = props => {
                     onBlur={handleBlur}
                     value={values.lastName}
                     name="lastName"
-                    placeholder="Enter Your Last Name"/> {errors.categoryRate && touched.categoryRate && <div id="feedback">{errors.categoryRate}</div>}
+                    placeholder="Enter Your Last Name" /> {errors.categoryRate && touched.categoryRate && <div id="feedback">{errors.categoryRate}</div>}
             </div>
             <div className="form-group">
                 <label htmlFor="middleInitial">Middle Initial</label>
@@ -84,14 +84,14 @@ const AccountCreateForm = props => {
                     onBlur={handleBlur}
                     value={values.middleInitial}
                     name="middleInitial"
-                    placeholder="Enter Your Last Name"/> {errors.middleInitial && touched.middleInitial && <div id="feedback">{errors.middleInitial}</div>}
+                    placeholder="Enter Your Last Name" /> {errors.middleInitial && touched.middleInitial && <div id="feedback">{errors.middleInitial}</div>}
             </div>
             <MySelect
                 value={values.role}
                 onChange={setFieldValue}
                 onBlur={setFieldTouched}
                 error={errors.role}
-                touched={touched.role}/>
+                touched={touched.role} />
 
             <h4 className="header-title">Contact Details</h4>
             <p className="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing.</p>
@@ -105,7 +105,7 @@ const AccountCreateForm = props => {
                     onBlur={handleBlur}
                     value={values.address}
                     name="address"
-                    placeholder="Enter Your Adress"/> {errors.address && touched.address && <div id="feedback">{errors.address}</div>}
+                    placeholder="Enter Your Adress" /> {errors.address && touched.address && <div id="feedback">{errors.address}</div>}
             </div>
 
             <div className="form-group">
@@ -117,7 +117,7 @@ const AccountCreateForm = props => {
                     onBlur={handleBlur}
                     value={values.mobilePhone}
                     name="mobilePhone"
-                    placeholder="Enter Mobile Phone Number"/> {errors.mobilePhone && touched.mobilePhone && <div id="feedback">{errors.mobilePhone}</div>}
+                    placeholder="Enter Mobile Phone Number" /> {errors.mobilePhone && touched.mobilePhone && <div id="feedback">{errors.mobilePhone}</div>}
             </div>
 
             <div className="form-group">
@@ -129,7 +129,7 @@ const AccountCreateForm = props => {
                     onBlur={handleBlur}
                     value={values.homePhone}
                     name="homePhone"
-                    placeholder="Enter Your Home Phone Number"/> {errors.homePhone && touched.homePhone && <div id="feedback">{errors.homePhone}</div>}
+                    placeholder="Enter Your Home Phone Number" /> {errors.homePhone && touched.homePhone && <div id="feedback">{errors.homePhone}</div>}
             </div>
 
             <div className="form-group">
@@ -141,7 +141,7 @@ const AccountCreateForm = props => {
                     onBlur={handleBlur}
                     value={values.workPhone}
                     name="workPhone"
-                    placeholder="Enter Your Last Name"/> {errors.workPhone && touched.workPhone && <div id="feedback">{errors.workPhone}</div>}
+                    placeholder="Enter Your Last Name" /> {errors.workPhone && touched.workPhone && <div id="feedback">{errors.workPhone}</div>}
             </div>
 
             <h4 className="header-title">Emergency Contact Details</h4>
@@ -155,7 +155,7 @@ const AccountCreateForm = props => {
                     onBlur={handleBlur}
                     value={values.emergencyFullName}
                     name="emergencyFullName"
-                    placeholder="Enter Your Last Name"/> {errors.emergencyFullName && touched.emergencyFullName && <div id="feedback">{errors.emergencyFullName}</div>}
+                    placeholder="Enter Your Last Name" /> {errors.emergencyFullName && touched.emergencyFullName && <div id="feedback">{errors.emergencyFullName}</div>}
             </div>
 
             <div className="form-group">
@@ -167,7 +167,7 @@ const AccountCreateForm = props => {
                     onBlur={handleBlur}
                     value={values.emergencyNumber}
                     name="emergencyNumber"
-                    placeholder="Enter their contact number"/> {errors.emergencyNumber && touched.emergencyNumber && <div id="feedback">{errors.emergencyNumber}</div>}
+                    placeholder="Enter their contact number" /> {errors.emergencyNumber && touched.emergencyNumber && <div id="feedback">{errors.emergencyNumber}</div>}
             </div>
 
             <div className="form-group">
@@ -179,8 +179,13 @@ const AccountCreateForm = props => {
                     onBlur={handleBlur}
                     value={values.emergencyRelationship}
                     name="emergencyRelationship"
-                    placeholder="Enter Your Last Name"/> {errors.emergencyRelationship && touched.emergencyRelationship && <div id="feedback">{errors.emergencyRelationship}</div>}
+                    placeholder="Enter Your Last Name" /> {errors.emergencyRelationship && touched.emergencyRelationship && <div id="feedback">{errors.emergencyRelationship}</div>}
             </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="active" />
+                <label class="form-check-label" for="active">Active</label>
+            </div>
+
             <div className="col-md-4 offset-md-9">
                 <button
                     type="button"
@@ -192,7 +197,7 @@ const AccountCreateForm = props => {
                 <button
                     type="submit"
                     className="btn btn-primary btn-custom mt-3"
-                    
+
                     disabled={isSubmitting}>
                     {!isSubmitting
                         ? 'Save'
@@ -242,15 +247,15 @@ class MySelect extends Component {
                     options={options}
                     onChange={this.handleChange}
                     onBlur={this.handleBlur}
-                    value={this.props.value}/> {!!this.props.error && this.props.touched && (
-                    <div
-                        style={{
-                        color: "red",
-                        marginTop: ".5rem"
-                    }}>
-                        {this.props.error}
-                    </div>
-                )}
+                    value={this.props.value} /> {!!this.props.error && this.props.touched && (
+                        <div
+                            style={{
+                                color: "red",
+                                marginTop: ".5rem"
+                            }}>
+                            {this.props.error}
+                        </div>
+                    )}
             </div>
         );
     }

@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {Field} from 'formik';
+import React, { Component } from 'react';
+import { Field } from 'formik';
 import Select from 'react-select'
 
 const AccountCredentialsForm = props => {
@@ -29,7 +29,7 @@ const AccountCredentialsForm = props => {
                     onBlur={handleBlur}
                     value={values.email}
                     name="email"
-                    placeholder="Enter Email Address"/> {errors.email && touched.email && <div id="feedback">{errors.email}</div>}
+                    placeholder="Enter Email Address" /> {errors.email && touched.email && <div id="feedback">{errors.email}</div>}
             </div>
             <div className="form-group">
                 <label htmlFor="password">Password</label>
@@ -40,7 +40,7 @@ const AccountCredentialsForm = props => {
                     onBlur={handleBlur}
                     value={values.password}
                     name="password"
-                    placeholder="Enter Password"/> {errors.password && touched.password && <div id="feedback">{errors.password}</div>}
+                    placeholder="Enter Password" /> {errors.password && touched.password && <div id="feedback">{errors.password}</div>}
             </div>
             <div className="form-group">
                 <label htmlFor="password2">Confirm Password</label>
@@ -51,7 +51,7 @@ const AccountCredentialsForm = props => {
                     onBlur={handleBlur}
                     value={values.password2}
                     name="password2"
-                    placeholder="Repeat Password"/> {errors.password2 && touched.password2 && <div id="feedback">{errors.password2}</div>}
+                    placeholder="Repeat Password" /> {errors.password2 && touched.password2 && <div id="feedback">{errors.password2}</div>}
             </div>
             <div className="form-group">
                 <label htmlFor="firstName">First Name</label>
@@ -62,7 +62,7 @@ const AccountCredentialsForm = props => {
                     onBlur={handleBlur}
                     value={values.firstName}
                     name="firstName"
-                    placeholder="Enter First Name"/> {errors.firstName && touched.firstName && <div id="feedback">{errors.firstName}</div>}
+                    placeholder="Enter First Name" /> {errors.firstName && touched.firstName && <div id="feedback">{errors.firstName}</div>}
             </div>
             <div className="form-group">
                 <label htmlFor="lastName">Last Name</label>
@@ -73,7 +73,7 @@ const AccountCredentialsForm = props => {
                     onBlur={handleBlur}
                     value={values.lastName}
                     name="lastName"
-                    placeholder="Enter Your Last Name"/> {errors.categoryRate && touched.categoryRate && <div id="feedback">{errors.categoryRate}</div>}
+                    placeholder="Enter Your Last Name" /> {errors.categoryRate && touched.categoryRate && <div id="feedback">{errors.categoryRate}</div>}
             </div>
             <div className="form-group">
                 <label htmlFor="middleInitial">Middle Initial</label>
@@ -84,14 +84,18 @@ const AccountCredentialsForm = props => {
                     onBlur={handleBlur}
                     value={values.middleInitial}
                     name="middleInitial"
-                    placeholder="Enter Your Last Name"/> {errors.middleInitial && touched.middleInitial && <div id="feedback">{errors.middleInitial}</div>}
+                    placeholder="Enter Your Last Name" /> {errors.middleInitial && touched.middleInitial && <div id="feedback">{errors.middleInitial}</div>}
             </div>
             <MySelect
                 value={values.role}
                 onChange={setFieldValue}
                 onBlur={setFieldTouched}
                 error={errors.role}
-                touched={touched.role}/>
+                touched={touched.role} />
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="active" />
+                <label class="form-check-label" for="active">Active</label>
+            </div>
             <div className="col-md-4 offset-md-8 text-right">
                 <button
                     type="submit"
@@ -145,15 +149,15 @@ class MySelect extends Component {
                     options={options}
                     onChange={this.handleChange}
                     onBlur={this.handleBlur}
-                    value={this.props.value}/> {!!this.props.error && this.props.touched && (
-                    <div
-                        style={{
-                        color: "red",
-                        marginTop: ".5rem"
-                    }}>
-                        {this.props.error}
-                    </div>
-                )}
+                    value={this.props.value} /> {!!this.props.error && this.props.touched && (
+                        <div
+                            style={{
+                                color: "red",
+                                marginTop: ".5rem"
+                            }}>
+                            {this.props.error}
+                        </div>
+                    )}
             </div>
         );
     }

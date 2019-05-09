@@ -26,7 +26,6 @@ export class Accounts extends Component {
         console.log(this.props.role)
         axios.get('http://127.0.0.1:3000/account/list/' + this.props.role)
             .then(response => {
-
                 this.setState({ users: response.data })
             })
             .catch(err => {
@@ -83,7 +82,7 @@ export class Accounts extends Component {
                         <div className="col-md-12">
                             <div className="page-title-wrapper">
                                 <h4>Account Management</h4>
-                                <p className="text-muted">Lorem ipsum, dolor sit amet consectetur adipisicing.</p>
+                                <p className="text-muted">This page is for modifying user account registered to the application</p>
                             </div>
                             <Link to={"/account/create"} className="btn btn-primary">Create New Account</Link>
                         </div>
@@ -92,8 +91,8 @@ export class Accounts extends Component {
                         <div className="col-md-12">
                             <div className="card">
                                 <div className="card-body">
-                                    <h4 className="header-title">Manage {this.props.role}Accounts</h4>
-                                    <p className="text-muted mb-4">Lorem ipsum, dolor sit amet consectetur adipisicing.</p>
+                                    <h4 className="header-title">{this.props.role} Accounts</h4>
+                                    <p className="text-muted mb-4">Modify {this.props.role} account data.</p>
                                     <table className="table table-striped">
                                         <thead>
                                             <tr>
@@ -102,6 +101,7 @@ export class Accounts extends Component {
                                                 <th>Last Name</th>
                                                 <th>Registered</th>
                                                 <th>Action</th>
+                                                <th>Activate</th>
                                             </tr>
                                         </thead>
                                         <tbody>

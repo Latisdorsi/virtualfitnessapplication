@@ -18,9 +18,9 @@ import ExerciseUpdateForm from './components/Exercises/ExerciseUpdateForm';
 import LoginForm from './components/Login'
 import LogoutForm from './components/Logout'
 
-import { getAuthState } from './library/config/Auth'
+//import { getAuthState } from './library/config/Auth'
 
-import AuthComponent from './components/Auth/withAuth'
+//import AuthComponent from './components/Auth/withAuth'
 
 import Cookies from 'js-cookie'
 
@@ -65,8 +65,9 @@ class App extends Component {
   }
 
   componentDidMount() {
+    const token = Cookies.get('token')
 
-    const userData = parseJwt(Cookies.get('token'))
+    const userData = parseJwt(token)
 
     console.log(userData)
 
@@ -83,6 +84,7 @@ class App extends Component {
           role: response.data.role
         });
       })
+
   }
 
 

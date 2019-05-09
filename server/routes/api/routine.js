@@ -12,6 +12,15 @@ router.get('/routine', (req, res) => {
         })
 })
 
+// Get All Member Cycle
+router.get('/routine/:id', (req, res) => {
+    const _id = req.params.id
+    Routine.find({ _id })
+        .exec((err, routine) => {
+            res.json(routine)
+        })
+})
+
 // Get Specific Routine
 router.post('/routine/query', (req, res) => {
     const { level, goal, schedule } = req.body
@@ -44,7 +53,7 @@ router.post('/routine', (req, res) => {
 router.put('/routine/:id', (req, res) => {
     const _id = req.params.id
     const { level, goal, schedule, exercises } = req.body
-    Exercise.findOne({ _id })
+    Routine.findOne({ _id })
         .then(routine => {
             routine.level = level
             routine.goal = goal
@@ -70,7 +79,7 @@ router.delete('/routine/:id', (req, res) => {
         _id
     })
         .then(routine => {
-            res.send('Deleted User')
+            res.send('Routine successfully deleted')
         })
         .catch(err => {
             console.error(err)

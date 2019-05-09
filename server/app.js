@@ -94,8 +94,12 @@ app.use((req, res, next) => {
 app.use('/', require('./routes/index'))
 app.use('/admin', require('./routes/admin/index'))
 app.use('/account', require('./routes/admin/account'))
-app.use('/exercise', require('./routes/admin/exercise'))
-app.use('/api/', require('./routes/api/cycle'))
+app.use('/api', require('./routes/admin/exercise'))
+app.use('/api', require('./routes/api/cycle'))
+app.use('/api', require('./routes/api/measurement'))
+app.use('/api', require('./routes/api/routine'))
+app.use('/api', require('./routes/api/records'))
+//app.use('/cycle', require('./routes/api/cycle'))
 
 // Start Node.js Server
 

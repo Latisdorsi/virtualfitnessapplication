@@ -1,6 +1,10 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 const validator = require('validator');
+const Schema = mongoose.Schema
+
+const Record = require('./record')
+const Cycle = require('./cycle')
 
 const UserSchema = new mongoose.Schema({
     avatarURL: {
@@ -67,8 +71,10 @@ const UserSchema = new mongoose.Schema({
         fullName: String,
         contactNumber: Number,
         relationship: String
-    }
-
+    },
+    cycles: [{ type: Schema.Types.ObjectId, ref: 'Cycle' }],
+    records: [{ type: Schema.Types.ObjectId, ref: 'Record' }],
+    measurements: [{ type: Schema.Types.ObjectId, ref: 'Measurement' }]
 });
 
 UserSchema.pre('save', function (next) {

@@ -1,16 +1,22 @@
 const mongoose = require('mongoose')
 const User = require('./user')
+const Routine = require('./routine')
+
 const Schema = mongoose.Schema
 CycleSchema = new mongoose.Schema({
-    User: { type: Schema.Types.ObjectId, ref: 'User' },
-    Routine: { type: Schema.Types.ObjectId, ref: 'Routine' },
+    user: { type: Schema.Types.ObjectId, ref: 'User' },
+    routine: { type: Schema.Types.ObjectId, ref: 'Routine' },
     level: {
         type: Number,
-        enum: [0,1,2,3,4]
+        enum: [0, 1, 2, 3, 4]
     },
-    goal:{
+    goal: {
         type: Number,
-        enum: [0,1,2,3]
+        enum: [0, 1, 2, 3]
+    },
+    schedule: {
+        type: Number,
+        enum: [0, 1, 2]
     },
     startDate: {
         type: Date,
@@ -21,15 +27,15 @@ CycleSchema = new mongoose.Schema({
         type: Date,
         required: true
     },
-    assessment: [{
+    assessment: {
         cardiovascular: { type: Number },
         upperMuscleStrength: { type: Number },
         lowerMuscleStrength: { type: Number },
         muscleEndurance: { type: Number },
         flexibility: { type: Number },
-    }],
+    },
 
 })
 
-const Cycle = new mongoose.model('cycle', CycleSchema)
+const Cycle = new mongoose.model('Cycle', CycleSchema)
 module.exports = Cycle

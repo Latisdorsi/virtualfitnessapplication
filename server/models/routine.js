@@ -1,9 +1,8 @@
 const mongoose = require('mongoose')
-const User = require('./user')
 const Schema = mongoose.Schema
+const Exercise = require('./exercise')
 
 RoutineSchema = new mongoose.Schema({
-    userId: { type: Schema.Types.ObjectId, ref: 'User' },
     level: {
         type: Number,
         enum: [0, 1, 2, 3, 4]
@@ -17,13 +16,11 @@ RoutineSchema = new mongoose.Schema({
         enum: [0, 1, 2]
     },
     exercises: [{
-        exerciserID: { type: Schema.Types.ObjectId, ref: 'Exercise' },
-        sets: {type: Number},
-        day: {type: Number, enum: [0,1,2,3,4,5]}
+        exercise: { type: Schema.Types.ObjectId, ref: 'Exercise' },
+        sets: { type: Number },
+        day: { type: Number, enum: [0, 1, 2, 3, 4, 5] }
     }]
-
-
 })
 
-const Routine = new mongoose.model('cycle', RoutineSchema)
+const Routine = new mongoose.model('Routine', RoutineSchema)
 module.exports = Routine

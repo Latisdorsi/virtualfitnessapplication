@@ -22,19 +22,16 @@ export class Accounts extends Component {
         });
     }
 
-    componentDidMount() {
-        console.log(this.props.role)
+    render() {
         axios.get('http://127.0.0.1:3000/account/list/' + this.props.role)
             .then(response => {
-
                 this.setState({ users: response.data })
             })
             .catch(err => {
                 console.error(err)
             })
-    }
 
-    render() {
+
         const { currentPage, documentsPerPage, users } = this.state
 
         // Logic for displaying todos
@@ -92,7 +89,7 @@ export class Accounts extends Component {
                         <div className="col-md-12">
                             <div className="card">
                                 <div className="card-body">
-                                    <h4 className="header-title">Manage {this.props.role}Accounts</h4>
+                                    <h4 className="header-title">Manage {this.props.role} Accounts</h4>
                                     <p className="text-muted mb-4">Lorem ipsum, dolor sit amet consectetur adipisicing.</p>
                                     <table className="table table-striped">
                                         <thead>

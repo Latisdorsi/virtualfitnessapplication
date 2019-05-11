@@ -25,6 +25,7 @@ export class AccountCell extends Component {
                     <Link to={"/account/edit/" + user._id}><i className="dripicons dripicons-pencil"></i></Link>&nbsp;
                     <Link onClick={this.delete}><i className="dripicons dripicons-trash"></i></Link>
                 </td>
+                
             </tr>
         )
     }

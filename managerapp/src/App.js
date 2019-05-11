@@ -26,9 +26,11 @@ import Cookies from 'js-cookie'
 
 
 function parseJwt(token) {
-  var base64Url = token.split('.')[1];
-  var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  return JSON.parse(window.atob(base64));
+  if (token != '') {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    return JSON.parse(window.atob(base64));
+  }
 };
 
 
@@ -43,7 +45,8 @@ class App extends Component {
       password: '',
       firstName: '',
       lastName: '',
-      role: ''
+      role: '',
+      token: ''
     }
   }
 
@@ -65,31 +68,30 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const token = Cookies.get('token')
+    this.setState({ token: Cookies.get('token') })
 
-    const userData = parseJwt(token)
+    if (this.state.token) {
+      const userData = parseJwt(this.state.token)
 
-    console.log(userData)
-
-    axios
-      .get('http://localhost:3000/account/detail/' + userData._id)
-      .then(response => {
-        console.log(response.data)
-        this.setState({
-          avatarURL: response.data.avatarURL,
-          email: response.data.email,
-          password: response.data.password,
-          firstName: response.data.name.firstName,
-          lastName: response.data.name.lastName,
-          role: response.data.role
-        });
-      })
-
+      axios
+        .get('http://localhost:3000/account/detail/' + userData._id)
+        .then(response => {
+          console.log(response.data)
+          this.setState({
+            avatarURL: response.data.avatarURL,
+            email: response.data.email,
+            password: response.data.password,
+            firstName: response.data.name.firstName,
+            lastName: response.data.name.lastName,
+            role: response.data.role
+          });
+        })
+    }
   }
 
 
   render() {
-    const roles = ['manager', 'trainer', 'member']
+    const roles = ['manager', 'member']
     return (
       <Router>
         {this.state.isLoggedIn ?
@@ -113,13 +115,9 @@ class App extends Component {
               exact
               render={(props) => <Accounts {...props} role={roles[0]} />}
             />
-            <Route
-              path="/account/trainer"
-              render={(props) => <Accounts {...props} role={roles[1]} />}
-            />
             <Route path="/account/member"
               exact
-              render={(props) => <Accounts {...props} role={roles[2]} />}
+              render={(props) => <Accounts {...props} role={roles[1]} />}
             />
             <Route path="/account/create" exact component={AccountCreatePage} />
             <Route path="/account/edit/:id" exact component={AccountUpdateForm} />

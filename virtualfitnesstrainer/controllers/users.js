@@ -9,6 +9,7 @@ module.exports = {
             .parse(req.url)
             .pathname;
         const {
+            active,
             firstName,
             lastName,
             middleInitial,
@@ -25,10 +26,11 @@ module.exports = {
 
         } = req.body
 
-        
+
         let errors = []
         //Validate Required Fields
         const newUser = new User({
+            active,
             name: {
                 firstName,
                 lastName,
@@ -66,10 +68,10 @@ module.exports = {
                     .json(err)
             });
     },
-    
+
     updateUser: function (req, res, next) {
         const _id = req.params.id
-        const { firstName, lastName, email, password, role } = req.body
+        const { firstName, lastName, email, password, role, active } = req.body
 
         User
             .findOne({ _id })
@@ -78,17 +80,18 @@ module.exports = {
                     firstName,
                     lastName
                 }
+                user.active = active
                 user.email = email
                 user.password = password
                 user.role = role
-                console.log(user)
+                user.active = active
                 user
                     .save()
                     .then(user => {
                         res.json(user)
                     })
                     .catch(err => {
-                        console.error('asdasdsa')
+                        console.error(err)
                     })
             })
             .catch(err => {

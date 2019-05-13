@@ -19,7 +19,8 @@ const AccountCreateForm = props => {
     return (
         <form onSubmit={handleSubmit}>
             <h4 className="header-title">Account Credentials</h4>
-            <p className="text-muted">Enter your user credentials</p>
+            <p className="text-muted">Enter the User's unique information
+            </p>
             <div className="form-group">
                 <label htmlFor="name">Email</label>
                 <Field
@@ -95,15 +96,24 @@ const AccountCreateForm = props => {
                 touched={touched.role} />
 
             <div class="form-check mt-4 mb-4">
-                <input type="checkbox" class="form-check-input" id="exampleCheck1" />
-                <label class="form-check-label" for="exampleCheck1">Active</label>
+                <Field
+                    type="checkbox"
+                    class="form-check-input"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    checked={values.active}
+                    value={values.active}
+                    name="active" />
+                <label class="form-check-label" for="active">Active</label>
             </div>
 
             <h4 className="header-title">Contact Details</h4>
-            <p className="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+            <p className="text-muted">How can we contact this user?</p>
 
             <div className="form-group">
-                <label htmlFor="address">Address</label>
+                <label htmlFor="address">Address
+                    <span className="optionalSpan">optional</span>
+                </label>
                 <input
                     type="text"
                     className="form-control"
@@ -115,7 +125,9 @@ const AccountCreateForm = props => {
             </div>
 
             <div className="form-group">
-                <label htmlFor="mobilePhone">Mobile Phone</label>
+                <label htmlFor="mobilePhone">Mobile Phone
+                    <span className="optionalSpan">optional</span>
+                </label>
                 <input
                     type="text"
                     className="form-control"
@@ -127,7 +139,9 @@ const AccountCreateForm = props => {
             </div>
 
             <div className="form-group">
-                <label htmlFor="homePhone">Home Phone</label>
+                <label htmlFor="homePhone">Home Phone
+                    <span className="optionalSpan">optional</span>
+                </label>
                 <input
                     type="text"
                     className="form-control"
@@ -139,7 +153,9 @@ const AccountCreateForm = props => {
             </div>
 
             <div className="form-group">
-                <label htmlFor="workPhone">Work Phone</label>
+                <label htmlFor="workPhone">Work Phone
+                    <span className="optionalSpan">optional</span>
+                </label>
                 <input
                     type="text"
                     className="form-control"
@@ -151,9 +167,11 @@ const AccountCreateForm = props => {
             </div>
 
             <h4 className="header-title">Emergency Contact Details</h4>
-            <p className="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+            <p className="text-muted">Who do we look in case of emergency?</p>
             <div className="form-group">
-                <label htmlFor="emergencyFullName">Full Name</label>
+                <label htmlFor="emergencyFullName">Full Name
+                    <span className="optionalSpan">optional</span>
+                </label>
                 <input
                     type="text"
                     className="form-control"
@@ -165,7 +183,9 @@ const AccountCreateForm = props => {
             </div>
 
             <div className="form-group">
-                <label htmlFor="mergencyNumbere">Contact Number</label>
+                <label htmlFor="mergencyNumbere">Contact Number
+                    <span className="optionalSpan">optional</span>
+                </label>
                 <input
                     type="text"
                     className="form-control"
@@ -177,7 +197,9 @@ const AccountCreateForm = props => {
             </div>
 
             <div className="form-group">
-                <label htmlFor="emergencyRelationship">Relationship</label>
+                <label htmlFor="emergencyRelationship">Relationship
+                    <span className="optionalSpan">optional</span>
+                </label>
                 <input
                     type="text"
                     className="form-control"
@@ -199,7 +221,6 @@ const AccountCreateForm = props => {
                 <button
                     type="submit"
                     className="btn btn-primary btn-custom mt-3"
-
                     disabled={isSubmitting}>
                     {!isSubmitting
                         ? 'Save'
@@ -212,10 +233,10 @@ const AccountCreateForm = props => {
 
 const options = [
     {
-        value: "Manager",
+        value: "manager",
         label: "Manager"
     }, {
-        value: "Member",
+        value: "member",
         label: "Member"
     }
 ];

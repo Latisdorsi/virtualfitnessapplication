@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {Formik} from 'formik';
+import React, { Component } from 'react';
+import { Formik } from 'formik';
 import * as Yup from 'yup'
 import AccountCreateForm from './AccountCreateForm';
 import axios from 'axios'
@@ -18,7 +18,7 @@ export class AccountCreatePage extends Component {
                     .required("Name is required")
             });
 
-        const createAccount = (values, {setSubmitting}) => {
+        const createAccount = (values, { setSubmitting }) => {
             const obj = {
                 email: values.email,
                 password: values.password,
@@ -26,6 +26,7 @@ export class AccountCreatePage extends Component {
                 lastName: values.lastName,
                 middleInitial: values.middleInitial,
                 role: values.role.value,
+                active: values.active,
                 address: values.address,
                 mobile: values.mobilePhone,
                 home: values.homePhone,
@@ -36,7 +37,7 @@ export class AccountCreatePage extends Component {
             };
             console.log(obj)
             axios
-                .post('http://localhost:3000/account/create', obj)
+                .post('/account/create', obj)
                 .then(response => {
                     console.log(response)
                     this.setState({
@@ -46,6 +47,7 @@ export class AccountCreatePage extends Component {
                         firstName: '',
                         lastName: '',
                         middleInitial: '',
+                        active: false,
                         role: 'member'
                     })
                 })
@@ -53,7 +55,7 @@ export class AccountCreatePage extends Component {
                     console.error('Request failed', err.response)
                 });
 
-                setSubmitting(false)
+            setSubmitting(false)
         }
 
         return (
@@ -73,23 +75,25 @@ export class AccountCreatePage extends Component {
                                 <div className="card-body">
                                     <Formik
                                         initialValues={{
-                                        email: '',
-                                        password: '',
-                                        password2: '',
-                                        firstName: '',
-                                        lastName: '',
-                                        middleInitial: '',
-                                        address: '',
-                                        mobilePhone: '',
-                                        homePhone: '',
-                                        workPhone: '',
-                                        emergencyFullName: '',
-                                        emergencyNumber: '',
-                                        emergencyRelationship: ''
-                                    }}
-                                        render={props => <AccountCreateForm {...props}/>}
+                                            email: '',
+                                            password: '',
+                                            password2: '',
+                                            firstName: '',
+                                            lastName: '',
+                                            middleInitial: '',
+                                            active: false,
+                                            role: 'member',
+                                            address: '',
+                                            mobilePhone: '',
+                                            homePhone: '',
+                                            workPhone: '',
+                                            emergencyFullName: '',
+                                            emergencyNumber: '',
+                                            emergencyRelationship: ''
+                                        }}
+                                        render={props => <AccountCreateForm {...props} />}
                                         validationSchema={validationSchema}
-                                        onSubmit={createAccount}/>
+                                        onSubmit={createAccount} />
                                 </div>
                             </div>
                         </div>

@@ -77,6 +77,41 @@ router.put('/detail/:id/contact', (req, res, next) => {
         })
 })
 
+// Change User Activation
+router.put('/activate/:id', (req, res) => {
+    let errors = []
+    User
+        .update({
+            _id: req.params.id
+        }, {
+                active: true
+            })
+        .then(response => {
+            res.json(true)
+
+        })
+        .catch(err => {
+            console.error(err)
+        })
+})
+
+// Change User Activation
+router.put('/deactivate/:id', (req, res) => {
+    let errors = []
+    User
+        .update({
+            _id: req.params.id
+        }, {
+                active: false
+            })
+        .then(response => {
+            res.json(false)
+
+        })
+        .catch(err => {
+            console.error(err)
+        })
+})
 
 router.put('/detail/:id/emergency', (req, res, next) => {
     const {
@@ -172,6 +207,8 @@ router.get('/checkToken', auth, function (req, res) {
         _id: req._id
     });
 })
+
+
 
 // Updates Account Data in the Database
 router.put('/detail/:id', user.updateUser)

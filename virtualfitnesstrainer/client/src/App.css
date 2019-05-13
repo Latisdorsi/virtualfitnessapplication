@@ -206,9 +206,24 @@ ul.subMenu {
     border-radius: 5px;
 }
 
-.btn-activate-custom{
+.btn-active-custom,
+.btn-inactive-custom {
     padding: 2px 20px;
-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.btn-inactive-custom:hover,
+.btn-inactive-custom:active {
+    color: #fff;
+    background-color: #0f9645;
+    border-color: #0e8b40;
+}
+
+.btn-active-custom:hover,
+.btn-active-custom:active {
+    color: #fff;
+    background-color: #fb1313;
+    border-color: #fb0707;
 }
 
 .avatar-img {
@@ -219,4 +234,10 @@ border-radius: 5px;
 
 .avatar-img.rounded-corner {
     object-fit: cover
+}
+
+.optionalSpan {
+    font-size: 12px;
+    color: #848484;
+    font-style: italic
 }

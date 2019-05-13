@@ -29,6 +29,7 @@ export default class AccountUpdateForm extends Component {
             password2: '',
             firstName: '',
             lastName: '',
+            active: false,
             role: 'member',
             address: '',
             mobilePhone: '',
@@ -95,7 +96,8 @@ export default class AccountUpdateForm extends Component {
                     password: response.data.password,
                     firstName: response.data.name.firstName,
                     lastName: response.data.name.lastName,
-                    role: response.data.role
+                    role: response.data.role,
+                    active: response.data.active
                 });
                 if (typeof response.data.avatarURL != "undefined" && !(response.data.avatarURL === "")) {
                     this.setState({
@@ -150,7 +152,7 @@ export default class AccountUpdateForm extends Component {
             }
             console.log(obj)
             axios
-                .put('http://localhost:3000/account/detail/' + this.props.match.params.id + '/contact', obj)
+                .put('/account/detail/' + this.props.match.params.id + '/contact', obj)
                 .then(response => {
                     setSubmitting(false);
                     console.log(response)
@@ -168,7 +170,7 @@ export default class AccountUpdateForm extends Component {
             }
             console.log(obj)
             axios
-                .put('http://localhost:3000/account/detail/' + this.props.match.params.id + '/emergency', obj)
+                .put('/account/detail/' + this.props.match.params.id + '/emergency', obj)
                 .then(response => {
                     setSubmitting(false);
                     console.log(response)
@@ -178,7 +180,7 @@ export default class AccountUpdateForm extends Component {
                 });
         }
 
-        const createAccount = (values, { setSubmitting }) => {
+        const updateAccount = (values, { setSubmitting }) => {
             const obj = {
                 email: values.email,
                 password: values.password,
@@ -186,28 +188,13 @@ export default class AccountUpdateForm extends Component {
                 lastName: values.lastName,
                 middleInitial: values.middleInitial,
                 role: values.role.value,
-                address: values.address,
-                mobile: values.mobilePhone,
-                home: values.homePhone,
-                work: values.workPhone,
-                emergencyFullName: values.emergencyFullName,
-                emergencyNumber: values.emergencyNumber,
-                emergencyRelationship: values.emergencyRelationship
+                active: values.active,
             };
             console.log(obj)
             axios
-                .post('http://localhost:3000/account/create', obj)
+                .put('/account/detail/' + this.props.match.params.id, obj)
                 .then(response => {
                     console.log(response)
-                    this.setState({
-                        email: '',
-                        password: '',
-                        password2: '',
-                        firstName: '',
-                        lastName: '',
-                        middleInitial: '',
-                        role: 'member'
-                    })
                 })
                 .catch(err => {
                     console.error('Request failed', err.response)
@@ -269,11 +256,12 @@ export default class AccountUpdateForm extends Component {
                                             firstName: this.state.firstName,
                                             lastName: this.state.lastName,
                                             middleInitial: this.state.middleInitial,
-                                            role: this.state.role
+                                            role: this.state.role,
+                                            active: this.state.active
                                         }}
                                         render={props => <CredentialsForm {...props} />}
                                         validationSchema={validationSchema}
-                                        onSubmit={createAccount} />
+                                        onSubmit={updateAccount} />
                                 </div>
                             </div>
                         </div>

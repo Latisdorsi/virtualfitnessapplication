@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Button, Tooltip, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
-
-
 export class AccountCell extends Component {
     constructor(props) {
         super(props);
@@ -46,7 +44,7 @@ export class AccountCell extends Component {
 
     toggleDelete() {
         this.setState(prevState => ({
-            deleteModal: !prevState.modal
+            deleteModal: !prevState.deleteModal
         }))
     }
 

@@ -22,10 +22,8 @@ export class Accounts extends Component {
         });
     }
 
-    render() {
-        const {role} = this.props
-
-        axios.get('http://127.0.0.1:3000/account/list/' + role)
+    componentDidMount = () => {
+        axios.get('http://127.0.0.1:3000/account/list/' + this.props.role)
             .then(response => {
                 this.setState({ users: response.data })
             })
@@ -33,18 +31,22 @@ export class Accounts extends Component {
                 console.error(err)
             })
 
+    };
+
+
+    render() {
+        const { role } = this.props
 
         const { currentPage, documentsPerPage, users } = this.state
 
         // Logic for displaying todos
         const indexOfLastTodo = currentPage * documentsPerPage;
         const indexOfFirstTodo = indexOfLastTodo - documentsPerPage;
-        const currentUsers = users.slice(indexOfFirstTodo, indexOfLastTodo);
+        const currentUsers = users.slice(0, indexOfLastTodo);
 
         const populateTable = currentUsers.map(function (user, i) {
             return <AccountCell user={user} key={i} />
         })
-
 
         // Logic for displaying page numbers
         const pageNumbers = [];
@@ -100,7 +102,7 @@ export class Accounts extends Component {
                                                 <th>Last Name</th>
                                                 <th>Details</th>
                                                 <th>Action</th>
-                                                { role === 'member' && <th>Activate</th>}
+                                                {role === 'member' && <th>Activate</th>}
                                             </tr>
                                         </thead>
                                         <tbody>

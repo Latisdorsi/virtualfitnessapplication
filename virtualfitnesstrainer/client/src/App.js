@@ -5,6 +5,8 @@ import './App.css';
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import axios from 'axios';
 
+import { AuthProvider } from './AuthContext';
+
 import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
 import Accounts from './components/Account/Accounts';
@@ -24,9 +26,7 @@ import LogoutForm from './components/Logout'
 
 //import AuthComponent from './components/Auth/withAuth'
 
-import Cookies from 'js-cookie'
-import withAuth from './components/Auth/withAuth'
-import ProtectedRoute from './components/Auth/ProtectedRoute'
+import ProtectedRoute from './ProtectedRoute'
 
 function parseJwt(token) {
   if (token != '') {
@@ -82,45 +82,29 @@ class App extends Component {
     const roles = ['manager', 'member']
     return (
       <Router>
-        {this.state.isLoggedIn ?
-          <div>
-            <Sidebar />
-            <Navbar
-              firstName={this.state.firstName}
-              lastName={this.state.lastName}
-              avatarURL={this.state.avatarURL}
-            />
-            <Route
-              path="/"
-              exact
-              component={Dashboard}
-            />
-          </div>
-          :
+        <AuthProvider>
           <Route path="/" exact component={LoginForm} />
-        }
 
-        <div className="wrapper">
-          <Switch>
+          <Sidebar />
+          <Navbar
+            firstName={this.state.firstName}
+            lastName={this.state.lastName}
+            avatarURL={this.state.avatarURL}
+          />
 
-            <Route
-              path="/account/manager"
-              exact
-              component={(props) => <Accounts {...props} role={roles[0]} />}
-            />
-            <Route path="/account/member"
-              exact
-              render={(props) => <Accounts {...props} role={roles[1]} />}
-            />
-            <Route path="/account/create" exact component={AccountCreatePage} />
-            <Route path="/account/edit/:id" exact component={AccountUpdateForm} />
-            <Route path="/exercise/" exact component={Exercises} />
-            <Route path="/exercise/create" exact component={ExerciseCreateForm} />
-            <Route path="/exercise/edit/:id" exact component={ExerciseUpdateForm} />
-            <Route path="/logout" exact component={LogoutForm} />
-          </Switch>
-        </div>
-
+          <div className="wrapper">
+            <Switch>
+              <ProtectedRoute path="/dashboard" exact component={Dashboard} />
+              <ProtectedRoute path="/account/role/:role" exact component={Accounts} />
+              <ProtectedRoute path="/account/create" exact component={AccountCreatePage} />
+              <ProtectedRoute path="/account/edit/:id" exact component={AccountUpdateForm} />
+              <ProtectedRoute path="/exercise/" exact component={Exercises} />
+              <ProtectedRoute path="/exercise/create" exact component={ExerciseCreateForm} />
+              <ProtectedRoute path="/exercise/edit/:id" exact component={ExerciseUpdateForm} />
+              <ProtectedRoute path="/logout" exact component={LogoutForm} />
+            </Switch>
+          </div>
+        </AuthProvider>
       </Router>
     )
 

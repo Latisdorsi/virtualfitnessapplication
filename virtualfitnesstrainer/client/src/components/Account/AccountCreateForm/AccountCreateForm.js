@@ -75,10 +75,11 @@ const AccountCreateForm = props => {
                     onBlur={handleBlur}
                     value={values.lastName}
                     name="lastName"
-                    placeholder="Enter Your Last Name" /> {errors.categoryRate && touched.categoryRate && <div id="feedback">{errors.categoryRate}</div>}
+                    placeholder="Enter Your Last Name" /> {errors.lastName && touched.lastName && <div id="feedback">{errors.lastName}</div>}
             </div>
             <div className="form-group">
                 <label htmlFor="middleInitial">Middle Initial</label>
+
                 <Field
                     type="text"
                     className="form-control"
@@ -86,6 +87,7 @@ const AccountCreateForm = props => {
                     onBlur={handleBlur}
                     value={values.middleInitial}
                     name="middleInitial"
+                    maxLength="1"
                     placeholder="Enter Your Last Name" /> {errors.middleInitial && touched.middleInitial && <div id="feedback">{errors.middleInitial}</div>}
             </div>
             <MySelect
@@ -122,48 +124,58 @@ const AccountCreateForm = props => {
                     value={values.address}
                     name="address"
                     placeholder="Enter Your Adress" /> {errors.address && touched.address && <div id="feedback">{errors.address}</div>}
+                     <input type="text" value="NCR, Philippines"  className="form-control" disabled="true" />
             </div>
 
             <div className="form-group">
                 <label htmlFor="mobilePhone">Mobile Phone
                     <span className="optionalSpan">optional</span>
                 </label>
-                <input
-                    type="text"
-                    className="form-control"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.mobilePhone}
-                    name="mobilePhone"
-                    placeholder="Enter Mobile Phone Number" /> {errors.mobilePhone && touched.mobilePhone && <div id="feedback">{errors.mobilePhone}</div>}
+                <div>
+                    <input type="text" value="(02) 63" disabled="true" />
+                    <input
+                        type="text"
+                        className="form-control"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.mobilePhone}
+                        name="mobilePhone"
+                        placeholder="Enter Mobile Phone Number" /> {errors.mobilePhone && touched.mobilePhone && <div id="feedback">{errors.mobilePhone}</div>}
+                </div>
             </div>
 
             <div className="form-group">
                 <label htmlFor="homePhone">Home Phone
                     <span className="optionalSpan">optional</span>
                 </label>
-                <input
-                    type="text"
-                    className="form-control"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.homePhone}
-                    name="homePhone"
-                    placeholder="Enter Your Home Phone Number" /> {errors.homePhone && touched.homePhone && <div id="feedback">{errors.homePhone}</div>}
+                <div>
+                    <input type="text" value="(02)" disabled="true" />
+                    <input
+                        type="text"
+                        className="form-control"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.homePhone}
+                        name="homePhone"
+                        placeholder="Enter Your Home Phone Number" /> {errors.homePhone && touched.homePhone && <div id="feedback">{errors.homePhone}</div>}
+                </div>
             </div>
 
             <div className="form-group">
                 <label htmlFor="workPhone">Work Phone
                     <span className="optionalSpan">optional</span>
                 </label>
-                <input
-                    type="text"
-                    className="form-control"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.workPhone}
-                    name="workPhone"
-                    placeholder="Enter Your Last Name" /> {errors.workPhone && touched.workPhone && <div id="feedback">{errors.workPhone}</div>}
+                <div>
+                    <input type="text" value="(02) 63" disabled="true" />
+                    <input
+                        type="text"
+                        className="form-control"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.workPhone}
+                        name="workPhone"
+                        placeholder="Enter Your Last Name" /> {errors.workPhone && touched.workPhone && <div id="feedback">{errors.workPhone}</div>}
+                </div>
             </div>
 
             <h4 className="header-title">Emergency Contact Details</h4>

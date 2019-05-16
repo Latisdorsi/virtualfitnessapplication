@@ -5,6 +5,8 @@ import axios from 'axios'
 import CredentialsForm from './AccountCredentialsForm';
 import ContactForm from './AccountContactForm';
 import EmergencyForm from './AccountEmergencyForm';
+import { Alert } from 'reactstrap'
+
 
 import { storage } from '../../../library/config/firebase-keys'
 import FileUploader from 'react-firebase-file-uploader';
@@ -248,6 +250,10 @@ export default class AccountUpdateForm extends Component {
                         <div className="col-md-9">
                             <div className="card">
                                 <div className="card-body">
+                                    <Alert color="success">
+                                        Account credentials successfully updated
+                                    </Alert>
+
                                     <Formik
                                         enableReinitialize="true"
                                         initialValues={{
@@ -271,6 +277,9 @@ export default class AccountUpdateForm extends Component {
                         <div className="col-md-6">
                             <div className="card">
                                 <div className="card-body">
+                                    <Alert color="success">
+                                        Account credentials successfully updated
+                                    </Alert>
                                     <Formik
                                         enableReinitialize="true"
                                         initialValues={{
@@ -289,6 +298,9 @@ export default class AccountUpdateForm extends Component {
                         <div className="col-md-6">
                             <div className="card">
                                 <div className="card-body">
+                                    <Alert color="success">
+                                        Account credentials successfully updated
+                                    </Alert>
                                     <Formik
                                         enableReinitialize="true"
                                         initialValues={{

@@ -6,6 +6,7 @@ import AnytimeLogoBlack from '../library/res/img/anytime_fitness_logo_scaled.png
 import { Formik } from 'formik'
 import { Redirect } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import { AuthConsumer } from '../AuthContext';
 
 
 export class Login extends Component {
@@ -44,73 +45,86 @@ export class Login extends Component {
 
 
     }
-    
+
     render() {
         return (
-            <section className="login-section">
-                <div className="container">
-                    <div className="row login-body">
-                        <div className="col-md-5 m-auto">
-                            <div className="card card-body">
-                                <img src={AnytimeLogoBlack} className="mb-4" alt="" />
-                                <h1 className="mb-3 card-title text-center">Howdy Manager!</h1>
-                                <h6 className="mb-3 text-center">Please enter your login credentials.</h6>
-                                <Formik
-                                    initialValues={{
-                                        ...this.state
-                                    }}
-                                    onSubmit={(values, { setSubmitting }) => {
-                                        this.onSubmit(values)
-                                        setSubmitting(false);
-                                    }}
-                                    render={props => (
-                                        <form onSubmit={props.handleSubmit}>
-                                            <div className="form-group mb-4">
-                                                <label htmlFor="email">Email</label>
-                                                <input
-                                                    type="email"
-                                                    id="email"
-                                                    name="email"
-                                                    onChange={props.handleChange}
-                                                    onBlur={props.handleBlur}
-                                                    value={props.values.email}
-                                                    className="form-control"
-                                                    placeholder="Enter Email" />
-                                                {props.errors.email && <div id="feedback">{props.errors.email}</div>}
-                                            </div>
-                                            <div className="form-group mb-4">
-                                                <label htmlFor="password">Password</label>
-                                                <input
-                                                    type="password"
-                                                    id="password"
-                                                    name="password"
-                                                    onChange={props.handleChange}
-                                                    onBlur={props.handleBlur}
-                                                    value={props.values.password}
-                                                    className="form-control"
-                                                    placeholder="Enter Password" />
-                                                {props.errors.password && <div id="feedback">{props.errors.password}</div>}
-                                            </div>
-                                            <div className="row mb-2">
-                                                <div className="col-md-12">
-                                                    <button type="submit" className="btn btn-primary btn-block">Login</button>
+            <AuthConsumer>
+                {({ isAuth, isLoading }) => (
+                    isLoading
+                        ?
+                        null
+                        :
+                        isAuth
+                            ?
+                            <Redirect to="/dashboard" />
+
+                            :
+                            < section className="login-section">
+                                <div className="container">
+                                    <div className="row login-body">
+                                        <div className="col-md-5 m-auto">
+                                            <div className="card card-body">
+                                                <img src={AnytimeLogoBlack} className="mb-4" alt="" />
+                                                <h1 className="mb-3 card-title text-center">Howdy Manager!</h1>
+                                                <h6 className="mb-3 text-center">Please enter your login credentials.</h6>
+                                                <Formik
+                                                    initialValues={{
+                                                        ...this.state
+                                                    }}
+                                                    onSubmit={(values, { setSubmitting }) => {
+                                                        this.onSubmit(values)
+                                                        setSubmitting(false);
+                                                    }}
+                                                    render={props => (
+                                                        <form onSubmit={props.handleSubmit}>
+                                                            <div className="form-group mb-4">
+                                                                <label htmlFor="email">Email</label>
+                                                                <input
+                                                                    type="email"
+                                                                    id="email"
+                                                                    name="email"
+                                                                    onChange={props.handleChange}
+                                                                    onBlur={props.handleBlur}
+                                                                    value={props.values.email}
+                                                                    className="form-control"
+                                                                    placeholder="Enter Email" />
+                                                                {props.errors.email && <div id="feedback">{props.errors.email}</div>}
+                                                            </div>
+                                                            <div className="form-group mb-4">
+                                                                <label htmlFor="password">Password</label>
+                                                                <input
+                                                                    type="password"
+                                                                    id="password"
+                                                                    name="password"
+                                                                    onChange={props.handleChange}
+                                                                    onBlur={props.handleBlur}
+                                                                    value={props.values.password}
+                                                                    className="form-control"
+                                                                    placeholder="Enter Password" />
+                                                                {props.errors.password && <div id="feedback">{props.errors.password}</div>}
+                                                            </div>
+                                                            <div className="row mb-2">
+                                                                <div className="col-md-12">
+                                                                    <button type="submit" className="btn btn-primary btn-block">Login</button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    )} />
+
+                                                <hr />
+
+                                                <div className="row text-center">
+                                                    <div className="col-md-12">
+                                                        <a href="">Forgot Password?</a>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </form>
-                                    )} />
-
-                                <hr />
-
-                                <div className="row text-center">
-                                    <div className="col-md-12">
-                                        <a href="">Forgot Password?</a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+                            </section>
+                )}
+            </AuthConsumer>
         )
     }
 }

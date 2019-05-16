@@ -23,7 +23,9 @@ export class Accounts extends Component {
     }
 
     componentDidMount = () => {
-        axios.get('http://127.0.0.1:3000/account/list/' + this.props.role)
+        const { role } = this.props.match.params
+
+        axios.get('http://127.0.0.1:3000/account/list/' + role)
             .then(response => {
                 this.setState({ users: response.data })
             })
@@ -35,7 +37,7 @@ export class Accounts extends Component {
 
 
     render() {
-        const { role } = this.props
+        const { role } = this.props.match.params
 
         const { currentPage, documentsPerPage, users } = this.state
 

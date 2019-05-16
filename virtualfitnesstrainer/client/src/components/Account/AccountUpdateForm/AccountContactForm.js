@@ -17,6 +17,8 @@ const AccountContactForm = props => {
         isSubmitting
     } = props;
     return (
+
+  
         <form onSubmit={handleSubmit}>
             <h4 className="header-title">Contact Details</h4>
             <p className="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing.</p>

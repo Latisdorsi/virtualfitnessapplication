@@ -8,7 +8,6 @@ export default function PrivateRoute({ component: Component, ...rest }) {
     useEffect(() => {
         Axios.get('/account/checkToken')
             .then(response => {
-                console.log('reached')
                 setLoggedIn(true)
             })
             .catch(err => {

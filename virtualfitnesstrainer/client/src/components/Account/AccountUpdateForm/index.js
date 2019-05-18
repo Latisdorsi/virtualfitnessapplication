@@ -39,7 +39,10 @@ export default class AccountUpdateForm extends Component {
             workPhone: '',
             emergencyFullName: '',
             emergencyNumber: '',
-            emergencyRelationship: ''
+            emergencyRelationship: '',
+
+            // Save State
+            isSucessful: false
         }
     }
     handleUploadStart = () => this.setState({ isUploading: true, progress: 0 });
@@ -133,6 +136,11 @@ export default class AccountUpdateForm extends Component {
                 console.log(error);
             })
     }
+
+    onDismiss = () => {
+        this.setState({ isSucessful: false });
+    }
+
     render() {
 
         const validationSchema = Yup
@@ -157,6 +165,9 @@ export default class AccountUpdateForm extends Component {
                 .put('/account/detail/' + this.props.match.params.id + '/contact', obj)
                 .then(response => {
                     setSubmitting(false);
+                    this.setState({
+                        isSucessful: true
+                    })
                     console.log(response)
                 })
                 .catch(err => {
@@ -175,6 +186,9 @@ export default class AccountUpdateForm extends Component {
                 .put('/account/detail/' + this.props.match.params.id + '/emergency', obj)
                 .then(response => {
                     setSubmitting(false);
+                    this.setState({
+                        isSucessful: true
+                    })
                     console.log(response)
                 })
                 .catch(err => {
@@ -196,6 +210,10 @@ export default class AccountUpdateForm extends Component {
             axios
                 .put('/account/detail/' + this.props.match.params.id, obj)
                 .then(response => {
+                    this.setState({
+                        isSucessful: true
+                    })
+                    setSubmitting(false)
                     console.log(response)
                 })
                 .catch(err => {
@@ -204,13 +222,31 @@ export default class AccountUpdateForm extends Component {
         }
         return (
             <div className="content-wrapper">
+
+                <Alert
+                    color="success"
+                    style={{
+                        position: 'fixed',
+                        top: '0x',
+                        right: '20px',
+                        width: '30%',
+                        zIndex: '9999',
+                        borderRadius: '0px'
+                    }}
+                    isOpen={this.state.isSucessful}
+                    toggle={this.onDismiss}
+                >
+                    All done! Account successfully updated
+                                    </Alert>
+
                 <div className="container-fluid mt-4 mb-4">
                     <div className="row mt-4 mb-2">
-                        <div className="col-md-9">
+                        <div className="col-md-12">
                             <div className="page-title-wrapper">
                                 <h4 className="page-title">Update User Account</h4>
                             </div>
                             <p className="text-muted">Enter the user credentials and details to create a new user</p>
+
                         </div>
                     </div>
                     <div className="row">
@@ -250,10 +286,6 @@ export default class AccountUpdateForm extends Component {
                         <div className="col-md-9">
                             <div className="card">
                                 <div className="card-body">
-                                    <Alert color="success">
-                                        Account credentials successfully updated
-                                    </Alert>
-
                                     <Formik
                                         enableReinitialize="true"
                                         initialValues={{
@@ -277,9 +309,7 @@ export default class AccountUpdateForm extends Component {
                         <div className="col-md-6">
                             <div className="card">
                                 <div className="card-body">
-                                    <Alert color="success">
-                                        Account credentials successfully updated
-                                    </Alert>
+
                                     <Formik
                                         enableReinitialize="true"
                                         initialValues={{
@@ -298,9 +328,6 @@ export default class AccountUpdateForm extends Component {
                         <div className="col-md-6">
                             <div className="card">
                                 <div className="card-body">
-                                    <Alert color="success">
-                                        Account credentials successfully updated
-                                    </Alert>
                                     <Formik
                                         enableReinitialize="true"
                                         initialValues={{
@@ -315,7 +342,7 @@ export default class AccountUpdateForm extends Component {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
         )
     }
 }

@@ -2,6 +2,17 @@ import React, { Component } from 'react';
 import { Field } from 'formik';
 import Select from 'react-select'
 
+
+const options = [
+    {
+        value: "manager",
+        label: "Manager"
+    }, {
+        value: "member",
+        label: "Member"
+    }
+];
+
 const AccountCredentialsForm = props => {
     const {
         values,
@@ -43,17 +54,6 @@ const AccountCredentialsForm = props => {
                     placeholder="Enter Password" /> {errors.password && touched.password && <div id="feedback">{errors.password}</div>}
             </div>
             <div className="form-group">
-                <label htmlFor="password2">Confirm Password</label>
-                <Field
-                    type="password"
-                    className="form-control"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.password2}
-                    name="password2"
-                    placeholder="Repeat Password" /> {errors.password2 && touched.password2 && <div id="feedback">{errors.password2}</div>}
-            </div>
-            <div className="form-group">
                 <label htmlFor="firstName">First Name</label>
                 <Field
                     type="text"
@@ -84,10 +84,11 @@ const AccountCredentialsForm = props => {
                     onBlur={handleBlur}
                     value={values.middleInitial}
                     name="middleInitial"
+                    maxLength="1"
                     placeholder="Enter Your Last Name" /> {errors.middleInitial && touched.middleInitial && <div id="feedback">{errors.middleInitial}</div>}
             </div>
             <MySelect
-                value={values.role}
+                value={values.role }
                 onChange={setFieldValue}
                 onBlur={setFieldTouched}
                 error={errors.role}
@@ -121,18 +122,6 @@ const AccountCredentialsForm = props => {
     );
 };
 
-const options = [
-    {
-        value: "Manager",
-        label: "Manager"
-    }, {
-        value: "Trainer",
-        label: "Trainer"
-    }, {
-        value: "Member",
-        label: "Member"
-    }
-];
 
 class MySelect extends Component {
     handleChange = value => {

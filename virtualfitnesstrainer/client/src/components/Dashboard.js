@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import axios from 'axios';
 import ExerciseCell from './Exercises/ExerciseCell'
 import AccountCell from './Account/AccountCell'
+import { Alert } from 'reactstrap'
 
 export class Exercises extends Component {
     constructor(props) {
@@ -92,6 +93,38 @@ export class Exercises extends Component {
 
         return (
             <div className="content-wrapper">
+                <div
+                    style={{
+                        position: 'fixed',
+                        top: '0x',
+                        right: '20px',
+                        width: '30%',
+                        zIndex: '9999',
+                        borderRadius: '0px'
+                    }}>
+                    <Alert
+                        color="success"
+                        isOpen={true}
+                        toggle={this.onDismiss}
+                    >
+                        Account Successfully Activated
+                                    </Alert>
+                    <Alert
+                        color="danger"
+                        style={{
+                            position: 'fixed',
+                            top: '0x',
+                            right: '20px',
+                            width: '30%',
+                            zIndex: '9999',
+                            borderRadius: '0px'
+                        }}
+                        isOpen={true}
+                        toggle={this.onDismiss}
+                    >
+                       Account Successfully Deleted
+                                    </Alert>
+                </div>
                 <div className="container-fluid mt-4 mb-4">
                     <div className="page-title-wrapper">
                         <h4>Dashboard</h4>
@@ -101,9 +134,16 @@ export class Exercises extends Component {
                         <div className="col-md-12 mt-4 mb-4">
                             <div className="card ">
                                 <div className="card-body">
-                                    <div className="page-title-wrapper">
-                                        <h4>Manager Accounts</h4>
-                                        <p className="text-muted">List of all Managers Registered</p>
+                                    <div className="row">
+                                        <div className="col-md-6">
+                                            <div className="page-title-wrapper">
+                                                <h4>Manager Accounts</h4>
+                                                <p className="text-muted">List of all Managers Registered</p>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6 text-right">
+                                            <Link to={"/account/create"} className="btn btn-primary">Create New Account</Link>
+                                        </div>
                                     </div>
                                     <table className="table table-striped">
                                         <thead>
@@ -130,11 +170,18 @@ export class Exercises extends Component {
                         <div className="pl-4  col-md-7 mt-4 mb-4">
                             <div className="card ">
                                 <div className="card-body">
-
-                                    <div className="page-title-wrapper">
-                                        <h4>Latest Member Accounts</h4>
-                                        <p className="text-muted">List of all Members Recently Registered</p>
+                                    <div className="row">
+                                        <div className="col-md-6">
+                                            <div className="page-title-wrapper">
+                                                <h4>Latest Member Accounts</h4>
+                                                <p className="text-muted">List of all Members Recently Registered</p>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6 text-right">
+                                            <Link to={"/account/create"} className="btn btn-primary">Create New Account</Link>
+                                        </div>
                                     </div>
+
 
                                     <table className="table table-striped">
                                         <thead>

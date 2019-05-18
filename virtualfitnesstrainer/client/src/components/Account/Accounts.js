@@ -9,9 +9,10 @@ export class Accounts extends Component {
 
         this.state = {
             users: [],
+            isLoading: true,
             currentPage: 1,
             documentsPerPage: 15,
-
+            role: ''
         };
         this.handleClick = this.handleClick.bind(this);
     }
@@ -24,16 +25,22 @@ export class Accounts extends Component {
 
     componentDidMount = () => {
         const { role } = this.props.match.params
+        if (role) {
+            axios.get('http://127.0.0.1:3000/account/list/' + role)
+                .then(response => {
+                    this.setState({
+                        users: response.data,
+                        isLoading: false,
+                        role: role
+                    })
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+        }
 
-        axios.get('http://127.0.0.1:3000/account/list/' + role)
-            .then(response => {
-                this.setState({ users: response.data })
-            })
-            .catch(err => {
-                console.error(err)
-            })
+    }
 
-    };
 
 
     render() {
@@ -44,11 +51,9 @@ export class Accounts extends Component {
         // Logic for displaying todos
         const indexOfLastTodo = currentPage * documentsPerPage;
         const indexOfFirstTodo = indexOfLastTodo - documentsPerPage;
+
         const currentUsers = users.slice(0, indexOfLastTodo);
 
-        const populateTable = currentUsers.map(function (user, i) {
-            return <AccountCell user={user} key={i} />
-        })
 
         // Logic for displaying page numbers
         const pageNumbers = [];
@@ -60,24 +65,24 @@ export class Accounts extends Component {
         const firstPage = 1;
         const lastPage = pageNumbers.length;
 
-        const renderPageNumbers = pageNumbers.map(number => {
+        const renderPageNumbers = pageNumbers.map((number, key) => {
             return (
                 <li
                     className="page-item"
+                    key={key}
                 >
-                    <Link
+                    <a
+                        href="#"
                         className="page-link"
                         key={number}
                         id={number}
                         onClick={this.handleClick}>
 
                         {number}
-                    </Link>
+                    </a>
                 </li>
             );
         });
-
-
 
         return (
             <div className="content-wrapper">
@@ -109,31 +114,40 @@ export class Accounts extends Component {
                                         </thead>
                                         <tbody>
 
-                                            {populateTable}
+                                            {
+                                                !this.state.isLoading ?
+                                                    currentUsers.map(function (user, i) {
+                                                        return <AccountCell user={user} key={i} />
+                                                    })
+                                                    :
+                                                    null
+                                            }
 
                                         </tbody>
                                     </table>
                                     <ul id="page-numbers" className="pagination">
                                         <li
                                             className="page-item">
-                                            <Link
+                                            <a
+                                                href="#"
                                                 className="page-link"
                                                 key={firstPage}
                                                 id={firstPage}
                                                 onClick={this.handleClick}>
                                                 First Page
-                                                </Link>
+                                                </a>
                                         </li>
                                         {renderPageNumbers}
                                         <li
                                             className="page-item">
-                                            <Link
+                                            <a
+                                                href="#"
                                                 className="page-link"
                                                 key={lastPage}
                                                 id={lastPage}
                                                 onClick={this.handleClick}>
                                                 Last Page
-                                                </Link>
+                                                </a>
                                         </li>
                                     </ul>
                                 </div>

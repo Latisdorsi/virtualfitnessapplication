@@ -10,10 +10,12 @@ router.get('/list', (req, res) => {
         .then((exercises) => {
             res.json(exercises)
         }, () => {
-            res.json({})
+            res.status(500).json({ message: 'Oops! An internal error occured'})
         })
         .catch(err => {
-
+            res.status(500).json({
+                message: 'Oops! An internal error occured. Please try again'
+            })
         })
 })
 

@@ -12,6 +12,7 @@ export class Exercises extends Component {
         this.state = {
             managers: [],
             members: [],
+            alert: [],
             exercises: [],
             documentsPerPage: 15,
         };
@@ -27,6 +28,49 @@ export class Exercises extends Component {
         });
     }
 
+
+    onDismiss = (index) => {
+        this.setState({
+            alert: this.state.alert.slice(index)
+        })
+    }
+
+    showMessage = () => {
+        return (
+            <div
+                style={{
+                    position: 'fixed',
+                    top: '0x',
+                    right: '20px',
+                    width: '30%',
+                    zIndex: '9999',
+                    borderRadius: '0px'
+                }}>
+                <Alert
+                    color="success"
+                    isOpen={true}
+                    toggle={this.onDismiss}
+                >
+                    Account Successfully Activated
+                            </Alert>
+                <Alert
+                    color="danger"
+                    style={{
+                        position: 'fixed',
+                        top: '0x',
+                        right: '20px',
+                        width: '30%',
+                        zIndex: '9999',
+                        borderRadius: '0px'
+                    }}
+                    isOpen={true}
+                    toggle={this.onDismiss}
+                >
+                    Account Successfully Deleted
+                            </Alert>
+            </div>
+        )
+    }
 
     componentDidMount() {
 
@@ -93,38 +137,7 @@ export class Exercises extends Component {
 
         return (
             <div className="content-wrapper">
-                <div
-                    style={{
-                        position: 'fixed',
-                        top: '0x',
-                        right: '20px',
-                        width: '30%',
-                        zIndex: '9999',
-                        borderRadius: '0px'
-                    }}>
-                    <Alert
-                        color="success"
-                        isOpen={true}
-                        toggle={this.onDismiss}
-                    >
-                        Account Successfully Activated
-                                    </Alert>
-                    <Alert
-                        color="danger"
-                        style={{
-                            position: 'fixed',
-                            top: '0x',
-                            right: '20px',
-                            width: '30%',
-                            zIndex: '9999',
-                            borderRadius: '0px'
-                        }}
-                        isOpen={true}
-                        toggle={this.onDismiss}
-                    >
-                       Account Successfully Deleted
-                                    </Alert>
-                </div>
+
                 <div className="container-fluid mt-4 mb-4">
                     <div className="page-title-wrapper">
                         <h4>Dashboard</h4>

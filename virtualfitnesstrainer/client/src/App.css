@@ -241,3 +241,8 @@ ul.subMenu {
     color: #848484;
     font-style: italic
 }
+
+.errorMessage{
+    color: red;
+    padding: 5px;
+}

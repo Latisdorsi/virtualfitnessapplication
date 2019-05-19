@@ -32,14 +32,9 @@ export class AccountCreatePage extends Component {
     }
 
 
-    onSuccess = () => (
-        this.state.isSuccessful ?
-            <Alert color="success">
-                User successfully created
-             </Alert>
-            :
-            null
-    )
+    onDismiss = () => {
+        this.setState({ isSuccessful: false });
+    }
 
 
     render() {
@@ -49,39 +44,39 @@ export class AccountCreatePage extends Component {
             .shape({
                 email: Yup
                     .string("Enter an email")
-                    .email("Value is not a proper email")
+                    .email("Email is not a valid Email")
                     .required('Email is required'),
                 firstName: Yup
                     .string("Enter a name")
-                    .min(3, "Minimum of 3 Characters required for first name")
-                    .max(50, "Maximums of 5 characters allowed for first name")
+                    .min(3, "Minimum of 3 Characters required for First Name")
+                    .max(50, "Maximum of 5 characters allowed for First Name")
                     .required("First name is required"),
                 lastName: Yup
                     .string("Enter a name")
-                    .min(3, "Minimum of 3 Characters required for last name")
-                    .max(50, "Maximums of 5 characters allowed for last name")
+                    .min(3, "Minimum of 3 Characters required for Last Name")
+                    .max(50, "Maximums of 5 characters allowed for Last Name")
                     .required("Last name is required"),
                 middleInitial: Yup
                     .string("Enter a name")
-                    .max(1, "Maximum of 1 character allowed for middle initial"),
+                    .max(1, "Maximum of 1 character allowed for Middle Initial"),
                 homePhone: Yup
                     .string()
                     .matches(phoneRegExp, 'Phone number is not valid'),
                 emergencyFullName: Yup
                     .string("Enter a name")
-                    .min(3, "Minimum of 3 Characters required for emergency name")
-                    .max(50, "Maximums of 5 characters allowed for emergency name"),
+                    .min(3, "Minimum of 3 Characters required for Emergency Name")
+                    .max(50, "Maximum of 5 characters allowed for Emergency Name"),
                 emergencyFullName: Yup
                     .string("Enter a emergency realtionship")
-                    .min(3, "Minimum of 3 Characters required for emergency relationship")
-                    .max(50, "Maximums of 5 characters allowed for emergency relationship")
+                    .min(3, "Minimum of 3 Characters required for Emergency Relationship")
+                    .max(50, "Maximum of 5 characters allowed for Emergency Relationship")
 
             });
 
 
 
 
-        const createAccount = (values, { setSubmitting }) => {
+        const createAccount = (values, { setSubmitting, resetForm }) => {
             const obj = {
                 email: values.email,
                 password: values.password,
@@ -98,33 +93,41 @@ export class AccountCreatePage extends Component {
                 emergencyNumber: values.emergencyNumber,
                 emergencyRelationship: values.emergencyRelationship
             };
-            console.log(obj)
+
+
             axios
                 .post('/account/create', obj)
                 .then(response => {
+                    resetForm();
                     this.setState({
-                        email: '',
-                        password: '',
-                        password2: '',
-                        firstName: '',
-                        lastName: '',
-                        middleInitial: '',
-                        active: false,
-                        role: 'member',
                         isSuccessful: true
                     })
                 })
                 .catch(err => {
                     console.error('Request failed', err.response)
                 });
-
-            setSubmitting(false)
+            setSubmitting(false);
         }
+
 
         return (
             <div className="content-wrapper">
+                <Alert
+                    color="success"
+                    style={{
+                        position: 'fixed',
+                        top: '0x',
+                        right: '20px',
+                        width: '30%',
+                        zIndex: '9999',
+                        borderRadius: '0px'
+                    }}
+                    isOpen={this.state.isSuccessful}
+                    toggle={this.onDismiss}
+                >
+                    Account successfully created!
+                                    </Alert>
                 <div className="container-fluid mt-4 mb-4">
-                    {this.onSuccess()}
                     <div className="row mt-4 mb-2">
                         <div className="col-md-9">
                             <div className="page-title-wrapper">

@@ -10,6 +10,7 @@ export class Accounts extends Component {
         this.state = {
             users: [],
             isLoading: true,
+            alert: [],
             currentPage: 1,
             documentsPerPage: 15,
             role: ''
@@ -41,7 +42,7 @@ export class Accounts extends Component {
 
     }
 
-
+   
 
     render() {
         const { role } = this.props.match.params
@@ -86,6 +87,7 @@ export class Accounts extends Component {
 
         return (
             <div className="content-wrapper">
+                
                 <div className="container-fluid mt-4 mb-4">
                     <div className="row">
                         <div className="col-md-12">

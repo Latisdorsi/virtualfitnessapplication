@@ -161,10 +161,9 @@ router.post('/authenticate', function (req, res) {
     const { email, password } = req.body;
     User.findOne({ email }, function (err, user) {
         if (err) { // Internal Error
-            console.error(err);
             res.status(500)
                 .json({
-                    error: 'Internal error please try again'
+                    error: 'Oops! Internal error please try again'
                 });
         } else if (!user) { //User does not exist
             res.status(401)
@@ -178,18 +177,18 @@ router.post('/authenticate', function (req, res) {
                 if (err) {
                     res.status(500)
                         .json({ // Internal Error
-                            error: 'Internal error please try again'
+                            error: 'Oops! Internal error please try again'
                         });
                 } else if (!same) {
                     res.status(401)
                         .json({
-                            error: 'Incorrect email or password'
+                            error: 'Incorrect email or password!'
                         });
                 } else {
                     // Issue token
                     const payload = { email, _id, active, first };
                     const token = jwt.sign(payload, config.SECRET, {
-                        expiresIn: '1h'
+                        expiresIn: '2h'
                     });
                     res.cookie('token', token, { httpOnly: true })
                         .status(200).json({ token });

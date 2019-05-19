@@ -7,14 +7,16 @@ import { Formik } from 'formik'
 import { Redirect } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { AuthConsumer } from '../AuthContext';
-
+import { Alert } from 'reactstrap'
 
 export class Login extends Component {
     constructor(props) {
         super(props)
         this.state = {
             email: '',
-            password: ''
+            password: '',
+            isError: false,
+            errorMsg: ''
         };
     }
 
@@ -33,17 +35,29 @@ export class Login extends Component {
                 if (response.status === 200) {
                     window.location.reload();
                 } else {
-                    console.log('nope')
-                    const error = new Error(response.error);
-                    throw error;
+                    const err = new Error(response);
+                    console.log(response)
+                    this.setState({
+                        isError: true,
+                        errorMsg: String('Invalid Email or Password Entered')
+                    })
                 }
             })
             .catch(err => {
-                console.error(err);
-                alert('Error logging in please try again');
+                this.setState({
+                    isError: true,
+                    errorMsg: err.response.data.error
+                })
             });
 
 
+    }
+
+    onDismiss = () => {
+        this.setState({
+            errorMsg: '',
+            isError: false
+        })
     }
 
     render() {
@@ -60,6 +74,7 @@ export class Login extends Component {
 
                             :
                             < section className="login-section">
+
                                 <div className="container">
                                     <div className="row login-body">
                                         <div className="col-md-5 m-auto">
@@ -67,6 +82,13 @@ export class Login extends Component {
                                                 <img src={AnytimeLogoBlack} className="mb-4" alt="" />
                                                 <h1 className="mb-3 card-title text-center">Howdy Manager!</h1>
                                                 <h6 className="mb-3 text-center">Please enter your login credentials.</h6>
+                                                <Alert
+                                                    color="danger"
+                                                    isOpen={this.state.isError}
+                                                    toggle={this.onDismiss}
+                                                >
+                                                    {this.state.errorMsg}
+                                                </Alert>
                                                 <Formik
                                                     initialValues={{
                                                         ...this.state
@@ -110,14 +132,6 @@ export class Login extends Component {
                                                             </div>
                                                         </form>
                                                     )} />
-
-                                                <hr />
-
-                                                <div className="row text-center">
-                                                    <div className="col-md-12">
-                                                        <a href="">Forgot Password?</a>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>

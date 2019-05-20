@@ -27,7 +27,7 @@ export class Login extends Component {
 
     onSubmit = (values) => {
         axios
-            .post('/account/authenticate', {
+            .post('/api/account/authenticate', {
                 email: values.email,
                 password: values.password
             })

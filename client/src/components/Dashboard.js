@@ -85,7 +85,7 @@ export class Exercises extends Component {
 
 
         // Get Managers from Server
-        axios.get('http://127.0.0.1:3000/account/list/manager')
+        axios.get('/api/account/list/manager')
             .then(response => {
                 this.setState({ managers: response.data })
             })
@@ -95,7 +95,7 @@ export class Exercises extends Component {
 
 
         // Get Members from Server
-        axios.get('http://127.0.0.1:3000/account/list/member')
+        axios.get('/api/account/list/member')
             .then(response => {
                 this.setState({ members: response.data })
             })

@@ -11,7 +11,7 @@ class AuthProvider extends React.Component {
 
     componentDidMount = () => {
         axios
-            .get('/account/checkToken')
+            .get('/api/account/checkToken')
             .then(response => {
                 if (response.status === 200) {
                     this.setState({

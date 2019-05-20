@@ -53,9 +53,9 @@ class App extends Component {
 
   componentDidMount() {
     axios
-      .get('/account/checkToken')
+      .get('/api/account/checkToken')
       .then(response => {
-        axios.get('/account/detail/' + response.data._id)
+        axios.get('/api/account/detail/' + response.data._id)
           .then(response => {
             if (response.status === 200) {
               this.setState({ isLoggedIn: true });

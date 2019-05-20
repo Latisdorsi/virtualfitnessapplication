@@ -67,8 +67,6 @@ app.use(express.urlencoded({ extended: false }))
 //Cookie Parser
 app.use(cookieParser())
 
-// Routes
-app.use('/', require('./routes/index'))
 app.use('/admin', require('./routes/admin/index'))
 app.use('/account', require('./routes/admin/account'))
 app.use('/api/exercise', require('./routes/admin/exercise'))

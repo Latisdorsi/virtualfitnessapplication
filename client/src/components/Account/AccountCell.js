@@ -49,7 +49,7 @@ export class AccountCell extends Component {
     }
 
     delete() {
-        axios.delete('/account/detail/' + this.props.user._id)
+        axios.delete('/api/account/detail/' + this.props.user._id)
             .then(
                 this.setState({
                     deleteModal: false
@@ -59,7 +59,7 @@ export class AccountCell extends Component {
     }
 
     activate() {
-        axios.put('/account/activate/' + this.props.user._id)
+        axios.put('/api/account/activate/' + this.props.user._id)
             .then(response => {
                 this.setState({
                     active: true,
@@ -70,7 +70,7 @@ export class AccountCell extends Component {
     }
 
     deactivate() {
-        axios.put('/account/deactivate/' + this.props.user._id)
+        axios.put('/api/account/deactivate/' + this.props.user._id)
             .then(response => {
                 this.setState({
                     active: false,

@@ -1,12 +1,12 @@
 const express = require('express')
 const router = express.Router()
-const user = require('../../controllers/users')
+const user = require('../controllers/users')
 const jwt = require('jsonwebtoken');
-const auth = require('../../config/auth')
-const config = require('../../config/keys')
+const auth = require('../config/auth')
+const config = require('../config/keys')
 const url = require('url');
 // const isAllowed = role => allowed.indexOf(role) > -1; User Model
-const User = require('../../models/user')
+const User = require('../models/user')
 
 // Get request for a list of user data and display them with pagination Route
 // receives URL parameters role and page number Route outputs paginated list of
@@ -156,6 +156,10 @@ router.delete('/detail/:id/avatar', (req, res, next) => {
         })
 })
 
+
+router.get('/authenticate', function (req, res) {
+    res.status(200).json({message:'all good'})
+})
 
 router.post('/authenticate', function (req, res) {
     const { email, password } = req.body;

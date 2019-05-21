@@ -41,7 +41,7 @@ export class ExerciseCreateForm extends Component {
             };
             console.log(obj)
      
-            axios.post('http://localhost:3000/exercise/create', obj)
+            axios.post('/api/exercise/create', obj)
                 .then(response => {
                     console.log(response)
                     this.setState({

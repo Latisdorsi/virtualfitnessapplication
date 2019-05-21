@@ -23,7 +23,7 @@ export class ExerciseUpdateForm extends Component {
     }
     componentDidMount() {
         axios
-            .get('http://localhost:3000/exercise/detail/' + this.props.match.params.id)
+            .get('/api/exercise/detail/' + this.props.match.params.id)
             .then(response => {
                 console.log(response.data)
                 this.setState({ imageName: response.data.imageName, imageUrl: response.data.imageUrl, name: response.data.name, instruction: response.data.instruction });
@@ -74,7 +74,7 @@ export class ExerciseUpdateForm extends Component {
             }
 
             axios
-                .put('http://localhost:3000/exercise/detail/' + this.props.match.params.id, obj)
+                .put('/api/exercise/detail/' + this.props.match.params.id, obj)
                 .then(response => {
                     console.log(response)
                 })

@@ -96,7 +96,7 @@ export class AccountCreatePage extends Component {
 
 
             axios
-                .post('/account/create', obj)
+                .post('/api/account/create', obj)
                 .then(response => {
                     resetForm();
                     this.setState({

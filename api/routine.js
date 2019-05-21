@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 // User Model
-const Routine = require('../../models/routine')
+const Routine = require('../models/routine')
 
 // Get All Member Cycle
 router.get('/routine', (req, res) => {

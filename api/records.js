@@ -2,8 +2,8 @@ const express = require('express')
 const router = express.Router()
 
 // User Model
-const Record = require('../../models/record')
-const User = require('../../models/user')
+const Record = require('../models/record')
+const User = require('../models/user')
 
 // Get Latest Member Record
 router.get('/record/:id', (req, res) => {

@@ -8,17 +8,6 @@ import { storage } from '../../library/config/firebase-keys'
 import FileUploader from 'react-firebase-file-uploader';
 
 
-function GenerateRandomString(length) {
-    var result           = '';
-    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for ( var i = 0; i < length; i++ ) {
-       result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
- }
- 
-
 class ExerciseForm extends Component {
     constructor(props) {
         super(props)

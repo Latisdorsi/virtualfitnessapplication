@@ -46,7 +46,7 @@ export class Login extends Component {
             .catch(err => {
                 this.setState({
                     isError: true,
-                    errorMsg: err.response.data.error
+                    errorMsg: err.response.data.error || 'Internal Server Error'
                 })
             });
 

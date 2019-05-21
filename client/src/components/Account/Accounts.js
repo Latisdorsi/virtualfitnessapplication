@@ -27,7 +27,7 @@ export class Accounts extends Component {
     componentDidMount = () => {
         const { role } = this.props.match.params
         if (role) {
-            axios.get('http://127.0.0.1:3000/account/list/' + role)
+            axios.get('/api/account/list/' + role)
                 .then(response => {
                     this.setState({
                         users: response.data,

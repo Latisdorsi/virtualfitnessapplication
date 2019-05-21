@@ -3,7 +3,7 @@ const router = express.Router()
 //const exercise = require('../../controllers/exercises')
 
 // Exercise Model
-const Exercise = require('../../models/exercise')
+const Exercise = require('../models/exercise')
 
 router.get('/list', (req, res) => {
     Exercise.find({})

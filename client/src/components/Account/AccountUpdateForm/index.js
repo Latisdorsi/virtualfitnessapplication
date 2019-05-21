@@ -65,7 +65,7 @@ export default class AccountUpdateForm extends Component {
             .then(url => {
                 this.setState({ avatarURL: url })
 
-                axios.put('http://localhost:3000/account/detail/' + this.props.match.params.id + '/avatar', { avatarURL: url })
+                axios.put('/api/account/detail/' + this.props.match.params.id + '/avatar', { avatarURL: url })
                     .then(response => {
                         console.log(response.data)
                     })
@@ -77,7 +77,7 @@ export default class AccountUpdateForm extends Component {
 
     };
     deletePhoto = (event) => {
-        axios.put('http://localhost:3000/account/detail/' + this.props.match.params.id + '/avatar', { avatarURL: '' })
+        axios.put('/api/account/detail/' + this.props.match.params.id + '/avatar', { avatarURL: '' })
             .then(response => {
                 storage.refFromURL(this.state.avatarURL).delete()
                 this.setState({
@@ -93,7 +93,7 @@ export default class AccountUpdateForm extends Component {
     };
     componentDidMount() {
         axios
-            .get('http://localhost:3000/account/detail/' + this.props.match.params.id)
+            .get('/api/account/detail/' + this.props.match.params.id)
             .then(response => {
                 console.log(response.data)
                 this.setState({
@@ -162,7 +162,7 @@ export default class AccountUpdateForm extends Component {
             }
             console.log(obj)
             axios
-                .put('/account/detail/' + this.props.match.params.id + '/contact', obj)
+                .put('/api/account/detail/' + this.props.match.params.id + '/contact', obj)
                 .then(response => {
                     setSubmitting(false);
                     this.setState({
@@ -183,7 +183,7 @@ export default class AccountUpdateForm extends Component {
             }
             console.log(obj)
             axios
-                .put('/account/detail/' + this.props.match.params.id + '/emergency', obj)
+                .put('/api/account/detail/' + this.props.match.params.id + '/emergency', obj)
                 .then(response => {
                     setSubmitting(false);
                     this.setState({
@@ -208,7 +208,7 @@ export default class AccountUpdateForm extends Component {
             };
             console.log(obj)
             axios
-                .put('/account/detail/' + this.props.match.params.id, obj)
+                .put('/api/account/detail/' + this.props.match.params.id, obj)
                 .then(response => {
                     this.setState({
                         isSucessful: true

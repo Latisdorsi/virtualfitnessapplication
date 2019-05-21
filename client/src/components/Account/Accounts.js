@@ -24,21 +24,26 @@ export class Accounts extends Component {
         });
     }
 
+    getUsersByRole(role) {
+        axios.get('/api/account/list/' + role)
+        .then(response => {
+            this.setState({
+                users: response.data,
+                isLoading: false,
+                role: role
+            })
+        })
+        .catch(err => {
+            console.error(err)
+        })
+    }
+
     componentDidMount = () => {
-        const { role } = this.props.match.params
-        if (role) {
-            axios.get('/api/account/list/' + role)
-                .then(response => {
-                    this.setState({
-                        users: response.data,
-                        isLoading: false,
-                        role: role
-                    })
-                })
-                .catch(err => {
-                    console.error(err)
-                })
-        }
+        caxios.all([getUserByRole('manager'), getUserByRole('member')])
+        .then(axios.spread(function (manager, member) {
+          console.log(manager);
+          console.log(member)
+        }));
 
     }
 

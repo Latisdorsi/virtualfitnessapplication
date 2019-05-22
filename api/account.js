@@ -11,7 +11,21 @@ const User = require('../models/user')
 // Get request for a list of user data and display them with pagination Route
 // receives URL parameters role and page number Route outputs paginated list of
 // data based on role
-router.get('/list/:role/:page?', user.listUser)
+router.get('/list/:role', user.listUser)
+
+router.get('/list/member/inactive', (req, res, next) =>{
+        const role = req.params.role;
+        const active = false;
+        User
+            .find({ 
+                role,
+                active
+             })
+            .exec((err, users) => {
+                res.json(users)
+            })
+
+})
 
 // Get Request for Account Creation Form Renders Registration Page
 router.get('/create', (req, res) => {

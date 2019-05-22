@@ -74,28 +74,8 @@ export class Exercises extends Component {
 
     componentDidMount() {
 
-        // Get Exercises from Server
-        axios.get('/api/exercise/list')
-            .then(response => {
-                this.setState({ exercises: response.data })
-            })
-            .catch(err => {
-                console.error(err)
-            })
-
-
-        // Get Managers from Server
-        axios.get('/api/account/list/manager')
-            .then(response => {
-                this.setState({ managers: response.data })
-            })
-            .catch(err => {
-                console.error(err)
-            })
-
-
         // Get Members from Server
-        axios.get('/api/account/list/member')
+        axios.get('/api/account/list/member/inactive')
             .then(response => {
                 this.setState({ members: response.data })
             })
@@ -108,27 +88,7 @@ export class Exercises extends Component {
     render() {
         const { documentsPerPage, exercises, managers, members } = this.state
 
-        const currentManagers = managers.slice(0, documentsPerPage)
         const currentMembers = members.slice(0, documentsPerPage)
-        const currentExercises = exercises.slice(0, documentsPerPage);
-
-        const renderExercises = (event) => {
-            axios.get('/api/exercise/list')
-                .then(response => {
-                    this.setState({ exercises: response.data })
-                })
-                .catch(err => {
-                    console.error(err)
-                })
-        }
-
-        const populateExercises = currentExercises.map(function (exercise, i) {
-            return <ExerciseCell exercise={exercise} key={i} renderExercises={renderExercises} />
-        })
-
-        const populateManagers = currentManagers.map(function (user, i) {
-            return <AccountCell user={user} key={i} />
-        })
 
         const populateMembers = currentMembers.map(function (user, i) {
             return <AccountCell user={user} key={i} />
@@ -148,46 +108,10 @@ export class Exercises extends Component {
                             <div className="card ">
                                 <div className="card-body">
                                     <div className="row">
-                                        <div className="col-md-6">
+                                    <div className="col-md-6">
                                             <div className="page-title-wrapper">
-                                                <h4>Manager Accounts</h4>
-                                                <p className="text-muted">List of all Managers Registered</p>
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6 text-right">
-                                            <Link to={"/account/create"} className="btn btn-primary">Create New Account</Link>
-                                        </div>
-                                    </div>
-                                    <table className="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Email</th>
-                                                <th>First Name</th>
-                                                <th>Last Name</th>
-                                                <th>Registered</th>
-                                                <th>Action</th>
-
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {populateManagers}
-                                        </tbody>
-                                    </table>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="row">
-                        <div className="pl-4  col-md-7 mt-4 mb-4">
-                            <div className="card ">
-                                <div className="card-body">
-                                    <div className="row">
-                                        <div className="col-md-6">
-                                            <div className="page-title-wrapper">
-                                                <h4>Latest Member Accounts</h4>
-                                                <p className="text-muted">List of all Members Recently Registered</p>
+                                                <h4>Inactive Member Accounts</h4>
+                                                <p className="text-muted">Activate or Deactivate Members</p>
                                             </div>
                                         </div>
                                         <div className="col-md-6 text-right">
@@ -210,34 +134,13 @@ export class Exercises extends Component {
                                         <tbody>
                                             {populateMembers}
                                         </tbody>
+                    
                                     </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="pr-4 col-md-5 mt-4 mb-4">
-                            <div className="card ">
-                                <div className="card-body">
-                                    <div className="page-title-wrapper">
-                                        <h4>Exercise Management</h4>
-                                        <p className="text-muted">Latest Added Exercises in the System</p>
-                                    </div>
-                                    <table className="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Instructions</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {populateExercises}
-                                        </tbody>
-                                    </table>
+
                                 </div>
                             </div>
                         </div>
                     </div>
-
 
                 </div>
             </div>

@@ -112,8 +112,6 @@ module.exports = {
     },
 
     listUser: function (req, res, next) {
-        const perPage = 9
-        const page = req.params.page || 1
         const role = req.params.role
 
         User

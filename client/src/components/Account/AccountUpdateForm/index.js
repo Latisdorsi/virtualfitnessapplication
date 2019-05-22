@@ -171,7 +171,8 @@ export default class AccountUpdateForm extends Component {
                     console.log(response)
                 })
                 .catch(err => {
-                    console.error('Request failed', err.response)
+                    setSubmitting(false);
+                    alert('Request failed', err.response);
                 });
         }
 
@@ -192,7 +193,8 @@ export default class AccountUpdateForm extends Component {
                     console.log(response)
                 })
                 .catch(err => {
-                    console.error('Request failed', err.response)
+                    setSubmitting(false);
+                    alert('Request failed', err.response);
                 });
         }
 
@@ -206,7 +208,6 @@ export default class AccountUpdateForm extends Component {
                 role: values.role.value,
                 active: values.active,
             };
-            console.log(obj)
             axios
                 .put('/api/account/detail/' + this.props.match.params.id, obj)
                 .then(response => {
@@ -217,7 +218,8 @@ export default class AccountUpdateForm extends Component {
                     console.log(response)
                 })
                 .catch(err => {
-                    console.error('Request failed', err.response)
+                    setSubmitting(false);
+                    alert('Request failed', err.response);
                 });
         }
         return (

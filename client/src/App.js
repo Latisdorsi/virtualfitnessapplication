@@ -95,7 +95,7 @@ class App extends Component {
           <div className="wrapper">
             <Switch>
               <ProtectedRoute path="/dashboard" exact component={Dashboard} />
-              <ProtectedRoute path="/account/role/:role" exact component={Accounts} />
+              <ProtectedRoute path="/account" exact component={Accounts} />
               <ProtectedRoute path="/account/create" exact component={AccountCreatePage} />
               <ProtectedRoute path="/account/edit/:id" exact component={AccountUpdateForm} />
               <ProtectedRoute path="/exercise/" exact component={Exercises} />

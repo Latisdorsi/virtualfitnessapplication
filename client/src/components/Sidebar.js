@@ -21,8 +21,7 @@ export class Sidebar extends Component {
                                     <i className="dripicons dripicons-user-id"></i>Accounts</a>
                                 <ul className="collapse subMenu" id="accountMenu">
                                     <li><Link to="/account/create">Create New</Link></li>
-                                    <li><Link to="/account/role/manager">Manager</Link></li>
-                                    <li><Link to="/account/role/member">Member</Link></li>
+                                    <li><Link to="/account">Accounts</Link></li>
                                 </ul>
                             </li>
                             <li className="nav-item" >

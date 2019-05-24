@@ -72,11 +72,11 @@ class ExerciseForm extends Component {
             <form onSubmit={handleSubmit}>
 
                 <div className="row mt-2 mb-2">
-                    <div className="col-md-8">
+                    <div className="col-md-7">
                         <h2 className="header-title">Exercise Detail Form</h2>
                         <p className="text-muted">Create or Update Exercises</p>
                     </div>
-                    <div className="col-md-4 text-right">
+                    <div className="col-md-5 text-right">
                         <button
                             type="button"
                             className="btn btn-primary  btn-custom mt-3 mr-1"

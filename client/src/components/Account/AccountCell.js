@@ -19,7 +19,7 @@ export class AccountCell extends Component {
             tooltipOpen: false,
             deleteModal: false
         }
-
+        console.log(props)
         //this.ConfirmationModal = this.ConfirmationModal.bind(this);
     }
 
@@ -45,16 +45,17 @@ export class AccountCell extends Component {
     toggleDelete() {
         this.setState(prevState => ({
             deleteModal: !prevState.deleteModal
-        }))
+        }));
     }
 
     delete() {
         axios.delete('/api/account/detail/' + this.props.user._id)
-            .then(
+            .then( response => {
                 this.setState({
                     deleteModal: false
-                })
-            )
+                });
+                this.props.pushAlertMessage(`Account has been removed`, 'danger');
+            })
             .catch(err => console.log(err))
     }
 
@@ -64,7 +65,8 @@ export class AccountCell extends Component {
                 this.setState({
                     active: true,
                     modal: false
-                })
+                });
+                this.props.pushAlertMessage(`Account successfully activated`, 'success');
             })
 
     }
@@ -76,6 +78,7 @@ export class AccountCell extends Component {
                     active: false,
                     modal: false
                 })
+                this.props.pushAlertMessage(`Account successfully deactivated`, 'danger');
             })
 
     }
@@ -131,7 +134,7 @@ export class AccountCell extends Component {
                 <td>
                     <Link to={"/account/edit/" + user._id}><i className="dripicons dripicons-pencil"></i></Link>&nbsp;
                     <DeleteModal />
-                    <a onClick={this.toggleDelete}><i className="dripicons dripicons-trash"></i></a>
+                    <button onClick={this.toggleDelete}><i className="dripicons dripicons-trash"></i></button>
                 </td>
                 {user.role === 'member' &&
                     <td>

@@ -3,7 +3,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup'
 import AccountCreateForm from './AccountCreateForm';
 import axios from 'axios'
-import { Alert } from 'reactstrap'
+import { Alert, Fade } from 'reactstrap'
 
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 
@@ -27,15 +27,69 @@ export class AccountCreatePage extends Component {
             emergencyFullName: '',
             emergencyNumber: '',
             emergencyRelationship: '',
-            isSuccessful: false
+            isSuccessful: false,
+            alertMssg: []
+        }
+    }
+
+    onDismiss = (index) => {
+        if (this.state.alertMssg) {
+            const newAlertArray = this.state.alertMssg.slice(index)
+            this.setState({
+                alertMssg: newAlertArray
+            });
+            this.forceUpdate();
         }
     }
 
 
-    onDismiss = () => {
-        this.setState({ isSuccessful: false });
+    displayAlertMessage = (index) => {
+
+        return (
+            <>
+                <div
+                    style={{
+                        position: 'fixed',
+                        top: '0x',
+                        right: '20px',
+                        width: '30%',
+                        zIndex: '9999',
+                        borderRadius: '0px'
+                    }}
+                >
+                    {this.state.alertMssg.map((alert, index) => {
+                        return <Fade in={true}>
+                            <Alert
+                                color={alert.type}
+                                isOpen={true}
+                                toggle={
+                                    () => {
+                                        this.setState({
+                                            alertMssg: this.state.alertMssg.slice(index + 1)
+                                        });
+                                        return false;
+                                    }
+                                }
+                            >
+                                {alert.mssg}
+                            </Alert>
+                        </Fade>
+                    })
+                    }
+                </div>
+
+            </>
+        );
     }
 
+    pushAlertMessage = (mssg, type) => {
+        this.setState({
+            alertMssg: [
+                ...this.state.alertMssg,
+                { mssg, type }
+            ]
+        });
+    }
 
     render() {
 
@@ -99,12 +153,10 @@ export class AccountCreatePage extends Component {
                 .post('/api/account/create', obj)
                 .then(response => {
                     resetForm();
-                    this.setState({
-                        isSuccessful: true
-                    })
+                    this.pushAlertMessage('Account Successfully Created', 'success');
                 })
                 .catch(err => {
-                    console.error('Request failed', err.response)
+                    console.log(err.response.data.err.code)
                 });
             setSubmitting(false);
         }
@@ -112,21 +164,9 @@ export class AccountCreatePage extends Component {
 
         return (
             <div className="content-wrapper">
-                <Alert
-                    color="success"
-                    style={{
-                        position: 'fixed',
-                        top: '0x',
-                        right: '20px',
-                        width: '30%',
-                        zIndex: '9999',
-                        borderRadius: '0px'
-                    }}
-                    isOpen={this.state.isSuccessful}
-                    toggle={this.onDismiss}
-                >
-                    Account successfully created!
-                                    </Alert>
+
+                {this.displayAlertMessage()}
+
                 <div className="container-fluid mt-4 mb-4">
                     <div className="row mt-4 mb-2">
                         <div className="col-md-9">

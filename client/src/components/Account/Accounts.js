@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import AccountCell from './AccountCell'
 import { Link } from 'react-router-dom'
 import axios from 'axios';
-
+import { Alert, Fade } from 'reactstrap'
 export class Accounts extends Component {
     constructor(props) {
         super(props);
@@ -21,8 +21,11 @@ export class Accounts extends Component {
             alert: [],
             currentPage: 1,
             documentsPerPage: 15,
+
+            alertMssg: []
         };
         this.handleClick = this.handleClick.bind(this);
+        this.pushAlertMessage = this.pushAlertMessage.bind(this);
     }
 
     handleClick(event) {
@@ -31,7 +34,73 @@ export class Accounts extends Component {
         });
     }
 
+
+    onDismiss = (index) => {
+        if (this.state.alertMssg) {
+            const newAlertArray = this.state.alertMssg.slice(index)
+            this.setState({
+                alertMssg: newAlertArray
+            });
+            this.forceUpdate();
+        }
+    }
+
+
+    displayAlertMessage = (index) => {
+
+        return (
+            <>
+                <div
+                    style={{
+                        position: 'fixed',
+                        top: '0x',
+                        right: '20px',
+                        width: '30%',
+                        zIndex: '9999',
+                        borderRadius: '0px'
+                    }}
+                >
+                    {this.state.alertMssg.map((alert, index) => {
+                        return <Fade in={true}>
+                            <Alert
+                                color={alert.type}
+                                isOpen={true}
+                                toggle={
+                                    () => {
+                                        this.setState({
+                                            alertMssg: this.state.alertMssg.slice(index + 1)
+                                        });
+                                        return false;
+                                    }
+                                }
+                            >
+                                {alert.mssg}
+                            </Alert>
+                        </Fade>
+                    })
+                    }
+                </div>
+
+            </>
+        );
+    }
+
+    pushAlertMessage = (mssg, type) => {
+        this.setState({
+            alertMssg: [
+                ...this.state.alertMssg,
+                { mssg, type }
+            ]
+        });
+        this.fetchUserData();
+    }
+
+
     componentDidMount = () => {
+        this.fetchUserData();
+    }
+
+    fetchUserData = () => {
         axios.all([axios.get(`/api/account/list/manager`), axios.get('/api/account/list/member')])
             .then(axios.spread((manager, member) => {
                 this.setState({
@@ -40,7 +109,6 @@ export class Accounts extends Component {
                 });
                 this.generateTableData();
             }));
-
     }
 
     generateTableData = () => {
@@ -71,17 +139,14 @@ export class Accounts extends Component {
 
     render() {
 
-
         const { pageMembers, pageManagers, currentManagers, currentMembers } = this.state;
         const firstPage = 1;
         const membersLastPage = pageMembers;
         const managersLastPage = pageManagers;
 
-
-
         return (
             <div className="content-wrapper">
-
+                {this.displayAlertMessage()}
                 <div className="container-fluid mt-4 mb-4">
                     <div className="row">
                         <div className="col-md-12">
@@ -111,8 +176,8 @@ export class Accounts extends Component {
 
                                             {
                                                 !this.state.isLoading ?
-                                                    currentManagers.map(function (user, i) {
-                                                        return <AccountCell user={user} key={i} />
+                                                    currentManagers.map((user, i) => {
+                                                        return <AccountCell pushAlertMessage={this.pushAlertMessage} user={user} key={i} />
                                                     })
                                                     :
                                                     null
@@ -189,8 +254,8 @@ export class Accounts extends Component {
 
                                             {
                                                 !this.state.isLoading ?
-                                                    currentMembers.map(function (user, i) {
-                                                        return <AccountCell user={user} key={i} />
+                                                    currentMembers.map((user, i) => {
+                                                        return <AccountCell user={user} pushAlertMessage={this.pushAlertMessage} key={i} />
                                                     })
                                                     :
                                                     null

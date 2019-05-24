@@ -25,7 +25,7 @@ export class ExerciseCell extends Component {
                 <td>{exercise.instruction}</td>
                 <td>
                     <Link to={"/exercise/edit/" + exercise._id}><i className="dripicons dripicons-pencil"></i></Link>&nbsp;
-                    <a href="" onClick={this.delete}><i className="dripicons dripicons-trash"></i></a>
+                    <button href="" onClick={this.delete}><i className="dripicons dripicons-trash"></i></button>
                 </td>
             </tr>
         )

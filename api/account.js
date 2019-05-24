@@ -14,7 +14,7 @@ const User = require('../models/user')
 router.get('/list/:role', user.listUser)
 
 router.get('/list/member/inactive', (req, res, next) =>{
-        const role = req.params.role;
+        const role = 'member'
         const active = false;
         User
             .find({ 

@@ -30,7 +30,7 @@ const AccountCredentialsForm = props => {
     return (
         <form onSubmit={handleSubmit}>
             <h4 className="header-title">Account Credentials</h4>
-            <p className="text-muted">Enter your user credentials</p>
+            <p className="text-muted">Update your user information</p>
             <div className="form-group">
                 <label htmlFor="name">Email</label>
                 <Field

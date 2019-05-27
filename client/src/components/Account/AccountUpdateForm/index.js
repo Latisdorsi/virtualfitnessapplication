@@ -11,7 +11,7 @@ import { Alert } from 'reactstrap'
 import { storage } from '../../../library/config/firebase-keys'
 import FileUploader from 'react-firebase-file-uploader';
 
-import avatar from '../../../library/res/avatar.png'
+import avatar from '../../../library/res/img/avatar.png'
 
 export default class AccountUpdateForm extends Component {
 

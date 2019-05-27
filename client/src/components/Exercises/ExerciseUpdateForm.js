@@ -4,13 +4,13 @@ import * as Yup from 'yup'
 import ExerciseForm from './ExerciseForm';
 import axios from 'axios'
 import avatar from '../../no-img.jpg'
-
+import {Fade, Alert} from 'reactstrap'
 
 export class ExerciseUpdateForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            //Avatar
+            // Exercise Image Details
             avatar: '',
             isUploading: false,
             progress: 0,
@@ -19,13 +19,74 @@ export class ExerciseUpdateForm extends Component {
             imageUrl: avatar,
             name: '',
             instruction: '',
+            alertMssg: []
         }
     }
+
+
+    onDismiss = (index) => {
+        if (this.state.alertMssg) {
+            const newAlertArray = this.state.alertMssg.slice(index)
+            this.setState({
+                alertMssg: newAlertArray
+            });
+            this.forceUpdate();
+        }
+    }
+
+
+    displayAlertMessage = () => {
+
+        return (
+            <>
+                <div
+                    style={{
+                        position: 'fixed',
+                        top: '0x',
+                        right: '20px',
+                        width: '30%',
+                        zIndex: '9999',
+                        borderRadius: '0px'
+                    }}
+                >
+                    {this.state.alertMssg.map((alert, index) => {
+                        return <Fade in={true}>
+                            <Alert
+                                color={alert.type}
+                                isOpen={true}
+                                toggle={
+                                    () => {
+                                        this.setState({
+                                            alertMssg: this.state.alertMssg.slice(index + 1)
+                                        });
+                                        return false;
+                                    }
+                                }
+                            >
+                                {alert.mssg}
+                            </Alert>
+                        </Fade>
+                    })
+                    }
+                </div>
+
+            </>
+        );
+    }
+
+    pushAlertMessage = (mssg, type) => {
+        this.setState({
+            alertMssg: [
+                ...this.state.alertMssg,
+                { mssg, type }
+            ]
+        });
+    }
+
     componentDidMount() {
         axios
             .get('/api/exercise/detail/' + this.props.match.params.id)
             .then(response => {
-                console.log(response.data)
                 this.setState({ imageName: response.data.imageName, imageUrl: response.data.imageUrl, name: response.data.name, instruction: response.data.instruction });
                 if (typeof response.data.imageUrl != "undefined" && !(response.data.imageUrl === "")) {
                     this.setState({
@@ -76,16 +137,17 @@ export class ExerciseUpdateForm extends Component {
             axios
                 .put('/api/exercise/detail/' + this.props.match.params.id, obj)
                 .then(response => {
-                    console.log(response)
+                    this.pushAlertMessage('Exercise Successfully Updated', 'success');
                 })
                 .catch(err => {
-                    console.error('Request failed', err.response)
+                    this.pushAlertMessage('Update Error: Please Check Your Fields')
                 });
 
             setSubmitting(false)
         }
         return (
             <div className="content-wrapper">
+                {this.displayAlertMessage()}
                 <div className="container-fluid mt-4">
                     <Formik
                         enableReinitialize="true"

@@ -88,7 +88,7 @@ const AccountCreateForm = props => {
                     value={values.middleInitial}
                     name="middleInitial"
                     maxLength="1"
-                    
+
                     placeholder="Enter Your Last Initial" /> {errors.middleInitial && touched.middleInitial && <div id="feedback" className="errorMessage">{errors.middleInitial}</div>}
             </div>
             <MySelect
@@ -129,58 +129,58 @@ const AccountCreateForm = props => {
             </div>
 
             <div className="row">
-            <div className="col-md-4">
-                <div className="form-group">
-                    <label htmlFor="mobilePhone">Mobile Phone
+                <div className="col-md-4">
+                    <div className="form-group">
+                        <label htmlFor="mobilePhone">Mobile Phone
                     <span className="optionalSpan"> optional</span>
-                    </label>
-                    <div>
-                        <input
-                            type="tel"
-                            className="form-control"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.mobilePhone}
-                            name="mobilePhone"
-                            placeholder="Enter Mobile Phone Number" /> {errors.mobilePhone && touched.mobilePhone && <div id="feedback">{errors.mobilePhone}</div>}
+                        </label>
+                        <div>
+                            <input
+                                type="tel"
+                                className="form-control"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.mobilePhone}
+                                name="mobilePhone"
+                                placeholder="Enter Mobile Phone Number" /> {errors.mobilePhone && touched.mobilePhone && <div id="feedback">{errors.mobilePhone}</div>}
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div className="col-md-4">
-                <div className="form-group">
-                    <label htmlFor="homePhone">Home Phone
+                <div className="col-md-4">
+                    <div className="form-group">
+                        <label htmlFor="homePhone">Home Phone
                     <span className="optionalSpan"> optional</span>
-                    </label>
-                    <div>
-                        <input
-                            type="tel"
-                            className="form-control"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.homePhone}
-                            name="homePhone"
-                            placeholder="Enter Your Home Phone Number" /> {errors.homePhone && touched.homePhone && <div id="feedback">{errors.homePhone}</div>}
+                        </label>
+                        <div>
+                            <input
+                                type="tel"
+                                className="form-control"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.homePhone}
+                                name="homePhone"
+                                placeholder="Enter Your Home Phone Number" /> {errors.homePhone && touched.homePhone && <div id="feedback">{errors.homePhone}</div>}
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className="col-md-4">
-                <div className="form-group">
-                    <label htmlFor="workPhone">Work Phone
+                <div className="col-md-4">
+                    <div className="form-group">
+                        <label htmlFor="workPhone">Work Phone
                     <span className="optionalSpan"> optional</span>
-                    </label>
-                    <div>
-                        <input
-                            type="tel"
-                            className="form-control"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.workPhone}
-                            name="workPhone"
-                            placeholder="Enter Your Work Phone Number" /> {errors.workPhone && touched.workPhone && <div id="feedback">{errors.workPhone}</div>}
+                        </label>
+                        <div>
+                            <input
+                                type="tel"
+                                className="form-control"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.workPhone}
+                                name="workPhone"
+                                placeholder="Enter Your Work Phone Number" /> {errors.workPhone && touched.workPhone && <div id="feedback">{errors.workPhone}</div>}
+                        </div>
                     </div>
                 </div>
-            </div>
             </div>
             <h4 className="header-title">Emergency Contact Details</h4>
             <p className="text-muted">Who do we look for in case of emergency?</p>
@@ -225,23 +225,24 @@ const AccountCreateForm = props => {
                     name="emergencyRelationship"
                     placeholder="Enter Your Last Name" /> {errors.emergencyRelationship && touched.emergencyRelationship && <div id="feedback">{errors.emergencyRelationship}</div>}
             </div>
-
-            <div className="col-md-5 offset-md-7 text-right">
-                <button
-                    type="button"
-                    className="btn btn-primary  btn-custom mt-3 mr-1"
-                    onClick={handleReset}
-                    disabled={!dirty || isSubmitting}>
-                    Reset
+            <div className="row">
+                <div className="col-md-5 offset-md-7 text-right">
+                    <button
+                        type="button"
+                        className="btn btn-primary  btn-custom mt-3 mr-1"
+                        onClick={handleReset}
+                        disabled={!dirty || isSubmitting}>
+                        Reset
                 </button>
-                <button
-                    type="submit"
-                    className="btn btn-primary btn-custom mt-3"
-                    disabled={isSubmitting}>
-                    {!isSubmitting
-                        ? 'Save'
-                        : 'Saving...'}
-                </button>
+                    <button
+                        type="submit"
+                        className="btn btn-primary btn-custom mt-3"
+                        disabled={isSubmitting}>
+                        {!isSubmitting
+                            ? 'Save'
+                            : 'Saving...'}
+                    </button>
+                </div>
             </div>
         </form >
     );

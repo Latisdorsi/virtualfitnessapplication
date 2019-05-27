@@ -9,7 +9,7 @@ import { AuthProvider } from './AuthContext';
 
 import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
-import Accounts from './components/Account/Accounts';
+import Accounts from './components/Account';
 import AccountCreatePage from './components/Account/AccountCreateForm/';
 import AccountUpdateForm from './components/Account/AccountUpdateForm/';
 
@@ -60,6 +60,7 @@ class App extends Component {
             if (response.status === 200) {
               this.setState({ isLoggedIn: true });
               this.setState({
+                _id: response.data._id,
                 avatarURL: response.data.avatarURL,
                 email: response.data.email,
                 firstName: response.data.name.firstName,
@@ -87,6 +88,7 @@ class App extends Component {
 
           <Sidebar />
           <Navbar
+            id={this.state._id}
             firstName={this.state.firstName}
             lastName={this.state.lastName}
             avatarURL={this.state.avatarURL}

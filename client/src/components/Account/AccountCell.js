@@ -132,9 +132,9 @@ export class AccountCell extends Component {
                 <td>{user.name.lastName}</td>
                 <td>Registered: {user.createdDate} <br /> <strong>Active</strong>: {String(user.active)}</td>
                 <td>
-                    <Link to={"/account/edit/" + user._id}><i className="dripicons dripicons-pencil"></i></Link>&nbsp;
+                    <Link to={"/account/edit/" + user._id} className="btnCell"><i className="dripicons dripicons-pencil"></i></Link>&nbsp;
                     <DeleteModal />
-                    <button onClick={this.toggleDelete}><i className="dripicons dripicons-trash"></i></button>
+                    <button onClick={this.toggleDelete} className="btnCell"><i className="dripicons dripicons-trash"></i></button>
                 </td>
                 {user.role === 'member' &&
                     <td>

@@ -4,7 +4,7 @@ import * as Yup from 'yup'
 import ExerciseForm from './ExerciseForm';
 import axios from 'axios'
 import avatar from '../../no-img.jpg'
-
+import {Alert, Fade} from 'reactstrap'
 export class ExerciseCreateForm extends Component {
     constructor(props) {
         super(props);
@@ -18,8 +18,69 @@ export class ExerciseCreateForm extends Component {
             imageUrl: avatar,
             name: '',
             instruction: '',
+            alertMssg: []
         }
     }
+
+    onDismiss = (index) => {
+        if (this.state.alertMssg) {
+            const newAlertArray = this.state.alertMssg.slice(index)
+            this.setState({
+                alertMssg: newAlertArray
+            });
+            this.forceUpdate();
+        }
+    }
+
+
+    displayAlertMessage = () => {
+
+        return (
+            <>
+                <div
+                    style={{
+                        position: 'fixed',
+                        top: '0x',
+                        right: '20px',
+                        width: '30%',
+                        zIndex: '9999',
+                        borderRadius: '0px'
+                    }}
+                >
+                    {this.state.alertMssg.map((alert, index) => {
+                        return <Fade in={true}>
+                            <Alert
+                                color={alert.type}
+                                isOpen={true}
+                                toggle={
+                                    () => {
+                                        this.setState({
+                                            alertMssg: this.state.alertMssg.slice(index + 1)
+                                        });
+                                        return false;
+                                    }
+                                }
+                            >
+                                {alert.mssg}
+                            </Alert>
+                        </Fade>
+                    })
+                    }
+                </div>
+
+            </>
+        );
+    }
+
+    pushAlertMessage = (mssg, type) => {
+        this.setState({
+            alertMssg: [
+                ...this.state.alertMssg,
+                { mssg, type }
+            ]
+        });
+    }
+
     render() {
         const validationSchema = Yup.object().shape({
             name: Yup.string("Enter a name")
@@ -30,8 +91,8 @@ export class ExerciseCreateForm extends Component {
 
         });
 
-        const createExercise = (values, { setSubmitting }) => {
-            let {imageName, imageUrl, name, instruction} = values
+        const createExercise = (values, { setSubmitting, resetForm }) => {
+            let { imageName, imageUrl, name, instruction } = values
 
             const obj = {
                 imageName,
@@ -39,17 +100,11 @@ export class ExerciseCreateForm extends Component {
                 name,
                 instruction
             };
-            console.log(obj)
-     
+
             axios.post('/api/exercise/create', obj)
                 .then(response => {
-                    console.log(response)
-                    this.setState({
-                        imageName: '',
-                        imageUrl: avatar,
-                        name: '',
-                        instruction: '',
-                    })
+                    resetForm();
+                    this.pushAlertMessage('Exercise Successfully Created', 'success')
                 })
                 .catch(err => {
                     console.error('Request failed', err.response)
@@ -59,7 +114,7 @@ export class ExerciseCreateForm extends Component {
 
         return (
             <div className="content-wrapper">
-
+                {this.displayAlertMessage()}
                 <div className="card-body">
                     <Formik
                         initialValues={{

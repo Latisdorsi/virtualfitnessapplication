@@ -67,12 +67,12 @@ app.use(express.urlencoded({ extended: false }))
 //Cookie Parser
 app.use(cookieParser())
 
-app.use('/api/account', require('./api/account'))
-app.use('/api/exercise', require('./api/exercise'))
-app.use('/api', require('./api/cycle'))
-app.use('/api', require('./api/measurement'))
-app.use('/api', require('./api/routine'))
-app.use('/api', require('./api/records'))
+app.use('/api/account', require('./api/routes/account'))
+app.use('/api/exercise', require('./api/routes/exercise'))
+app.use('/api', require('./api/routes/cycle'))
+app.use('/api', require('./api/routes/measurement'))
+app.use('/api', require('./api/routes/routine'))
+app.use('/api', require('./api/routes/records'))
 
 // Serve static files from the React frontend app
 app.use(express.static(path.join(__dirname, 'client/build')))

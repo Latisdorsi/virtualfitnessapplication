@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import { Alert, Fade } from 'reactstrap'
 import axios from 'axios';
 import ExerciseCell from './ExerciseCell'
-
 export class Exercises extends Component {
     constructor(props) {
         super(props);
@@ -11,12 +11,81 @@ export class Exercises extends Component {
             exercises: [],
             currentPage: 1,
             documentsPerPage: 15,
-
+            alertMssg: [],
         };
         this.handleClick = this.handleClick.bind(this);
+        this.pushAlertMessage = this.pushAlertMessage.bind(this);
+    }
+
+    onDismiss = (index) => {
+        if (this.state.alertMssg) {
+            const newAlertArray = this.state.alertMssg.slice(index)
+            this.setState({
+                alertMssg: newAlertArray
+            });
+            this.forceUpdate();
+        }
     }
 
 
+    displayAlertMessage = () => {
+
+        return (
+            <>
+                <div
+                    style={{
+                        position: 'fixed',
+                        top: '0x',
+                        right: '20px',
+                        width: '30%',
+                        zIndex: '9999',
+                        borderRadius: '0px'
+                    }}
+                >
+                    {this.state.alertMssg.map((alert, index) => {
+                        return <Fade in={true}>
+                            <Alert
+                                color={alert.type}
+                                isOpen={true}
+                                toggle={
+                                    () => {
+                                        this.setState({
+                                            alertMssg: this.state.alertMssg.slice(index + 1)
+                                        });
+                                        return false;
+                                    }
+                                }
+                            >
+                                {alert.mssg}
+                            </Alert>
+                        </Fade>
+                    })
+                    }
+                </div>
+
+            </>
+        );
+    }
+
+    renderExercises = () => {
+        axios.get('/api/exercise/list')
+            .then(response => {
+                this.setState({ exercises: response.data })
+            })
+            .catch(err => {
+                console.error(err)
+            })
+    }
+
+    pushAlertMessage = (mssg, type) => {
+        this.setState({
+            alertMssg: [
+                ...this.state.alertMssg,
+                { mssg, type }
+            ]
+        });
+        this.renderExercises();
+    }
 
     handleClick(event) {
         this.setState({
@@ -26,13 +95,7 @@ export class Exercises extends Component {
 
 
     componentDidMount() {
-        axios.get('/api/exercise/list')
-            .then(response => {
-                this.setState({ exercises: response.data })
-            })
-            .catch(err => {
-                console.error(err)
-            })
+        this.renderExercises();
     }
 
     render() {
@@ -43,18 +106,10 @@ export class Exercises extends Component {
         const indexOfFirstTodo = indexOfLastTodo - documentsPerPage;
         const currentExercises = exercises.slice(indexOfFirstTodo, indexOfLastTodo);
 
-        const renderExercises = (event) => {
-            axios.get('/api/exercise/list')
-                .then(response => {
-                    this.setState({ exercises: response.data })
-                })
-                .catch(err => {
-                    console.error(err)
-                })
-        }
 
-        const populateTable = currentExercises.map(function (exercise, i) {
-            return <ExerciseCell exercise={exercise} key={i} renderExercises={renderExercises} />
+
+        const populateTable = currentExercises.map((exercise, i) => {
+            return <ExerciseCell exercise={exercise} pushAlertMessage={this.pushAlertMessage} key={i} />
         })
 
 
@@ -92,6 +147,7 @@ export class Exercises extends Component {
 
         return (
             <div className="content-wrapper">
+                {this.displayAlertMessage()}
                 <div className="container-fluid mt-4 mb-4">
                     <div className="row">
                         <div className="col-md-12">

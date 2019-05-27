@@ -2,8 +2,8 @@ const express = require('express')
 const router = express.Router()
 
 // User Model
-const Measurement = require('../models/measurement')
-const User = require('../models/user')
+const Measurement = require('../../models/measurement')
+const User = require('../../models/user')
 
 // Get Latest Measurement
 router.get('/measurement/:id', (req, res) => {

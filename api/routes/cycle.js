@@ -2,9 +2,9 @@ const express = require('express')
 const router = express.Router()
 
 // User Model
-const Cycle = require('../models/cycle')
-const Routine = require('../models/routine')
-const User = require('../models/user')
+const Cycle = require('../../models/cycle')
+const Routine = require('../../models/routine')
+const User = require('../../models/user')
 
 // Get Latest Member Cycle
 router.get('/cycle/:id', (req, res) => {

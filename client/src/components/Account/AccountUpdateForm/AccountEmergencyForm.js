@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {Field} from 'formik';
+import React, { Component } from 'react';
+import { Field } from 'formik';
 import Select from 'react-select'
 
 const AccountCredentialsForm = props => {
@@ -20,7 +20,7 @@ const AccountCredentialsForm = props => {
         <form onSubmit={handleSubmit}>
 
             <h4 className="header-title">Emergency Contact Details</h4>
-            <p className="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+            <p className="text-muted">Who do we contact during emergencies?</p>
             <div className="form-group">
                 <label htmlFor="emergencyFullName">Full Name</label>
                 <input
@@ -30,7 +30,7 @@ const AccountCredentialsForm = props => {
                     onBlur={handleBlur}
                     value={values.emergencyFullName}
                     name="emergencyFullName"
-                    placeholder="Enter Your Last Name"/> {errors.emergencyFullName && touched.emergencyFullName && <div id="feedback">{errors.emergencyFullName}</div>}
+                    placeholder="Enter Your Last Name" /> {errors.emergencyFullName && touched.emergencyFullName && <div id="feedback">{errors.emergencyFullName}</div>}
             </div>
 
             <div className="form-group">
@@ -42,7 +42,7 @@ const AccountCredentialsForm = props => {
                     onBlur={handleBlur}
                     value={values.emergencyNumber}
                     name="emergencyNumber"
-                    placeholder="Enter their contact number"/> {errors.emergencyNumber && touched.emergencyNumber && <div id="feedback">{errors.emergencyNumber}</div>}
+                    placeholder="Enter their contact number" /> {errors.emergencyNumber && touched.emergencyNumber && <div id="feedback">{errors.emergencyNumber}</div>}
             </div>
 
             <div className="form-group">
@@ -54,17 +54,19 @@ const AccountCredentialsForm = props => {
                     onBlur={handleBlur}
                     value={values.emergencyRelationship}
                     name="emergencyRelationship"
-                    placeholder="Enter Your Last Name"/> {errors.emergencyRelationship && touched.emergencyRelationship && <div id="feedback">{errors.emergencyRelationship}</div>}
+                    placeholder="Enter Your Last Name" /> {errors.emergencyRelationship && touched.emergencyRelationship && <div id="feedback">{errors.emergencyRelationship}</div>}
             </div>
-            <div className="col-md-4 offset-md-8 text-right">
-                <button
-                    type="submit"
-                    className="btn btn-primary btn-custom mt-3"
-                    disabled={isSubmitting}>
-                    {!isSubmitting
-                        ? 'Update'
-                        : 'Saving...'}
-                </button>
+            <div className="row">
+                <div className="col-md-6 offset-md-6 text-right">
+                    <button
+                        type="submit"
+                        className="btn btn-primary btn-custom mt-3"
+                        disabled={isSubmitting}>
+                        {!isSubmitting
+                            ? 'Update'
+                            : 'Saving...'}
+                    </button>
+                </div>
             </div>
         </form >
     );

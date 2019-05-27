@@ -37,8 +37,7 @@ const UserSchema = new mongoose.Schema({
         required: [true, 'Please enter your email.'],
         unique: [true, 'This email already exists'],
         default: '',
-        lowercase: true,
-        validate: function (email) { validator.isEmail(email) }
+        lowercase: true
     },
     password: {
         type: String,
@@ -90,6 +89,13 @@ UserSchema.pre('save', function (next) {
     // Call the next function in the pre-save chain
 })
 
+UserSchema.post('save', function (error, doc, next) {
+    if (error.name === 'BulkWriteError' || error.code === 11000) 
+        next(new Error('The email you have selected already exists'));
+    else next(error);
+});
+
+
 // User Contact Schema
 
 // Updates Updated Data For New Items with the current Timestap Before Executing Save Function
@@ -104,21 +110,8 @@ UserSchema.pre('save', function (next) {
     }
 
     // Call the next function in the pre-save chain
-    next()
-})
-
-// Validate if Email Already Exists in the Database
-// Prevents duplicate accounts from being made
-UserSchema.path('email').validate(function (email) {
-    this.model('User').count({ email })
-        .then(count => {
-            return !count
-        })
-        .catch(err => {
-            console.error(err)
-            return false;
-        })
-}, 'Email');
+    next();
+});
 
 UserSchema.methods.comparePassword = function (candidatePassword, cb) {
     bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {

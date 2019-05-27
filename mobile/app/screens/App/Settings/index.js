@@ -50,31 +50,6 @@ class Settings extends Component {
                             />
                         </TouchableOpacity>
                     </List.Section>
-
-                    <List.Section>
-                        <List.Subheader>Units</List.Subheader>
-
-                        <ModalSelector
-                            data={[
-                                { key: 0, label: 'US / Imperial' },
-                                { key: 1, label: 'Metric' }
-                            ]}
-                            initValue="US/Imperial"
-                            onChange={(option) => {
-                                this.setState({
-                                    unit: {
-                                        index: option.key,
-                                        name: option.label
-                                    }
-                                })
-                            }}>
-                            <List.Item
-                                title="Select Unit"
-                                description={this.state.unit.name}
-
-                            />
-                        </ModalSelector>
-                    </List.Section>
                     <List.Section>
                         <List.Subheader>Account</List.Subheader>
                         <TouchableOpacity onPress={() => {

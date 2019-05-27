@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {Field} from 'formik';
+import React, { Component } from 'react';
+import { Field } from 'formik';
 import Select from 'react-select'
 
 const AccountContactForm = props => {
@@ -18,10 +18,10 @@ const AccountContactForm = props => {
     } = props;
     return (
 
-  
+
         <form onSubmit={handleSubmit}>
             <h4 className="header-title">Contact Details</h4>
-            <p className="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+            <p className="text-muted">Let us know how to contact this person.</p>
 
             <div className="form-group">
                 <label htmlFor="address">Address</label>
@@ -32,7 +32,7 @@ const AccountContactForm = props => {
                     onBlur={handleBlur}
                     value={values.address}
                     name="address"
-                    placeholder="Enter Your Adress"/> {errors.address && touched.address && <div id="feedback">{errors.address}</div>}
+                    placeholder="Enter Your Adress" /> {errors.address && touched.address && <div id="feedback">{errors.address}</div>}
             </div>
 
             <div className="form-group">
@@ -44,7 +44,7 @@ const AccountContactForm = props => {
                     onBlur={handleBlur}
                     value={values.mobilePhone}
                     name="mobilePhone"
-                    placeholder="Enter Mobile Phone Number"/> {errors.mobilePhone && touched.mobilePhone && <div id="feedback">{errors.mobilePhone}</div>}
+                    placeholder="Enter Mobile Phone Number" /> {errors.mobilePhone && touched.mobilePhone && <div id="feedback">{errors.mobilePhone}</div>}
             </div>
 
             <div className="form-group">
@@ -56,7 +56,7 @@ const AccountContactForm = props => {
                     onBlur={handleBlur}
                     value={values.homePhone}
                     name="homePhone"
-                    placeholder="Enter Your Home Phone Number"/> {errors.homePhone && touched.homePhone && <div id="feedback">{errors.homePhone}</div>}
+                    placeholder="Enter Your Home Phone Number" /> {errors.homePhone && touched.homePhone && <div id="feedback">{errors.homePhone}</div>}
             </div>
 
             <div className="form-group">
@@ -68,18 +68,20 @@ const AccountContactForm = props => {
                     onBlur={handleBlur}
                     value={values.workPhone}
                     name="workPhone"
-                    placeholder="Enter Your Last Name"/> {errors.workPhone && touched.workPhone && <div id="feedback">{errors.workPhone}</div>}
+                    placeholder="Enter Your Last Name" /> {errors.workPhone && touched.workPhone && <div id="feedback">{errors.workPhone}</div>}
             </div>
-            <div className="col-md-4 offset-md-8 text-right">
+            <div className="row">
+                <div className="col-md-6 offset-md-6 text-right">
 
-                <button
-                    type="submit"
-                    className="btn btn-primary btn-custom mt-3"
-                    disabled={isSubmitting}>
-                    {!isSubmitting
-                        ? 'Update'
-                        : 'Saving...'}
-                </button>
+                    <button
+                        type="submit"
+                        className="btn btn-primary btn-custom mt-3"
+                        disabled={isSubmitting}>
+                        {!isSubmitting
+                            ? 'Update'
+                            : 'Saving...'}
+                    </button>
+                </div>
             </div>
         </form >
     );

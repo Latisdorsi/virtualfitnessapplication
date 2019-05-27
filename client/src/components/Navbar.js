@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { AuthConsumer } from '../AuthContext';
+import { Link } from 'react-router-dom';
+import avatar from '../library/res/img/avatar.png'
 
 export class Navbar extends Component {
     constructor(props) {
@@ -18,9 +20,9 @@ export class Navbar extends Component {
                                 <ul className="float-right">
                                     <li className="account">
                                         <span className="account-avatar">   
-                                            <img src={this.props.avatarURL || null} className="rounded-corner" alt="" />
+                                            <img src={this.props.avatarURL || avatar} className="rounded-corner" alt="" />
                                         </span>
-                                        <span className="ml-2">{this.props.firstName} {this.props.lastName}</span>
+                                        <Link to={"/account/edit/" + this.props.id}><span className="ml-2">{this.props.firstName} {this.props.lastName}</span></Link>
                                     </li>
                                 </ul>
                             </div>

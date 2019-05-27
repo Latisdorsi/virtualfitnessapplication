@@ -233,7 +233,8 @@ ul.subMenu {
 }
 
 .avatar-img.rounded-corner {
-    object-fit: cover
+    object-fit: cover;
+    padding: 25px;
 }
 
 .optionalSpan {
@@ -245,4 +246,17 @@ ul.subMenu {
 .errorMessage{
     color: red;
     padding: 5px;
+}
+
+.btnCell{
+    background: none;
+    color: #593196;
+    text-decoration: none;
+    border: none;
+    padding: 0 5px;
+}
+
+.btnCell:hover, .btnCell:active{
+    color: #6a6a6a;
+    text-decoration: none !important;
 }

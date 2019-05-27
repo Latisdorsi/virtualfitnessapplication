@@ -156,7 +156,7 @@ export class AccountCreatePage extends Component {
                     this.pushAlertMessage('Account Successfully Created', 'success');
                 })
                 .catch(err => {
-                    console.log(err.response.data.err.code)
+                    this.pushAlertMessage(err.response.data.error, 'danger');
                 });
             setSubmitting(false);
         }

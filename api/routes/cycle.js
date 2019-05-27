@@ -15,8 +15,15 @@ router.get('/cycle/:id', (req, res) => {
             justOne: true,
             options: { sort: { startDate: -1 }, limit: 1 }
         })
-        .exec((err, user) => {
-            res.json(user.cycles)
+        .exec()
+        .then(user => {
+            res.status(200).json(user.cycles)
+        })
+        .catch(error => {
+            res.status(500).json({
+                message: 'Internal Server Error',
+                error: error
+            });
         })
 })
 
@@ -27,15 +34,20 @@ router.get('/cycle/:id/routine', (req, res) => {
         .populate({
             path: 'cycles',
             justOne: true,
-            options: { sort: {startDate: -1 }, limit: 1 }
+            options: { sort: { startDate: -1 }, limit: 1 }
         })
         .then(user => {
             Routine.findOne({ _id: user.cycles.routine })
                 .populate('exercises.exercise')
                 .then(routine => {
-
-                    res.json(routine)
+                    res.status(200).json(routine)
                 })
+        })
+        .catch(error => {
+            res.status(500).json({
+                message: 'Internal Server Error',
+                error: error
+            });
         })
 })
 
@@ -44,8 +56,15 @@ router.get('/cycle/:id/all', (req, res) => {
     const _id = req.params.id
     User.findOne({ _id })
         .populate('cycles')
-        .exec((err, user) => {
-            res.json(user.cycles)
+        .exec()
+        .then(user => {
+            res.status(200).json(user.cycles)
+        })
+        .catch(error => {
+            res.status(500).json({
+                message: 'Internal Server Error',
+                error: error
+            });
         })
 })
 
@@ -64,19 +83,17 @@ router.post('/cycle/:id', (req, res) => {
 
     Routine.findOne({ level, goal, schedule })
         .then(routine => {
-            newCycle.routine = routine._id
-            newCycle.user = _id
-            
-
+            newCycle.routine = routine._id;
+            newCycle.user = _id;
             // Save New Cycle
             newCycle.save()
                 .then(cycle => {
                     // Populate Cycle to User
                     User.findOne({ _id })
                         .then(user => {
-                            user.cycles.push(cycle._id)
+                            user.cycles.push(cycle._id);
                             user.save().then(
-                                res.json(user)
+                                res.status(200).json(user)
                             )
 
                         })
@@ -84,14 +101,18 @@ router.post('/cycle/:id', (req, res) => {
                             //User does not push data
                         })
                 })
-
                 .catch(error => {
-                    res.send(error)
+                    res.status(500).json({
+                        message: 'Internal Server Error',
+                        error: error
+                    });
                 })
-
         })
-        .catch(err => {
-            //Routine catched an error
+        .catch(error => {
+            res.status(500).json({
+                message: 'Internal Server Error',
+                error: error
+            });
         })
 })
 
@@ -105,10 +126,13 @@ router.delete('/cycle/:id/:cycle', (req, res) => {
                 _cycle
             })
                 .then(response => {
-                    res.send('Cycle successfully deleted')
+                    res.status(200).json('Cycle successfully deleted');
                 })
-                .catch(err => {
-                    console.error(err)
+                .catch(error => {
+                    res.status(500).json({
+                        message: 'Internal Server Error',
+                        error: error
+                    });
                 })
         )
 })

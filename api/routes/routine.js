@@ -7,26 +7,47 @@ const Routine = require('../../models/routine')
 // Get All Member Cycle
 router.get('/routine', (req, res) => {
     Routine.find({})
-        .exec((err, routine) => {
-            res.json(routine)
+        .exec()
+        .then(routine => {
+            res.status(200).json(routine)
+        })
+        .catch(error => {
+            res.status(500).json({
+                message: 'Internal Server Error',
+                error: error
+            });
         })
 })
 
-// Get All Member Cycle
+// Get Soecific Cycle
 router.get('/routine/:id', (req, res) => {
     const _id = req.params.id
     Routine.find({ _id })
-        .exec((err, routine) => {
-            res.json(routine)
+        .exec()
+        .then(routine => {
+            res.status(200).json(routine)
+        })
+        .catch(error => {
+            res.status(500).json({
+                message: 'Internal Server Error',
+                error: error
+            });
         })
 })
 
-// Get Specific Routine
+// Query Routine
 router.post('/routine/query', (req, res) => {
     const { level, goal, schedule } = req.body
     Routine.find({ level, goal, schedule })
-        .exec((err, routine) => {
-            res.json(routine)
+        .exec()
+        .then(routine => {
+            res.status(200).json(routine)
+        })
+        .catch(error => {
+            res.status(500).json({
+                message: 'Internal Server Error',
+                error: error
+            });
         })
 })
 
@@ -41,11 +62,15 @@ router.post('/routine', (req, res) => {
     })
 
     newRoutine.save()
+        .exec()
         .then(routine => {
-            res.json(routine)
+            res.status(200).json(routine)
         })
         .catch(error => {
-            res.send(error)
+            res.status(500).json({
+                message: 'Internal Server Error',
+                error: error
+            });
         })
 })
 
@@ -54,6 +79,7 @@ router.put('/routine/:id', (req, res) => {
     const _id = req.params.id
     const { level, goal, schedule, exercises } = req.body
     Routine.findOne({ _id })
+        .exec()
         .then(routine => {
             routine.level = level
             routine.goal = goal
@@ -61,14 +87,20 @@ router.put('/routine/:id', (req, res) => {
             routine.exercises = exercises
             routine.save()
                 .then(routine => {
-                    res.json(routine)
+                    res.status(200).json(routine)
                 })
-                .catch(err => {
-                    console.error(err)
+                .catch(error => {
+                    res.status(500).json({
+                        message: 'Internal Server Error',
+                        error: error
+                    });
                 })
         })
-        .catch(err => {
-            console.error(err)
+        .catch(error => {
+            res.status(500).json({
+                message: 'Internal Server Error',
+                error: error
+            });
         })
 })
 
@@ -79,10 +111,13 @@ router.delete('/routine/:id', (req, res) => {
         _id
     })
         .then(routine => {
-            res.send('Routine successfully deleted')
+            res.status(200).json('Routine successfully deleted')
         })
-        .catch(err => {
-            console.error(err)
+        .catch(error => {
+            res.status(500).json({
+                message: 'Internal Server Error',
+                error: error
+            });
         })
 })
 

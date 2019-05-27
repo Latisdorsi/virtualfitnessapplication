@@ -14,8 +14,15 @@ router.get('/record/:id', (req, res) => {
             justOne: true,
             options: { sort: { date: -1 }, limit: 1 }
         })
-        .exec((err, user) => {
-            res.json(user.records)
+        .exec()
+        .then(user => {
+            res.status(200).json(user.records)
+        })
+        .catch(error => {
+            res.status(500).json({
+                message: 'Internal Server Error',
+                error: error
+            });
         })
 })
 
@@ -24,8 +31,15 @@ router.get('/record/:id/all', (req, res) => {
     const _id = req.params.id
     User.findOne({ _id })
         .populate('records')
-        .exec((err, user) => {
-            res.json(user.records)
+        .exec()
+        .then(user => {
+            res.status(200).json(user.records)
+        })
+        .catch(error => {
+            res.status(500).json({
+                message: 'Internal Server Error',
+                error: error
+            });
         })
 })
 
@@ -43,20 +57,27 @@ router.post('/record/:id', (req, res) => {
     })
 
     newRecord.save()
+        .exec()
         .then(record => {
             User.findOne({ _id })
                 .then(user => {
                     user.records.push(record._id)
                     user.save().then(
-                        res.json(user)
+                        res.status(200).json(user)
                     )
                 })
-                .catch(err => {
-                    //User does not push data
+                .catch(error => {
+                    res.status(500).json({
+                        message: 'Internal Server Error',
+                        error: error
+                    });
                 })
         })
         .catch(error => {
-            res.send(error)
+            res.status(500).json({
+                message: 'Internal Server Error',
+                error: error
+            });
         })
 })
 
@@ -68,10 +89,13 @@ router.delete('/record/:id', (req, res) => {
         _id
     })
         .then(response => {
-            res.send('Deleted User')
+            res.status(200).send('Deleted User')
         })
-        .catch(err => {
-            console.error(err)
+        .catch(error => {
+            res.status(500).json({
+                message: 'Internal Server Error',
+                error: error
+            });
         })
 })
 

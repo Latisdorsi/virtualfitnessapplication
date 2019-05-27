@@ -65,12 +65,11 @@ module.exports = {
                     .status(200)
                     .json(user)
             })
-            .catch(function (err) {
-                res
-                    .status(500)
-                    .json({ // Internal Error
-                        error: err.message
-                    })
+            .catch(function (error) {
+                res.status(500).json({
+                    message: 'Internal Server Error',
+                    error: error
+                })
             });
     },
 
@@ -83,7 +82,12 @@ module.exports = {
                     .status(200)
                     .json(user)
             })
-            .catch((err) => res.send(err))
+            .catch((error) => {
+                res.status(500).json({
+                    message: 'Internal Server Error',
+                    error: error
+                })
+            });
     },
 
     listUser: function (req, res, next) {
@@ -91,8 +95,15 @@ module.exports = {
 
         User
             .find({ role })
-            .exec((err, users) => {
-                res.json(users)
+            .exec()
+            .then(users => {
+                res.status(200).json(users)
+            })
+            .catch(error => {
+                res.status(500).json({
+                    message: 'Internal Server Error',
+                    error: error
+                })
             })
     },
 
@@ -104,8 +115,15 @@ module.exports = {
                 role,
                 active
             })
-            .exec((err, users) => {
-                res.json(users)
+            .exec()
+            .then(users => {
+                res.status(200).json(users)
+            })
+            .catch(error => {
+                res.status(500).json({
+                    message: 'Internal Server Error',
+                    error: error
+                })
             })
     },
 
@@ -115,6 +133,7 @@ module.exports = {
 
         User
             .findOne({ _id })
+            .exec()
             .then(user => {
                 user.name = {
                     firstName,
@@ -134,8 +153,11 @@ module.exports = {
                         console.error(err)
                     })
             })
-            .catch(err => {
-                console.error(err)
+            .catch(error => {
+                res.status(500).json({
+                    message: 'Internal Server Error',
+                    error: error
+                })
             })
     },
 
@@ -149,11 +171,15 @@ module.exports = {
                     avatarURL
                 }
             )
+            .exec()
             .then(response => {
-                res.json(response)
+                res.status(200).json(response)
             })
             .catch(error => {
-                console.error(error)
+                res.status(500).json({
+                    message: 'Internal Server Error',
+                    error: error
+                })
             })
     },
 
@@ -166,11 +192,15 @@ module.exports = {
                     avatarURL: ''
                 }
             )
+            .exec()
             .then(response => {
-                res.json(response)
+                res.status(200).json(response);
             })
             .catch(error => {
-                console.error(error)
+                res.status(500).json({
+                    message: 'Internal Server Error',
+                    error: error
+                })
             })
     },
 
@@ -196,11 +226,15 @@ module.exports = {
                         }
                     }
                 })
+            .exec()
             .then(response => {
-                res.json(response)
+                res.status(200).json(response);
             })
             .catch(error => {
-                console.error(error)
+                res.status(500).json({
+                    message: 'Internal Server Error',
+                    error: error
+                });
             })
     },
 
@@ -220,11 +254,15 @@ module.exports = {
                         relationship: emergencyRelationship
                     }
                 })
+            .exec()
             .then(response => {
-                res.json(response)
+                res.status(200).json(response)
             })
             .catch(error => {
-                console.error(error)
+                res.status(500).json({
+                    message: 'Internal Server Error',
+                    error: error
+                })
             })
     },
 
@@ -235,12 +273,14 @@ module.exports = {
             }, {
                     active: true
                 })
+            .exec()
             .then(
                 res.status(200).json(true)
             )
-            .catch(err => {
+            .catch(error => {
                 res.status(500).json({
-                    error: err
+                    message: 'Internal Server Error',
+                    error: error
                 });
             })
     },
@@ -252,11 +292,15 @@ module.exports = {
             }, {
                     active: false
                 })
+            .exec()
             .then(
-                res.json(false)
+                res.status(200).json(false)
             )
-            .catch(err => {
-                console.error(err)
+            .catch(error => {
+                res.status(500).json({
+                    message: 'Internal Server Errror',
+                    error: error
+                })
             })
     },
 
@@ -264,6 +308,7 @@ module.exports = {
         const _id = req.params.id
         User
             .findOneAndRemove({ _id })
+            .exec()
             .then(user => {
                 res.send('Deleted User')
             })
@@ -274,44 +319,46 @@ module.exports = {
 
     authenticateUser: function (req, res, next) {
         const { email, password } = req.body;
-        User.findOne({ email }, function (err, user) {
-            if (err) { // Internal Error
+        User.findOne({ email }).exec()
+            .then(user => {
+                if (!user) { //User does not exist
+                    res.status(401)
+                        .json({
+                            error: 'User does not exist'
+                        });
+                } else { //Password is Incorrect
+                    //Get user id from call
+                    const { _id, active, first } = user
+                    user.comparePassword(password, function (err, same) {
+                        if (err) {
+                            res.status(500)
+                                .json({ // Internal Error
+                                    error: 'Oops! Internal error please try again'
+                                });
+                        } else if (!same) {
+                            res.status(401)
+                                .json({
+                                    error: 'Incorrect email or password!'
+                                });
+                        } else {
+                            // Issue token
+                            const payload = { email, _id, active, first };
+                            const token = jwt.sign(payload, config.SECRET, {
+                                expiresIn: '2h'
+                            });
+                            res.cookie('token', token, { httpOnly: true })
+                                .status(200).json({ token });
+
+                        }
+                    });
+                }
+            })
+            .catch(err => {
                 res.status(500)
                     .json({
                         error: 'Oops! Internal error please try again'
                     });
-            } else if (!user) { //User does not exist
-                res.status(401)
-                    .json({
-                        error: 'User does not exist'
-                    });
-            } else { //Password is Incorrect
-                //Get user id from call
-                const { _id, active, first } = user
-                user.comparePassword(password, function (err, same) {
-                    if (err) {
-                        res.status(500)
-                            .json({ // Internal Error
-                                error: 'Oops! Internal error please try again'
-                            });
-                    } else if (!same) {
-                        res.status(401)
-                            .json({
-                                error: 'Incorrect email or password!'
-                            });
-                    } else {
-                        // Issue token
-                        const payload = { email, _id, active, first };
-                        const token = jwt.sign(payload, config.SECRET, {
-                            expiresIn: '2h'
-                        });
-                        res.cookie('token', token, { httpOnly: true })
-                            .status(200).json({ token });
-
-                    }
-                });
-            }
-        })
+            })
     },
 
     checkUserToken: function (req, res, next) {

@@ -15,7 +15,13 @@ router.get('/measurement/:id', (req, res) => {
             options: { sort: { date: -1 }, limit: 1 }
         })
         .then(user => {
-            res.json(user.measurements)
+            res.status(200).json(user.measurements)
+        })
+        .catch(error => {
+            res.status(500).json({
+                message: 'Internal Server Error',
+                error: error
+            });
         })
 })
 
@@ -25,7 +31,13 @@ router.get('/measurement/:id/all', (req, res) => {
     User.findOne({ _id })
         .populate('measurements')
         .exec((err, user) => {
-            res.json(user.measurements)
+            res.status(200).json(user.measurements)
+        })
+        .catch(error => {
+            res.status(500).json({
+                message: 'Internal Server Error',
+                error: error
+            });
         })
 })
 
@@ -34,8 +46,15 @@ router.get('/measurement/:id/all', (req, res) => {
 router.get('/measurement/:id/query/:date', (req, res) => {
     const { id, date } = req.params
     Cycle.findOne({ User: req.params.id }).sort({ date: date }).limit(1)
-        .exec((err, cycle) => {
-            res.json(cycle)
+        .exec()
+        .then(cycle => {
+            res.status(200).json(cycle)
+        })
+        .catch(error => {
+            res.status(500).json({
+                message: 'Internal Server Error',
+                error: error
+            });
         })
 })
 
@@ -57,21 +76,36 @@ router.post('/measurement/:id', (req, res) => {
         bodyComp
     })
 
+
+    // CALLBACK HELL (Update THIS)
     newMeasurement.save()
         .then(measurement => {
             User.findOne({ _id })
                 .then(user => {
                     user.measurements.push(measurement._id)
-                    user.save()
-                    res.json(user)
-                })
-                .catch(err => {
-                    //User does not push data
+                    user.save().then(user => {
+                        res.status(200).json(user)
+                    })
+                        .catch(error => {
+                            res.status(500).json({
+                                message: 'Internal Server Error',
+                                error: error
+                            });
+                        })
+                Î})
+                .catch(error => {
+                    res.status(500).json({
+                        message: 'Internal Server Error',
+                        error: error
+                    });
                 })
 
         })
         .catch(error => {
-            res.send(error)
+            res.status(500).json({
+                message: 'Internal Server Error',
+                error: error
+            });
         })
 })
 
@@ -81,46 +115,27 @@ router.delete('/measurement/:id/:measurement', (req, res) => {
     const _id = req.params.id
     const _measurement = req.params.measurement
     User.findOne({ _id })
+        .exec()
         .then(
             Measurement.findOneAndRemove({
                 _measurement
             })
                 .then(response => {
-                    res.send('Measurement successfully deleted')
+                    res.status(200).json('Measurement successfully deleted')
                 })
-                .catch(err => {
-                    console.error(err)
+                .catch(error => {
+                    res.status(500).json({
+                        message: 'Internal Server Error',
+                        error: error
+                    });
                 })
         )
+        .catch(error => {
+            res.status(500).json({
+                message: 'Internal Server Error',
+                error: error
+            });
+        })
 })
 
 module.exports = router
-
-/*
-// Update cycle
-router.put('/measurement/:id', (req, res) => {
-    const _id = req.params.id
-    const { date, weight, neck, waist, hips, bicep, forearm, bodyComp } = req.body
-    Measurement.findOne({ _id })
-        .then(measurement => {
-            measurement.date = date
-            measurement.weight = weight
-            measurement.neck = neck
-            measurement.waist = waist
-            measurement.hips = hips
-            measurment.bicep = bicep
-            measurement.forearm = forearm
-            measurement.bodyComp = bodyComp
-            measurement.save()
-                .then(measurement => {
-                    res.json(measurement)
-                })
-                .catch(err => {
-                    console.error(err)
-                })
-        })
-        .catch(err => {
-            console.error(err)
-        })
-})
-*/

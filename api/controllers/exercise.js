@@ -13,46 +13,65 @@ module.exports = {
 
         })
 
-        newExercise.save()
+        newExercise.save().exec()
             .then(exercise => {
-                res.json(exercise)
+                res.status(200).json(exercise);
             })
-            .catch(err => {
-                res.status(500).send({ error: err })
+            .catch(error => {
+                res.status(500).json({
+                    message: 'Internal Server Error',
+                    error: error
+                });
             })
     },
     listExercises: function (req, res, next) {
-        Exercise.find({})
+        Exercise.find({}).exec()
             .then((exercises) => {
-                res.json(exercises)
+                res.status(200).json(exercises);
             }, () => {
-                res.status(500).json({ message: 'Oops! An internal error occured' })
-            })
-            .catch(err => {
                 res.status(500).json({
-                    message: 'Oops! An internal error occured. Please try again'
-                })
+                    message: 'Internal Server Error',
+                    error: error
+                });
+            })
+            .catch(error => {
+                res.status(500).json({
+                    message: 'Internal Server Error',
+                    error: error
+                });
             })
     },
     listExerciseNames: function (req, res, next) {
-        Exercise.find({}).select('name')
-            .exec((err, exercises) => {
-                res.json(exercises)
+        Exercise.find({}).select('name').exec()
+            .then(exercise => {
+                res.status(200).json(exercises)
             })
+            .catch(error => {
+                res.status(500).json({
+                    message: 'Internal Server Error',
+                    error: error
+                })
+            })
+
     },
     readExercises: function (req, res, next) {
         const _id = req.params.id
 
-        Exercise.findOne({ _id })
+        Exercise.findOne({ _id }).exec()
             .then(exercise => {
-                res.json(exercise)
+                res.status(200).json(exercise);
             })
-            .catch((err) => res.send(err))
+            .catch((error) => {
+                res.status(500).json({
+                    message: 'Internal Server Error',
+                    error: error
+                });
+            })
     },
     updateExercise: function (req, res, next) {
         const _id = req.params.id
         const { imageName, imageUrl, name, instruction } = req.body
-        Exercise.findOne({ _id })
+        Exercise.findOne({ _id }).exec()
             .then(exercise => {
                 exercise.imageName = imageName
                 exercise.imageUrl = imageUrl
@@ -60,14 +79,20 @@ module.exports = {
                 exercise.instruction = instruction
                 exercise.save()
                     .then(exercise => {
-                        res.json(exercise)
+                        res.status(200).json(exercise);
                     })
-                    .catch(err => {
-                        console.error(err)
+                    .catch(error => {
+                        res.status(500).json({
+                            message: 'Internal Server Error',
+                            error: error
+                        });
                     })
             })
-            .catch(err => {
-                console.error(err)
+            .catch(error => {
+                res.status(500).json({
+                    message: 'Internal Server Error',
+                    error: error
+                });
             })
     },
     updateExerciseImage: function (req, res, next) {
@@ -79,24 +104,30 @@ module.exports = {
                 {
                     imageUrl
                 }
-            )
+            ).exec()
             .then(response => {
-                res.json(response)
+                res.status(200).json(response);
             })
             .catch(error => {
-                console.error(error)
+                res.status(500).json({
+                    message: 'Internal Server Error',
+                    error: error
+                });
             })
     },
     deleteExercise: function (req, res, next) {
         const _id = req.params.id
         Exercise.findOneAndRemove({
             _id
-        })
+        }).exec()
             .then(exercise => {
-                res.send('Deleted User')
+                res.status(200).json('Deleted User');
             })
             .catch(err => {
-                console.error(err)
+                res.status(500).json({
+                    message: 'Internal Server Error',
+                    error: error
+                });
             })
     }
 

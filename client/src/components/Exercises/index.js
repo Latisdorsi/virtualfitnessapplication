@@ -174,6 +174,7 @@ export class Exercises extends Component {
                                             {populateTable}
                                         </tbody>
                                     </table>
+                                    {this.state.exercises.length == 0 && <p className="text-center">No Existing Exercises</p>}
                                     <ul id="page-numbers" className="pagination">
                                         <li
                                             className="page-item">

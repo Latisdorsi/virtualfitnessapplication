@@ -14,7 +14,7 @@ router.get('/record/:id', (req, res) => {
             justOne: true,
             options: { sort: { date: -1 }, limit: 1 }
         })
-        .exec()
+        
         .then(user => {
             res.status(200).json(user.records)
         })
@@ -31,7 +31,7 @@ router.get('/record/:id/all', (req, res) => {
     const _id = req.params.id
     User.findOne({ _id })
         .populate('records')
-        .exec()
+        
         .then(user => {
             res.status(200).json(user.records)
         })
@@ -57,7 +57,7 @@ router.post('/record/:id', (req, res) => {
     })
 
     newRecord.save()
-        .exec()
+        
         .then(record => {
             User.findOne({ _id })
                 .then(user => {

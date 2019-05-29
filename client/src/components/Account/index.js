@@ -185,6 +185,7 @@ export class Accounts extends Component {
 
                                         </tbody>
                                     </table>
+                                    {this.state.managers.length == 0 && <p className="text-center">No Existing Managers</p>}
                                     <ul id="page-numbers" className="pagination">
                                         <li
                                             className="page-item">
@@ -263,6 +264,7 @@ export class Accounts extends Component {
 
                                         </tbody>
                                     </table>
+                                    {this.state.members.length == 0 && <p className="text-center">No Existing Members</p>}
                                     <ul id="page-numbers" className="pagination">
                                         <li
                                             className="page-item">

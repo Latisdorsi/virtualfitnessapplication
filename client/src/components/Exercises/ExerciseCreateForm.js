@@ -104,12 +104,12 @@ export class ExerciseCreateForm extends Component {
             axios.post('/api/exercise/create', obj)
                 .then(response => {
                     resetForm();
-                    this.pushAlertMessage('Exercise Successfully Created', 'success')
+                    this.pushAlertMessage('Exercise Successfully Created', 'success');
+                    setSubmitting(false);
                 })
                 .catch(err => {
                     console.error('Request failed', err.response)
                 });
-            setSubmitting(false)
         }
 
         return (

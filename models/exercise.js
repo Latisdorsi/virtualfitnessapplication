@@ -15,6 +15,10 @@ const ExerciseSchema = new mongoose.Schema({
     instruction: {
         type: String,
         required: [true, 'Please enter the exercise instruction']
+    },
+    createdDate: {
+        type: Date,
+        default: Date.now
     }
 })
 

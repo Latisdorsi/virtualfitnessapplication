@@ -95,7 +95,8 @@ module.exports = {
 
         User
             .find({ role })
-            .exec()
+            .sort({createdDate: -1})
+            
             .then(users => {
                 res.status(200).json(users)
             })
@@ -115,7 +116,8 @@ module.exports = {
                 role,
                 active
             })
-            .exec()
+            .sort({createdDate: -1})
+            
             .then(users => {
                 res.status(200).json(users)
             })
@@ -133,7 +135,7 @@ module.exports = {
 
         User
             .findOne({ _id })
-            .exec()
+            
             .then(user => {
                 user.name = {
                     firstName,
@@ -171,7 +173,7 @@ module.exports = {
                     avatarURL
                 }
             )
-            .exec()
+            
             .then(response => {
                 res.status(200).json(response)
             })
@@ -192,7 +194,7 @@ module.exports = {
                     avatarURL: ''
                 }
             )
-            .exec()
+            
             .then(response => {
                 res.status(200).json(response);
             })
@@ -226,7 +228,7 @@ module.exports = {
                         }
                     }
                 })
-            .exec()
+            
             .then(response => {
                 res.status(200).json(response);
             })
@@ -254,7 +256,7 @@ module.exports = {
                         relationship: emergencyRelationship
                     }
                 })
-            .exec()
+            
             .then(response => {
                 res.status(200).json(response)
             })
@@ -273,7 +275,7 @@ module.exports = {
             }, {
                     active: true
                 })
-            .exec()
+            
             .then(
                 res.status(200).json(true)
             )
@@ -292,7 +294,7 @@ module.exports = {
             }, {
                     active: false
                 })
-            .exec()
+            
             .then(
                 res.status(200).json(false)
             )
@@ -308,7 +310,7 @@ module.exports = {
         const _id = req.params.id
         User
             .findOneAndRemove({ _id })
-            .exec()
+            
             .then(user => {
                 res.send('Deleted User')
             })
@@ -319,7 +321,7 @@ module.exports = {
 
     authenticateUser: function (req, res, next) {
         const { email, password } = req.body;
-        User.findOne({ email }).exec()
+        User.findOne({ email })
             .then(user => {
                 if (!user) { //User does not exist
                     res.status(401)

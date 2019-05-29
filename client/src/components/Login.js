@@ -36,7 +36,6 @@ export class Login extends Component {
                     window.location.reload();
                 } else {
                     const err = new Error(response);
-                    console.log(response)
                     this.setState({
                         isError: true,
                         errorMsg: String('Invalid Email or Password Entered')

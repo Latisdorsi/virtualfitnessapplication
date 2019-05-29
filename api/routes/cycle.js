@@ -15,7 +15,7 @@ router.get('/cycle/:id', (req, res) => {
             justOne: true,
             options: { sort: { startDate: -1 }, limit: 1 }
         })
-        .exec()
+        
         .then(user => {
             res.status(200).json(user.cycles)
         })
@@ -56,7 +56,7 @@ router.get('/cycle/:id/all', (req, res) => {
     const _id = req.params.id
     User.findOne({ _id })
         .populate('cycles')
-        .exec()
+        
         .then(user => {
             res.status(200).json(user.cycles)
         })

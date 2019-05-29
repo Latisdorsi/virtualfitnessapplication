@@ -88,7 +88,7 @@ const AccountCredentialsForm = props => {
                     placeholder="Enter Your Last Name" /> {errors.middleInitial && touched.middleInitial && <div id="feedback">{errors.middleInitial}</div>}
             </div>
             <MySelect
-                value={values.role }
+                value={values.role}
                 onChange={setFieldValue}
                 onBlur={setFieldTouched}
                 error={errors.role}

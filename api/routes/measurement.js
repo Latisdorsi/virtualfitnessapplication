@@ -46,7 +46,7 @@ router.get('/measurement/:id/all', (req, res) => {
 router.get('/measurement/:id/query/:date', (req, res) => {
     const { id, date } = req.params
     Cycle.findOne({ User: req.params.id }).sort({ date: date }).limit(1)
-        .exec()
+        
         .then(cycle => {
             res.status(200).json(cycle)
         })
@@ -115,7 +115,7 @@ router.delete('/measurement/:id/:measurement', (req, res) => {
     const _id = req.params.id
     const _measurement = req.params.measurement
     User.findOne({ _id })
-        .exec()
+        
         .then(
             Measurement.findOneAndRemove({
                 _measurement

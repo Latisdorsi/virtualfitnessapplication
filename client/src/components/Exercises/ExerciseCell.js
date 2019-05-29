@@ -14,10 +14,13 @@ export class ExerciseCell extends Component {
 
     delete = (event) => {
         axios.delete('/api/exercise/detail/' + this.props.exercise._id)
-            .then(
+            .then(response => {
                 this.props.pushAlertMessage('Exercise Successfully Deleted', 'danger')
+            }
             )
-            .catch(err => console.log(err))
+            .catch(
+                err => this.props.pushAlertMessage('An Internal Server Occured', 'danger')
+            )
     }
 
     toggleDeleteModalState = () => {

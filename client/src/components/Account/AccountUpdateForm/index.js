@@ -5,7 +5,7 @@ import axios from 'axios'
 import CredentialsForm from './AccountCredentialsForm';
 import ContactForm from './AccountContactForm';
 import EmergencyForm from './AccountEmergencyForm';
-import { Alert } from 'reactstrap'
+import { Alert, Fade } from 'reactstrap'
 
 
 import { storage } from '../../../library/config/firebase-keys'
@@ -40,9 +40,7 @@ export default class AccountUpdateForm extends Component {
             emergencyFullName: '',
             emergencyNumber: '',
             emergencyRelationship: '',
-
-            // Save State
-            isSucessful: false
+            alertMssg: []
         }
     }
     handleUploadStart = () => this.setState({ isUploading: true, progress: 0 });
@@ -76,6 +74,68 @@ export default class AccountUpdateForm extends Component {
             });
 
     };
+
+
+    onDismiss = (index) => {
+        if (this.state.alertMssg) {
+            const newAlertArray = this.state.alertMssg.slice(index)
+            this.setState({
+                alertMssg: newAlertArray
+            });
+            this.forceUpdate();
+        }
+    }
+
+
+    displayAlertMessage = () => {
+
+        return (
+            <>
+                <div
+                    style={{
+                        position: 'fixed',
+                        top: '0x',
+                        right: '20px',
+                        width: '30%',
+                        zIndex: '9999',
+                        borderRadius: '0px'
+                    }}
+                >
+                    {this.state.alertMssg.map((alert, index) => {
+                        return <Fade in={true}>
+                            <Alert
+                                color={alert.type}
+                                isOpen={true}
+                                toggle={
+                                    () => {
+                                        this.setState({
+                                            alertMssg: this.state.alertMssg.slice(index + 1)
+                                        });
+                                        return false;
+                                    }
+                                }
+                            >
+                                {alert.mssg}
+                            </Alert>
+                        </Fade>
+                    })
+                    }
+                </div>
+
+            </>
+        );
+    }
+
+    pushAlertMessage = (mssg, type) => {
+        this.setState({
+            alertMssg: [
+                ...this.state.alertMssg,
+                { mssg, type }
+            ]
+        });
+    }
+
+
     deletePhoto = (event) => {
         axios.put('/api/account/detail/' + this.props.match.params.id + '/avatar', { avatarURL: '' })
             .then(response => {
@@ -129,11 +189,9 @@ export default class AccountUpdateForm extends Component {
                         emergencyRelationship: response.data.emergencyContact.relationship
                     })
                 }
-
-                console.log(this.state)
             })
             .catch(function (error) {
-                console.log(error);
+                this.pushAlertMessage('Error occured! ' + error, 'danger');
             })
     }
 
@@ -165,14 +223,11 @@ export default class AccountUpdateForm extends Component {
                 .put('/api/account/detail/' + this.props.match.params.id + '/contact', obj)
                 .then(response => {
                     setSubmitting(false);
-                    this.setState({
-                        isSucessful: true
-                    })
-                    console.log(response)
+                    this.pushAlertMessage('Account Successfully Updated', 'success');
                 })
-                .catch(err => {
+                .catch(error => {
                     setSubmitting(false);
-                    alert('Request failed', err.response);
+                    this.pushAlertMessage('Error occured! ' + error, 'danger');
                 });
         }
 
@@ -182,19 +237,15 @@ export default class AccountUpdateForm extends Component {
                 emergencyNumber: values.emergencyNumber,
                 emergencyRelationship: values.emergencyRelationship
             }
-            console.log(obj)
             axios
                 .put('/api/account/detail/' + this.props.match.params.id + '/emergency', obj)
                 .then(response => {
                     setSubmitting(false);
-                    this.setState({
-                        isSucessful: true
-                    })
-                    console.log(response)
+                    this.pushAlertMessage('Account Successfully Updated', 'success');
                 })
-                .catch(err => {
+                .catch(error => {
                     setSubmitting(false);
-                    alert('Request failed', err.response);
+                    this.pushAlertMessage('Error occured! ' + error, 'danger');
                 });
         }
 
@@ -211,36 +262,17 @@ export default class AccountUpdateForm extends Component {
             axios
                 .put('/api/account/detail/' + this.props.match.params.id, obj)
                 .then(response => {
-                    this.setState({
-                        isSucessful: true
-                    })
+                    this.pushAlertMessage('Account Successfully Updated', 'success');
                     setSubmitting(false)
-                    console.log(response)
                 })
-                .catch(err => {
-                    setSubmitting(false);
-                    alert('Request failed', err.response);
+                .catch(error => {
+                    setSubmitting(false)
+                    this.pushAlertMessage('Error occured! ' + error, 'danger');
                 });
         }
         return (
             <div className="content-wrapper">
-
-                <Alert
-                    color="success"
-                    style={{
-                        position: 'fixed',
-                        top: '0x',
-                        right: '20px',
-                        width: '30%',
-                        zIndex: '9999',
-                        borderRadius: '0px'
-                    }}
-                    isOpen={this.state.isSucessful}
-                    toggle={this.onDismiss}
-                >
-                    All done! Account successfully updated
-                                    </Alert>
-
+                {this.displayAlertMessage()}
                 <div className="container-fluid mt-4 mb-4">
                     <div className="row mt-4 mb-2">
                         <div className="col-md-12">
@@ -296,7 +328,7 @@ export default class AccountUpdateForm extends Component {
                                             firstName: this.state.firstName,
                                             lastName: this.state.lastName,
                                             middleInitial: this.state.middleInitial,
-                                            role: this.state.role,
+                                            role: { value: this.state.role, label: this.state.role.charAt(0).toUpperCase() + this.state.role.slice(1) },
                                             active: this.state.active
                                         }}
                                         render={props => <CredentialsForm {...props} />}

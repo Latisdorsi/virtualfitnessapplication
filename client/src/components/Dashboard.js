@@ -3,18 +3,18 @@ import { Link } from 'react-router-dom'
 import axios from 'axios';
 import ExerciseCell from './Exercises/ExerciseCell'
 import AccountCell from './Account/AccountCell'
-import { Alert } from 'reactstrap'
+import { Alert, Fade } from 'reactstrap'
 
 export class Exercises extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            managers: [],
             members: [],
             alert: [],
             exercises: [],
             documentsPerPage: 15,
+            alertMssg: []
         };
 
         this.handleClick = this.handleClick.bind(this);
@@ -28,33 +28,22 @@ export class Exercises extends Component {
         });
     }
 
-
     onDismiss = (index) => {
-        this.setState({
-            alert: this.state.alert.slice(index)
-        })
+        if (this.state.alertMssg) {
+            const newAlertArray = this.state.alertMssg.slice(index)
+            this.setState({
+                alertMssg: newAlertArray
+            });
+            this.forceUpdate();
+        }
     }
 
-    showMessage = () => {
+
+    displayAlertMessage = () => {
+
         return (
-            <div
-                style={{
-                    position: 'fixed',
-                    top: '0x',
-                    right: '20px',
-                    width: '30%',
-                    zIndex: '9999',
-                    borderRadius: '0px'
-                }}>
-                <Alert
-                    color="success"
-                    isOpen={true}
-                    toggle={this.onDismiss}
-                >
-                    Account Successfully Activated
-                            </Alert>
-                <Alert
-                    color="danger"
+            <>
+                <div
                     style={{
                         position: 'fixed',
                         top: '0x',
@@ -63,17 +52,33 @@ export class Exercises extends Component {
                         zIndex: '9999',
                         borderRadius: '0px'
                     }}
-                    isOpen={true}
-                    toggle={this.onDismiss}
                 >
-                    Account Successfully Deleted
+                    {this.state.alertMssg.map((alert, index) => {
+                        return <Fade in={true}>
+                            <Alert
+                                color={alert.type}
+                                isOpen={true}
+                                toggle={
+                                    () => {
+                                        this.setState({
+                                            alertMssg: this.state.alertMssg.slice(index + 1)
+                                        });
+                                        return false;
+                                    }
+                                }
+                            >
+                                {alert.mssg}
                             </Alert>
-            </div>
-        )
+                        </Fade>
+                    })
+                    }
+                </div>
+
+            </>
+        );
     }
 
-    componentDidMount() {
-
+    fetchUserData = () => {
         // Get Members from Server
         axios.get('/api/account/list/member/inactive')
             .then(response => {
@@ -85,13 +90,27 @@ export class Exercises extends Component {
 
     }
 
+    pushAlertMessage = (mssg, type) => {
+        this.setState({
+            alertMssg: [
+                ...this.state.alertMssg,
+                { mssg, type }
+            ]
+        });
+        this.fetchUserData();
+    }
+
+    componentDidMount() {
+        this.fetchUserData();
+    }
+
     render() {
         const { documentsPerPage, exercises, managers, members } = this.state
 
         const currentMembers = members.slice(0, documentsPerPage)
 
-        const populateMembers = currentMembers.map(function (user, i) {
-            return <AccountCell user={user} key={i} />
+        const populateMembers = currentMembers.map((user, i) => {
+            return <AccountCell user={user} pushAlertMessage={this.pushAlertMessage} key={i} />
         })
 
 
@@ -108,7 +127,7 @@ export class Exercises extends Component {
                             <div className="card ">
                                 <div className="card-body">
                                     <div className="row">
-                                    <div className="col-md-6">
+                                        <div className="col-md-6">
                                             <div className="page-title-wrapper">
                                                 <h4>Inactive Member Accounts</h4>
                                                 <p className="text-muted">Activate or Deactivate Members</p>
@@ -134,8 +153,8 @@ export class Exercises extends Component {
                                         <tbody>
                                             {populateMembers}
                                         </tbody>
-                    
                                     </table>
+                                        {this.state.members.length == 0 && <p className="text-center">No Inactive Members</p>}
 
                                 </div>
                             </div>

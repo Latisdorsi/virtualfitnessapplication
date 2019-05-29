@@ -7,7 +7,7 @@ const Routine = require('../../models/routine')
 // Get All Member Cycle
 router.get('/routine', (req, res) => {
     Routine.find({})
-        .exec()
+        
         .then(routine => {
             res.status(200).json(routine)
         })
@@ -23,7 +23,7 @@ router.get('/routine', (req, res) => {
 router.get('/routine/:id', (req, res) => {
     const _id = req.params.id
     Routine.find({ _id })
-        .exec()
+        
         .then(routine => {
             res.status(200).json(routine)
         })
@@ -39,7 +39,7 @@ router.get('/routine/:id', (req, res) => {
 router.post('/routine/query', (req, res) => {
     const { level, goal, schedule } = req.body
     Routine.find({ level, goal, schedule })
-        .exec()
+        
         .then(routine => {
             res.status(200).json(routine)
         })
@@ -62,7 +62,7 @@ router.post('/routine', (req, res) => {
     })
 
     newRoutine.save()
-        .exec()
+        
         .then(routine => {
             res.status(200).json(routine)
         })
@@ -79,7 +79,7 @@ router.put('/routine/:id', (req, res) => {
     const _id = req.params.id
     const { level, goal, schedule, exercises } = req.body
     Routine.findOne({ _id })
-        .exec()
+        
         .then(routine => {
             routine.level = level
             routine.goal = goal

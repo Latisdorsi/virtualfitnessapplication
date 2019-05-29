@@ -43,7 +43,7 @@ export class AccountCreatePage extends Component {
     }
 
 
-    displayAlertMessage = (index) => {
+    displayAlertMessage = () => {
 
         return (
             <>

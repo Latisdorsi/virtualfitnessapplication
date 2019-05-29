@@ -13,7 +13,7 @@ module.exports = {
 
         })
 
-        newExercise.save().exec()
+        newExercise.save()
             .then(exercise => {
                 res.status(200).json(exercise);
             })
@@ -25,7 +25,10 @@ module.exports = {
             })
     },
     listExercises: function (req, res, next) {
-        Exercise.find({}).exec()
+        Exercise
+            .find({})
+            .sort({ createdDate: -1 })
+            .exec()
             .then((exercises) => {
                 res.status(200).json(exercises);
             }, () => {
@@ -57,7 +60,9 @@ module.exports = {
     readExercises: function (req, res, next) {
         const _id = req.params.id
 
-        Exercise.findOne({ _id }).exec()
+        Exercise.findOne({ _id })
+            .sort({ createdDate: -1 })
+            .exec()
             .then(exercise => {
                 res.status(200).json(exercise);
             })

@@ -9,21 +9,21 @@ import {
 import DeviceStorage from 'lib/services/DeviceStorage'
 import { parseToken } from 'lib/helpers/utils'
 
+
+
 export default class AuthLoadingScreen extends React.Component {
     constructor(props) {
         super(props)
-        let token
-        const loggedIn = false
+        let token;
         token = !token && DeviceStorage.loadItem('token').then(token => {
-            const userData = parseToken(token)
-            console.log(userData + 'reached')
-            this.props.navigation.navigate(userData.first ? 'LoggedIn' : 'LoggedOut')
+            const userData = parseToken(token);
+            this.props.navigation.navigate(userData.first ? 'Wizard' : 'App');
         }
         ).catch(err => {
-            console.warn(err);
-            this.props.navigation.navigate('LoggedOut')
+            console.warn(err)
+            props.screenProps.rootNavigation.navigate('AuthLoading');
+
         })
-        this.props.navigation.navigate('LoggedOut')
     }
 
     render() {

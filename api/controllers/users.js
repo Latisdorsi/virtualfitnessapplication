@@ -95,8 +95,8 @@ module.exports = {
 
         User
             .find({ role })
-            .sort({createdDate: -1})
-            
+            .sort({ createdDate: -1 })
+
             .then(users => {
                 res.status(200).json(users)
             })
@@ -116,8 +116,8 @@ module.exports = {
                 role,
                 active
             })
-            .sort({createdDate: -1})
-            
+            .sort({ createdDate: -1 })
+
             .then(users => {
                 res.status(200).json(users)
             })
@@ -135,7 +135,7 @@ module.exports = {
 
         User
             .findOne({ _id })
-            
+
             .then(user => {
                 user.name = {
                     firstName,
@@ -173,7 +173,7 @@ module.exports = {
                     avatarURL
                 }
             )
-            
+
             .then(response => {
                 res.status(200).json(response)
             })
@@ -194,7 +194,7 @@ module.exports = {
                     avatarURL: ''
                 }
             )
-            
+
             .then(response => {
                 res.status(200).json(response);
             })
@@ -228,7 +228,7 @@ module.exports = {
                         }
                     }
                 })
-            
+
             .then(response => {
                 res.status(200).json(response);
             })
@@ -256,7 +256,7 @@ module.exports = {
                         relationship: emergencyRelationship
                     }
                 })
-            
+
             .then(response => {
                 res.status(200).json(response)
             })
@@ -275,7 +275,7 @@ module.exports = {
             }, {
                     active: true
                 })
-            
+
             .then(
                 res.status(200).json(true)
             )
@@ -294,7 +294,7 @@ module.exports = {
             }, {
                     active: false
                 })
-            
+
             .then(
                 res.status(200).json(false)
             )
@@ -310,7 +310,7 @@ module.exports = {
         const _id = req.params.id
         User
             .findOneAndRemove({ _id })
-            
+
             .then(user => {
                 res.send('Deleted User')
             })
@@ -362,6 +362,43 @@ module.exports = {
                     });
             })
     },
+
+    changePassword: function (req, res, next) {
+        User
+            .update({
+                _id: req.params.id
+            }, {
+                    password: req.body.password
+                })
+            .then(
+                res.status(200).json(false)
+            )
+            .catch(error => {
+                res.status(500).json({
+                    message: 'Internal Server Errror',
+                    error: error
+                })
+            })
+    },
+
+    changeEmail: function (req, res, next) {
+        User
+            .update({
+                _id: req.params.id
+            }, {
+                    password: req.body.email
+                })
+            .then(
+                res.status(200).json(false)
+            )
+            .catch(error => {
+                res.status(500).json({
+                    message: 'Internal Server Errror',
+                    error: error
+                })
+            })
+    },
+
 
     checkUserToken: function (req, res, next) {
         res.json({

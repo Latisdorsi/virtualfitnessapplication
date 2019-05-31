@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 // Initial Loading Screen
 import AuthLoadingScreen from '../screens/Auth/AuthLoadingScreen'
+import AppLoadingScreen from '../screens/App/LoadingScreen'
 
 //Auth Stack Screens
 import Login from "../screens/Auth/Login";
@@ -25,6 +26,7 @@ import Exercise from '../screens/App/Exercises/Details'
 import Calendar from '../screens/App/Calendar'
 
 //Settings Screens
+import Wizard from '../screens/App/Wizard'
 import Settings from '../screens/App/Settings'
 import ChangeEmail from '../screens/App/Settings/ChangeEmail'
 import ChangePassword from '../screens/App/Settings/ChangePassword'
@@ -147,6 +149,17 @@ const AppStack = createAppContainer(createBottomTabNavigator({
     })
 )
 
+const MainStack = createSwitchNavigator({
+    Wizard:{
+        screen: Wizard,
+        navigationOptions: {
+            title: 'Wizard'
+        }
+    },
+    App: AppStack,
+    WizardStackLoading: AppLoadingScreen
+})
+
 //Stack Navigator For Logging In and Signing Up
 const AuthStack = createStackNavigator({
     Login: {
@@ -167,11 +180,12 @@ const AuthStack = createStackNavigator({
 });
 
 
+
 export default createAppContainer(createSwitchNavigator(
     {
         AuthLoading: AuthLoadingScreen,
         LoggedIn: {
-            screen: ({ navigation }) => <AppStack screenProps={{ rootNavigation: navigation }} />
+            screen: ({ navigation }) => <MainStack screenProps={{ rootNavigation: navigation }} />
         },
         LoggedOut: AuthStack
     }, {

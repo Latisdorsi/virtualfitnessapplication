@@ -74,7 +74,7 @@ export class HomeScreen extends Component {
             targetDate,
             targetGoal
         }
-        axios.post('http://10.0.2.2:3000/api/cycle/5c9a0cfaa6eebe3c3474480c', obj)
+        axios.post('http://mvfagb.herokuapp.com/api/cycle/5c9a0cfaa6eebe3c3474480c', obj)
         .then(response => {
             console.warn(response.data)
         })

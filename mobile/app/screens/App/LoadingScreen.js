@@ -11,13 +11,14 @@ import { parseToken } from 'lib/helpers/utils'
 
 
 
-export default class AuthLoadingScreen extends React.Component {
+export default class LoadingScreen extends React.Component {
     constructor(props) {
         super(props)
         let token;
         token = !token && DeviceStorage.loadItem('token').then(token => {
             const userData = parseToken(token);
-            this.props.navigation.navigate(userData.first ? 'Wizard' : 'App');
+            console.warn('updated');
+            this.props.navigation.navigate(userData.first ? 'Wizard' : 'Wizard');
         }
         ).catch(err => {
             console.warn(err)

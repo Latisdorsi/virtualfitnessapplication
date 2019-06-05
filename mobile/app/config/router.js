@@ -149,7 +149,7 @@ const AppStack = createAppContainer(createBottomTabNavigator({
     })
 )
 
-const MainStack = createSwitchNavigator({
+const MainStack = createAppContainer(createSwitchNavigator({
     Wizard:{
         screen: Wizard,
         navigationOptions: {
@@ -157,8 +157,11 @@ const MainStack = createSwitchNavigator({
         }
     },
     App: AppStack,
-    WizardStackLoading: AppLoadingScreen
-})
+    WizardStackLoading: AppLoadingScreen},
+     {
+        initialRouteName: 'Wizard'
+    }
+));
 
 //Stack Navigator For Logging In and Signing Up
 const AuthStack = createStackNavigator({

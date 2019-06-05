@@ -2,13 +2,6 @@ import React, { useState, useContext, useEffect } from "react";
 import { View, Text, ScrollView, TextInput, StyleSheet } from "react-native"
 import { Headline, Subheading, Divider, Button } from "react-native-paper";
 
-import { default as CardioRespiratoryTest } from './CardioRespiratoryTest'
-import { default as UpperBodyTest } from './UpperBodyTest'
-import { default as LowerBodyTest } from './LowerBodyTest'
-import { default as MuscleEnduranceTest } from './MuscleEnduranceTest'
-import { default as FlexibilityTest } from './FlexibilityTest'
-
-import StepContext from '../StepContext'
 import WizardContext from '../WizardContext'
 
 const flexibilityData = [
@@ -122,7 +115,7 @@ export default function Assessment() {
             </View>
 
             <Button onPress={() => {
-                setStep(2)
+                navigate('Assessment');
             }}>
                 Next
                 </Button>

@@ -35,7 +35,7 @@ export default function UserProfile() {
         DeviceStorage.loadItem('token').then(token => {
             const tokenData = parseToken(token)
             axios
-                .get('http://10.0.2.2:3000/account/detail/' + tokenData._id)
+                .get('http://mvfagb.herokuapp.com/api/account/detail/' + tokenData._id)
                 .then(response => {
                     setUser({
                         ...user,

@@ -5,14 +5,25 @@ import { Headline, Subheading, Button, Card } from "react-native-paper";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 
-import WizardContext from './WizardContext'
+import { createAppContainer, createStackNavigator } from "react-navigation";
 
-export { default as Profile } from './Profile'
-export { default as Assessment } from './Assessment'
-export { default as Goal } from './Goal'
-export { default as Schedule } from './Schedule'
-export { default as Exercise } from './Exercise'
-export { default as MultiStep } from './MultiStep'
+
+
+import WizardContext from './WizardContext';
+import { CalculateComposition } from 'lib/helpers/utils';
+
+import Profile from './Profile';
+import Goal from './Goal';
+import Schedule from './Schedule';
+import Routine from "./Routine";
+// import Exercise from './Exercise';
+// import Assessment from './Assessment';
+// export { default as Profile } from './Profile'
+// export { default as Assessment } from './Assessment'
+// export { default as Goal } from './Goal'
+// export { default as Schedule } from './Schedule'
+// export { default as Exercise } from './Exercise'
+// export { default as MultiStep } from './MultiStep'
 
 
 const setupData = {
@@ -49,19 +60,57 @@ const setupData = {
     goal: 0,
     schedule: 0
 }
+const WizardNavigator = createAppContainer(createStackNavigator({
+    Profile: {
+        screen: Profile,
+        navigationOptions: {
+            title: 'Profile'
+        }
+    },
+    Goal: {
+        screen: Goal,
+        navigationOptions: {
+            title: 'Goal'
+        }
+    },
+    Schedule: {
+        screen: Schedule,
+        navigationOptions: {
+            title: 'Schedule'
+        }
+    },
+    Routine: {
+        screen: Routine,
+        navigationOptions: {
+            title: 'Routine'
+        }
+    }
+}));
 
-export default function Wizard({ children }) {
+export default class Wizard extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            title: 'name',
+            age: 0,
+            sex: 'Male',
+            weight: 0,
+            height: 0,
+            neck: 0,
+            wasit: 0,
+            hips: 0,
+            composition: CalculateComposition(this.age, this.sex, this.weight, this.height, this.neck, this.waist, this.hips)
+        }
+    }
 
-    const setupState = useState(setupData)
 
-    return (
-        <WizardContext.Provider value={setupState}>
-            <ScrollView>
-                <View
-                    style={{ padding: 15 }}>
-                    {children}
-                </View>
-            </ScrollView>
-        </WizardContext.Provider>
-    );
+    render() {
+        return (
+            <>
+            <WizardContext.Provider value={this.state}>
+                <WizardNavigator screenProps={{title:'Title'}}/>
+            </WizardContext.Provider>
+            </>
+        );
+    }
 }

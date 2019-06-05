@@ -10,42 +10,56 @@ const radio_props = [
     { label: 'Get Stronger Lifts', value: 2 },
     { label: 'General Fitness', value: 3 }
 ];
-
-import StepContext from './StepContext'
 import WizardContext from './WizardContext'
 
 
-export default function Goal() {
-    let [setupData, setSetupData] = useContext(WizardContext)
+export default class Goal extends React.Component {
+    // let [setupData, setSetupData] = useContext(WizardContext)
 
-    let [step, setStep] = useContext(StepContext)
+    // let [step, setStep] = useContext(StepContext)
 
-    let [goal, setGoal] = useState(0)
+    // let [goal, setGoal] = useState(0)
 
-    useEffect(() => {
-        let newData = {
-            ...setupData,
-            goal
-        }
-        setSetupData(newData)
-        console.log(setupData)
-    })
+    // useEffect(() => {
+    //     let newData = {
+    //         ...setupData,
+    //         goal
+    //     }
+    //     setSetupData(newData)
+    //     console.log(setupData)
+    // })
+    render() {
+        const { navigate } = this.props.navigation;
+        return (
+            <WizardContext.Consumer>
+                {context => (
+                    <View>
+                        <Text> Goal</Text>
+                        <View>
+                            <RadioForm
+                                radio_props={radio_props}
+                                initial={0}
+                            // onPress={(value) => { setGoal(value) }}
+                            />
+                        </View>
+                        <Button onPress={() => {
+                            navigate('Schedule');
+                            
+                        }}
+                        mode="contained"
+                        >
+                            Next
+                            </Button>
+                    </View>
+                )}
+            </WizardContext.Consumer>
+            //             Next
+            //     <View>
+            //         <Subheading>Goal</Subheading>
 
-    return (
-        <View>
-            <Subheading>Goal</Subheading>
-            <View>
-                <RadioForm
-                    radio_props={radio_props}
-                    initial={0}
-                    onPress={(value) => { setGoal(value) }}
-                />
-            </View>
-            <Button onPress={() => {
-                setStep(3)
-            }}>
-                Next
-        </Button>
-        </View>
-    )
+
+            // </Button>
+            //     </View>
+        )
+    }
 }

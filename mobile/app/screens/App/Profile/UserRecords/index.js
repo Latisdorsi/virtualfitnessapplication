@@ -48,7 +48,7 @@ export default function UserRecords() {
     useEffect(() => {
         DeviceStorage.loadItem('token').then(token => {
             const tokenData = parseToken(token)
-            Axios.get('http://10.0.2.2:3000/measurement/' + tokenData._id)
+            Axios.get('http://mvfagb.herokuapp.com/api/measurement/' + tokenData._id)
                 .then(response => {
                     //Do nothing for now
                 })

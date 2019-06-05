@@ -386,7 +386,7 @@ module.exports = {
             .update({
                 _id: req.params.id
             }, {
-                    password: req.body.email
+                    email: req.body.email
                 })
             .then(
                 res.status(200).json(false)

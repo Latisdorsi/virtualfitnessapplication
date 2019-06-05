@@ -47,7 +47,13 @@ router.put('/detail/:id', user.updateUser)
 router.post('/detail/:id', user.updateUser)
 
 // Deletes Account Data in the Database
-router.delete('/detail/:id', user.deleteUser)
-router.get('/delete/:id', user.deleteUser)
+router.delete('/detail/:id', user.deleteUser);
+router.get('/delete/:id', user.deleteUser);
+
+//Update Account Email
+router.put('/change/email/:id', user.changeEmail);
+
+// Update Account Password
+router.put('/change/password/:id', user.changePassword);
 
 module.exports = router

@@ -14,12 +14,11 @@ export default class Exercises extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://10.0.2.2:3000/exercise/names')
+        axios.get('https://mvfagb.herokuapp.com/api/exercise/list')
             .then(response => {
                 this.setState({
                     exercises: response.data
                 });
-                console.log(this.state.exercises)
             })
             .catch(function (error) {
                 console.log(error);

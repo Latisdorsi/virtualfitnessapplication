@@ -32,7 +32,7 @@ export default class Register extends Component {
         }
 
         axios
-            .post('http://10.0.2.2:3000/account/create', userObj)
+            .post('https://mvfagb.herokuapp.com/api/account/create', userObj)
             .then(response => {
                 console.log(response)
                 this.setState({

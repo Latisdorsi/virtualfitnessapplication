@@ -6,13 +6,13 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 
 
-import WizardContext from './StepContext'
+import WizardContext from './App/Wizard/StepContext'
 
-import Profile from './Profile'
-import Assessment from './Assessment'
-import Goal from './Goal'
-import Schedule from './Schedule'
-import Exercise from './Exercise'
+import Profile from './App/Wizard/Profile'
+import Assessment from './App/Wizard/Assessment'
+import Goal from './App/Wizard/Goal'
+import Schedule from './App/Wizard/Schedule'
+import Exercise from './App/Wizard/Exercise'
 
 
 export default function MultiStep() {

@@ -1,9 +1,7 @@
 import React from "react";
-import { View, Text, TouchableHighlight, ScrollView, TextInput } from "react-native"
-import Modal from "react-native-modal";
-import { Headline, Subheading, Button, Card } from "react-native-paper";
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
+import { View } from "react-native";
+import { Button } from "react-native-paper";
+import RadioForm from 'react-native-simple-radio-button';
 
 import WizardContext from './WizardContext'
 
@@ -15,39 +13,24 @@ const radio_props = [
 
 
 export default class Schedule extends React.Component {
-    // let [setupData, setSetupData] = useContext(WizardContext)
-    // // let [step, setStep] = useContext(StepContext)
-    // let [schedule, setSchedule] = useState(0)
-
-    // useEffect(() => {
-    //     let newData = {
-    //         ...setupData,
-    //         schedule
-    //     }
-    //     setSetupData(newData)
-    //     console.log(setupData)
-    // })
-
-
 
     render() {
         const { navigate } = this.props.navigation;
         return (
             <WizardContext.Consumer>
                 {context => (
-                    <View>
-                        <Headline>Schedule</Headline>
+                    <View style={{ paddingHorizontal: 15, paddingVertical: 15 }}>
                         <View>
                             <RadioForm
                                 radio_props={radio_props}
-                                initial={0}
-                            // onPress={(value) => { setSchedule(value) }}
+                                initial={context.schedule}
+                                onPress={(value) => { context.setSchedule(value) }}
                             />
                         </View>
                         <Button onPress={() => {
                             navigate('Routine');
                         }}
-                        mode="contained"
+                            mode="contained"
                         >
                             Next
         </Button>

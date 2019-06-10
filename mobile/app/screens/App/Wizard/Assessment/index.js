@@ -1,125 +1,66 @@
-import React, { useState, useContext, useEffect } from "react";
-import { View, Text, ScrollView, TextInput, StyleSheet } from "react-native"
+import React from "react";
+import { View, Text, ScrollView } from "react-native"
 import { Headline, Subheading, Divider, Button } from "react-native-paper";
 
 import WizardContext from '../WizardContext'
+import CardioRespiratoryTest from './CardioRespiratoryTest'
+import UpperBodyTest from './UpperBodyTest'
+import LowerBodyTest from './LowerBodyTest'
+import MuscleEnduranceTest from './MuscleEnduranceTest'
+import FlexibilityTest from './FlexibilityTest'
 
-const flexibilityData = [
-    { key: 0, label: '20' },
-    { key: 1, label: '20' }
-]
+export default class Assessment extends React.Component {
+    render() {
+        const { navigate } = this.props.navigation;
+        return (
+            <WizardContext.Consumer>
+                {({context, setUpperBodyStrength, setLowerBodyStrength, setMuscleEndurance, setFlexibility}) => (
+                    <ScrollView>
+                        <View style={{ paddingHorizontal: 15, paddingVertical: 15 }}>
+                            <Headline>Fitness Level Assessment</Headline>
+                            <Subheading>Answer each item as accurately as you can</Subheading>
+                            <View>
+                                <Text>Score</Text>
+                            </View>
+                            <View style={{ marginVertical: 15, padding: 15 }}>
+                                <CardioRespiratoryTest />
+                            </View>
+                            <Divider />
 
+                            <View style={{ marginVertical: 15, padding: 15 }}>
+                                <UpperBodyTest setValue={setUpperBodyStrength} />
+                            </View>
 
-export default function Assessment() {
+                            <Divider />
 
-    let [step, setStep] = useContext(StepContext)
-    let [setupData, setSetupData] = useContext(WizardContext)
+                            <View style={{ marginVertical: 15, padding: 15 }}>
+                                <LowerBodyTest setValue={setLowerBodyStrength} />
+                            </View>
 
-    let [upperBodyStrength, setUpperBodyStrength] = useState({
-        level: 'Undefined',
-        oneRepMax: 0,
-        weightRatio: 0
-    })
+                            <Divider />
 
-    let [lowerBodyStrength, setLowerBodyStrength] = useState({
-        level: 'Undefined',
-        oneRepMax: 0,
-        weightRatio: 0
-    })
+                            <View style={{ marginVertical: 15, padding: 15 }}>
+                                <MuscleEnduranceTest setValue={setMuscleEndurance} />
+                            </View>
 
-    let [muscleEndurance, setMuscleEndurance] = useState({
-        level: 'Undefined',
-        pushUpScore: 0
-    })
+                            <Divider />
 
-    let [flexibility, setFlexibility] = useState({
-        level: 'Undefined',
-        flexibilityScore: 0
-    })
+                            <View style={{ marginVertical: 15, padding: 15 }}>
+                                <FlexibilityTest setValue={setFlexibility} />
+                            </View>
 
-    useEffect(() => {
-        const newSetupData = {
-            ...setupData,
-            upperBodyStrength,
-        }
-        setSetupData(newSetupData)
-        console.log(setupData)
-    }, [upperBodyStrength])
-
-
-    useEffect(() => {
-        const newSetupData = {
-            ...setupData,
-            lowerBodyStrength,
-        }
-        setSetupData(newSetupData)
-        console.log(setupData)
-    }, [lowerBodyStrength])
-
-
-    useEffect(() => {
-        const newSetupData = {
-            ...setupData,
-            muscleEndurance,
-
-        }
-
-        setSetupData(newSetupData)
-        console.log(setupData)
-    }, [muscleEndurance])
-
-
-    useEffect(() => {
-        const newSetupData = {
-            ...setupData,
-            flexibility
-        }
-
-        setSetupData(newSetupData)
-        console.log(setupData)
-    }, [flexibility])
-
-    return (
-        <View style={{ paddingHorizontal: 15, paddingVertical: 15 }}>
-            <Headline>Fitness Level Assessment</Headline>
-            <Subheading>Answer each item as accurately as you can</Subheading>
-
-            <View >
-                <Text>Score</Text>
-            </View>
-            <View style={{ marginVertical: 15, padding: 15 }}>
-                <CardioRespiratoryTest />
-            </View>
-            <Divider />
-
-            <View style={{ marginVertical: 15, padding: 15 }}>
-                <UpperBodyTest setValue={setUpperBodyStrength} value={upperBodyStrength} />
-            </View>
-
-            <Divider />
-
-            <View style={{ marginVertical: 15, padding: 15 }}>
-                <LowerBodyTest setValue={setLowerBodyStrength} value={lowerBodyStrength} />
-            </View>
-
-            <Divider />
-
-            <View style={{ marginVertical: 15, padding: 15 }}>
-                <MuscleEnduranceTest setValue={setMuscleEndurance} value={muscleEndurance} />
-            </View>
-
-            <Divider />
-
-            <View style={{ marginVertical: 15, padding: 15 }}>
-                <FlexibilityTest setValue={setFlexibility} />
-            </View>
-
-            <Button onPress={() => {
-                navigate('Assessment');
-            }}>
-                Next
+                            <Button
+                                mode="contained"
+                                onPress={() => {
+                                    navigate('Goal');
+                                }}>
+                                Next
                 </Button>
-        </View>
-    )
+                        </View>
+                    </ScrollView>
+                )}
+            </WizardContext.Consumer>
+        )
+    }
 }
 

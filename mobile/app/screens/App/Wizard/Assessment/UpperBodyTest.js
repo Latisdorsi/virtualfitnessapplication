@@ -1,11 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
-import { View, Text, ScrollView, TextInput, StyleSheet } from "react-native"
-import { Headline, Subheading, Card } from "react-native-paper";
+import React, { useState, useEffect } from "react";
+import { View, Text, TextInput, StyleSheet } from "react-native"
+import { Subheading } from "react-native-paper";
 
 
 const calculateScore = (gender, weightRatio, age) => {
-
-
     if (age > 20 && age < 30) {
         if (weightRatio > 1.63) {
             return 'Superior'

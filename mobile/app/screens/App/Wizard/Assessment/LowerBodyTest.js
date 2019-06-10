@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
-import { View, Text, ScrollView, TextInput, StyleSheet } from "react-native"
-import { Headline, Subheading, Card } from "react-native-paper";
+import React, { useState, useEffect } from "react";
+import { View, Text, TextInput, StyleSheet } from "react-native"
+import { Subheading } from "react-native-paper";
 
 
 const calculateScore = (gender, weightRatio, age) => {
@@ -34,7 +34,7 @@ const calculateScore = (gender, weightRatio, age) => {
     }
 }
 
-export default function LowerBodyTest({setValue}) {
+export default function LowerBodyTest({ setValue }) {
 
     const gender = 'Male'
     const weight = 63;
@@ -61,14 +61,14 @@ export default function LowerBodyTest({setValue}) {
 
         setOneRepMax(oneRepMax)
         setLevel(calculateScore(gender, weightRatio, age))
-        
+
         let lowerBodyStrength = {
             level,
             oneRepMax,
             weightRatio
         }
         setValue(lowerBodyStrength)
-    },[scoreData])
+    }, [scoreData])
 
     return (
         <View>

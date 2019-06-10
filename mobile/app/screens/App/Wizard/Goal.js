@@ -1,9 +1,8 @@
-import React, { useState, useContext, useEffect } from "react";
-import { View, Text, TouchableHighlight, ScrollView, TextInput } from "react-native"
-import Modal from "react-native-modal";
-import { Headline, Subheading, Button, Card } from "react-native-paper";
+import React from "react";
+import { View } from "react-native"
+import { Button } from "react-native-paper";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
+import RadioForm from 'react-native-simple-radio-button';
 const radio_props = [
     { label: 'Tone Muscle and Lose Weight', value: 0 },
     { label: 'Increase Muscle Mass and Size', value: 1 },
@@ -14,32 +13,18 @@ import WizardContext from './WizardContext'
 
 
 export default class Goal extends React.Component {
-    // let [setupData, setSetupData] = useContext(WizardContext)
 
-    // let [step, setStep] = useContext(StepContext)
-
-    // let [goal, setGoal] = useState(0)
-
-    // useEffect(() => {
-    //     let newData = {
-    //         ...setupData,
-    //         goal
-    //     }
-    //     setSetupData(newData)
-    //     console.log(setupData)
-    // })
     render() {
         const { navigate } = this.props.navigation;
         return (
             <WizardContext.Consumer>
                 {context => (
-                    <View>
-                        <Text> Goal</Text>
+                              <View style={{ paddingHorizontal: 15, paddingVertical: 15 }}>
                         <View>
                             <RadioForm
                                 radio_props={radio_props}
-                                initial={0}
-                            // onPress={(value) => { setGoal(value) }}
+                                initial={context.goal}
+                                onPress={(value) => { context.setGoal(value) }}
                             />
                         </View>
                         <Button onPress={() => {
@@ -53,13 +38,6 @@ export default class Goal extends React.Component {
                     </View>
                 )}
             </WizardContext.Consumer>
-            //             Next
-            //     <View>
-            //         <Subheading>Goal</Subheading>
-
-
-            // </Button>
-            //     </View>
         )
     }
 }

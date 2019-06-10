@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
-import { View, ScrollView, Text } from 'react-native';
-import { Subheading, Headline, Button } from "react-native-paper";
-import ModalSelector from 'react-native-modal-selector';
+import React from "react";
+import { View, ScrollView } from 'react-native';
+import { Headline, Button } from "react-native-paper";
 
 import Measurement from 'lib/components/MeasurementModal';
 import { CalculateComposition } from 'lib/helpers/utils';
@@ -21,25 +20,6 @@ import WizardContext from './WizardContext';
 
 class Profile extends React.Component {
 
-  // let [age, setAge] = useState(0)
-  // let [sex, setSex] = useState('')
-  // let [height, setHeight] = useState(0)
-  // let [weight, setWeight] = useState(0)
-  // let [neck, setNeck] = useState(0)
-  // let [waist, setWaist] = useState(0)
-  // let [hips, setHips] = useState(0)
-
-  // let [percentBodyFat, setPercentBodyFat] = useState(0)
-  // let [percentLeanMass, setPercentLeanMass] = useState(0)
-  // let [category, setCategory] = useState('Undefined')
-
-
-  // let percentBodyFatValue = 0
-  // let percentLeanMassValue = 0
-
-  // let bodyFatMass = 0
-  // let leanBodyMass = 0
-
   render() {
 
     const { navigate } = this.props.navigation;
@@ -47,35 +27,34 @@ class Profile extends React.Component {
     return (
 
       <WizardContext.Consumer>
-        {(context) => (
+        {({ context, setAge, setSex, setHeight, setWeight, setNeck, setWaist, setHips, setComposition }) => (
           <ScrollView >
-            <View style={{ padding:15}}>
+            <View style={{ padding: 15 }}>
               {/* {composition = CalculateComposition(age, sex, weight, height, neck, waist, hips)} */}
               <Headline>
                 Please enter your body measurements
                </Headline>
 
-
               <View
                 style={{
                   justifyContent: 'center'
                 }}>
-                <Measurement name="Age" data={ageData} suffix="" value={context.age} />
+                <Measurement name="Age" data={ageData} suffix="" value={context.age} setValue={setAge} />
 
-                <Measurement name="Sex" data={sexData} suffix="" value={context.sex} />
+                <Measurement name="Sex" data={sexData} suffix="" value={context.sex} setValue={setSex} />
 
-                <Measurement name="Height" data={heightData} suffix="cm" value={context.height} />
+                <Measurement name="Height" data={heightData} suffix="cm" value={context.height} setValue={setHeight} />
 
-                <Measurement name="Weight" data={weightData} suffix="kg" value={context.weight} />
+                <Measurement name="Weight" data={weightData} suffix="kg" value={context.weight} setValue={setWeight} />
 
-                <Measurement name="Neck" data={neckData} suffix="cm" value={context.neck} />
+                <Measurement name="Neck" data={neckData} suffix="cm" value={context.neck} setValue={setNeck} />
 
-                <Measurement name="Waist" data={waistData} suffix="cm" value={context.waist} />
+                <Measurement name="Waist" data={waistData} suffix="cm" value={context.waist} setValue={setWaist} />
 
-                <Measurement name="Hips" data={hipsData} suffix="cm" value={context.hips} />
+                <Measurement name="Hips" data={hipsData} suffix="cm" value={context.hips} setValue={setHips} />
 
 
-                <View style={{
+                {/* <View style={{
                   alignItems: 'center',
                   justifyContent: 'center'
                 }}>
@@ -83,16 +62,19 @@ class Profile extends React.Component {
                   <Text>Composition Level: {context.composition.category}</Text>
                   <Text>Body Fat Percentage: {context.composition.percentBodyFat.toString().substr(0, 5)}%</Text>
                   <Text>Lean Body Mass Percentage: {context.composition.percentLeanMass.toString().substr(0, 5)}%</Text>
-                </View>
+                </View> */}
               </View>
 
 
               <Button
                 mode="contained"
-                onPress={() => navigate('Goal')}
+                onPress={() => {
+                  setComposition(CalculateComposition(context.age, context.sex, context.weight, context.height, context.neck, context.waist, context.hips))
+                  navigate('Assessment')
+                }}
               >
                 Next
-            </Button>
+              </Button>
             </View>
           </ScrollView>
         )}

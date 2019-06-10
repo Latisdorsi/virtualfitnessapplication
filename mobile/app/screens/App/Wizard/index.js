@@ -13,58 +13,23 @@ import WizardContext from './WizardContext';
 import { CalculateComposition } from 'lib/helpers/utils';
 
 import Profile from './Profile';
+import Assessment from "./Assessment"
 import Goal from './Goal';
 import Schedule from './Schedule';
 import Routine from "./Routine";
-// import Exercise from './Exercise';
-// import Assessment from './Assessment';
-// export { default as Profile } from './Profile'
-// export { default as Assessment } from './Assessment'
-// export { default as Goal } from './Goal'
-// export { default as Schedule } from './Schedule'
-// export { default as Exercise } from './Exercise'
-// export { default as MultiStep } from './MultiStep'
 
 
-const setupData = {
-    age: 0,
-    sex: 'Undefined',
-    height: 0,
-    weight: 0,
-    neck: 0,
-    waist: 0,
-    hips: 0,
-    bodyComposition: {
-        compositionLevel: 'Undefined',
-        bodyFatPercentage: 0,
-        leanBodyMassPercentage: 0
-    },
-    upperBodyStrength: {
-        level: 'Undefined',
-        oneRepMax: 0,
-        weightRatio: 0
-    },
-    lowerBodyStrength: {
-        level: 'Undefined',
-        oneRepMax: 0,
-        weightRatio: 0
-    },
-    muscleEndurance: {
-        level: 'Undefined',
-        pushUpScore: 0
-    },
-    flexibility: {
-        level: 'Undefined',
-        flexibilityScore: 0
-    },
-    goal: 0,
-    schedule: 0
-}
 const WizardNavigator = createAppContainer(createStackNavigator({
     Profile: {
         screen: Profile,
         navigationOptions: {
             title: 'Profile'
+        }
+    },
+    Assessment: {
+        screen: Assessment,
+        navigationOptions: {
+            title: 'Assessment'
         }
     },
     Goal: {
@@ -91,25 +56,94 @@ export default class Wizard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            title: 'name',
             age: 0,
-            sex: 'Male',
-            weight: 0,
+            sex: '',
             height: 0,
+            weight: 0,
             neck: 0,
-            wasit: 0,
+            waist: 0,
             hips: 0,
-            composition: CalculateComposition(this.age, this.sex, this.weight, this.height, this.neck, this.waist, this.hips)
+            upperBodyStrength: {
+                level: 'Undefined',
+                oneRepMax: 0,
+                weightRatio: 0
+            },
+            lowerBodyStrength: {
+                level: 'Undefined',
+                oneRepMax: 0,
+                weightRatio: 0
+            },
+            muscleEndurance: {
+                level: 'Undefined',
+                pushUpScore: 0
+            },
+            flexibility: {
+                level: 'Undefined',
+                flexibilityScore: 0
+            },
+            goal: 0,
+            schedule: 0,
+            composition: {
+                category: 'Undefined',
+                percentBodyFat: 0,
+                percentLeanMass: 0
+            }
         }
+        this.setAge = (age) => this.setState({ age });
+        this.setSex = (sex) => this.setState({ sex });
+        this.setWeight = (weight) => this.setState({ weight });
+        this.setHeight = (height) => this.setState({ height });
+        this.setNeck = (neck) => this.setState({ neck });
+        this.setWaist = (waist) => this.setState({ waist });
+        this.setHips = (hips) => this.setState({ hips });
+        this.setGoal = (goal) => this.setState({ goal });
+        this.setSchedule = (schedule) => this.setState({ schedule });
+        this.setComposition = (composition) => this.setState({ composition });
+        this.setUpperBodyStrength = (upperBodyStrength) => this.setState({ upperBodyStrength });
+        this.setLowerBodyStrength = (lowerBodyStrength) => this.setState({ lowerBodyStrength });
+        this.setMuscleEndurance = (muscleEndurance) => this.setState({ muscleEndurance });
+        this.setFlexibility = (flexibility) => this.setState({ flexibility });
     }
 
 
     render() {
+        const {
+            setAge,
+            setSex,
+            setWeight,
+            setHeight,
+            setNeck,
+            setWaist,
+            setHips,
+            setGoal,
+            setSchedule,
+            setComposition,
+            setUpperBodyStrength,
+            setLowerBodyStrength,
+            setMuscleEndurance,
+            setFlexibility } = this;
+        const context = this.state;
         return (
             <>
-            <WizardContext.Provider value={this.state}>
-                <WizardNavigator screenProps={{title:'Title'}}/>
-            </WizardContext.Provider>
+                <WizardContext.Provider value={{
+                    context,
+                    setAge,
+                    setSex,
+                    setWeight,
+                    setHeight,
+                    setNeck,
+                    setWaist,
+                    setHips,
+                    setGoal,
+                    setSchedule,
+                    setComposition,
+                    setUpperBodyStrength,
+                    setLowerBodyStrength,
+                    setMuscleEndurance,
+                    setFlexibility
+                }}>
+                    <WizardNavigator />
+                </WizardContext.Provider>
             </>
         );
     }

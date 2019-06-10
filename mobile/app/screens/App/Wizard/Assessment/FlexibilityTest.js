@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, TextInput, StyleSheet } from "react-native"
-import { Headline, Subheading, Card } from "react-native-paper";
+import { View, Text } from "react-native"
+import { Subheading } from "react-native-paper";
 
 import ModalSelector from 'react-native-modal-selector'
 
@@ -55,7 +55,7 @@ const calculateScore = (gender, flexibilityScore, age) => {
     }
 }
 
-export default function FlexibilityTest({ setValue }) {
+export default function FlexibilityTest({setValue}) {
     const gender = 'Male'
     const age = 23;
 

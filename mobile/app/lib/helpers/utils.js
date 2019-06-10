@@ -1,3 +1,4 @@
+
 export function parseToken(token) {
     const jwtDecode = require('jwt-decode');
     return jwtDecode(token)
@@ -68,7 +69,8 @@ export function CalculateComposition(age, sex, weight, height, neck, waist, hips
         leanBodyMass = weight - bodyFatMass
         percentLeanMass = (leanBodyMass / weight) * 100
 
-        category = CategorizeGroup(sex, percentBodyFat)
+        category = CategorizeGroup(sex, percentBodyFat);
+        console.warn(category);
         return bodyComposition =
             {
                 category,

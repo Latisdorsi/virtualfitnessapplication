@@ -5,7 +5,7 @@ const Exercise = require('./exercise')
 RoutineSchema = new mongoose.Schema({
     level: {
         type: Number,
-        enum: [0, 1, 2, 3, 4]
+        enum: [1, 2, 3, 4, 5]
     },
     goal: {
         type: Number,

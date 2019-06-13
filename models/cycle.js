@@ -8,7 +8,7 @@ CycleSchema = new mongoose.Schema({
     routine: { type: Schema.Types.ObjectId, ref: 'Routine' },
     level: {
         type: Number,
-        enum: [0, 1, 2, 3, 4]
+        enum: [1, 2, 3, 4, 5]
     },
     goal: {
         type: Number,
@@ -28,11 +28,25 @@ CycleSchema = new mongoose.Schema({
         required: true
     },
     assessment: {
-        cardiovascular: { type: Number },
-        upperMuscleStrength: { type: Number },
-        lowerMuscleStrength: { type: Number },
-        muscleEndurance: { type: Number },
-        flexibility: { type: Number },
+        // cardiovascular: { type: Number },
+        upperBodyStrength: { 
+            level: Number,
+            oneRepMax: Number,
+            weightRatio: Number
+         },
+        lowerBodyStrength: {
+            level: Number,
+            oneRepMax: Number,
+            weightRatio: Number
+        },
+        muscleEndurance: { 
+            level: Number,
+            pushUpScore: Number
+         },
+        flexibility: {
+            level: Number, 
+            flexibilityScore: Number
+         }
     },
 
 })

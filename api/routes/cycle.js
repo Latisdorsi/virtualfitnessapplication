@@ -27,7 +27,7 @@ router.get('/cycle/:id', (req, res) => {
         })
 })
 
-// Get Latest Member Cycle
+// Get Member Routine
 router.get('/cycle/:id/routine', (req, res) => {
     const _id = req.params.id
     User.findOne({ _id })
@@ -70,8 +70,12 @@ router.get('/cycle/:id/all', (req, res) => {
 
 // Add Cycle For Member
 router.post('/cycle/:id', (req, res) => {
-    const _id = req.params.id
-    const { level, goal, schedule, startDate, targetDate, assessment } = req.body
+    const _id = req.params.id;
+    const { level, goal, schedule, assessment } = req.body;
+    const startDate = new Date();
+    let targetDate = new Date();
+    targetDate = targetDate.setMonth(targetDate.getMonth + 3);
+
     const newCycle = new Cycle({
         level,
         goal,
@@ -95,10 +99,12 @@ router.post('/cycle/:id', (req, res) => {
                             user.save().then(
                                 res.status(200).json(user)
                             )
-
                         })
                         .catch(err => {
-                            //User does not push data
+                            res.status(500).json({
+                                message: 'Internal Server Error',
+                                error: error
+                            });
                         })
                 })
                 .catch(error => {
@@ -106,7 +112,7 @@ router.post('/cycle/:id', (req, res) => {
                         message: 'Internal Server Error',
                         error: error
                     });
-                })
+                });
         })
         .catch(error => {
             res.status(500).json({

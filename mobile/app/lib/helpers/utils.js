@@ -70,14 +70,12 @@ export function CalculateComposition(age, sex, weight, height, neck, waist, hips
         percentLeanMass = (leanBodyMass / weight) * 100
 
         category = CategorizeGroup(sex, percentBodyFat);
-        console.warn(category);
         return bodyComposition =
             {
                 category,
                 percentBodyFat,
                 percentLeanMass
             }
-
     }
 
     //Return if values are not met

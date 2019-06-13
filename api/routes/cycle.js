@@ -78,8 +78,6 @@ router.post('/cycle/:id', (req, res) => {
         level,
         goal,
         schedule,
-        startDate,
-        targetDate,
         assessment
     })
 

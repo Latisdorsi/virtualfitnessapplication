@@ -37,19 +37,19 @@ const calculateScore = (gender, flexibilityScore, age) => {
     if (gender == 'Male') {
         if (age > 20 && age < 30) {
             if (flexibilityScore >= 40) {
-                return 'Excellent'
+                return 5;
             }
-            if (flexibilityScore <= 39 && flexibilityScore >= 34) {
-                return 'Very Good'
+            else if (flexibilityScore <= 39 && flexibilityScore >= 34) {
+                return 4;
             }
-            if (flexibilityScore <= 33 && flexibilityScore >= 30) {
-                return 'Good'
+            else if (flexibilityScore <= 33 && flexibilityScore >= 30) {
+                return 3;
             }
-            if (flexibilityScore <= 29 && flexibilityScore >= 25) {
-                return 'Fair'
+            else if (flexibilityScore <= 29 && flexibilityScore >= 25) {
+                return 2;
             }
-            if (flexibilityScore < 25) {
-                return 'Poor'
+            else if (flexibilityScore < 25) {
+                return  1;
             }
         }
     }
@@ -60,19 +60,21 @@ export default function FlexibilityTest({setValue}) {
     const age = 23;
 
     const [flexibilityScore, setFlexibilityScore] = useState(0)
-    const [level, setLevel] = useState('None')
+    const [level, setLevel] = useState(0)
 
 
     useEffect(() => {
         setLevel(calculateScore(gender, flexibilityScore, age))
+
+    }, [flexibilityScore])
+
+    useEffect(() =>{
         const newFlexibilityScore = {
             level,
             flexibilityScore
         }
         setValue(newFlexibilityScore)
-    }, [flexibilityScore])
-
-
+    }, [level])
 
     return (
         <View style={{

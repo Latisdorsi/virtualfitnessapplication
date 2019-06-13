@@ -8,27 +8,27 @@ const calculateScore = (gender, weightRatio, age) => {
     if (gender == 'Male') {
         if (age > 20 && age < 30) {
             if (weightRatio > 1.63) {
-                return 'Superior'
+                return 6;
             }
             if (weightRatio < 1.63 && weightRatio > 1.32) {
-                return 'Excellent'
+                return 5;
             }
             if (weightRatio < 1.32 && weightRatio > 1.14) {
-                return 'Good'
+                return 4;
             }
             if (weightRatio < 1.14 && weightRatio > 0.99) {
-                return 'Fair'
+                return 3;
             }
             if (weightRatio < 0.99 && weightRatio > 0.88) {
-                return 'Poor'
+                return 2;
             }
 
             if (weightRatio < 0.88) {
-                return 'Very Poor'
+                return 1;
             }
 
             else if (weightRatio == 0) {
-                return 'Undefined'
+                return 0;
             }
         }
     }
@@ -44,7 +44,7 @@ export default function LowerBodyTest({ setValue }) {
         weight: 0
     })
     const [oneRepMax, setOneRepMax] = useState(0)
-    const [level, setLevel] = useState('None')
+    const [level, setLevel] = useState(0)
 
 
     const updateSets = (name, value) => {
@@ -58,17 +58,19 @@ export default function LowerBodyTest({ setValue }) {
     useEffect(() => {
         const oneRepMax = Math.round(scoreData.weight * (1 + (scoreData.reps / 30)) * 100) / 100
         const weightRatio = oneRepMax / weight
-
         setOneRepMax(oneRepMax)
         setLevel(calculateScore(gender, weightRatio, age))
+    }, [scoreData])
 
+    useEffect(()=>{
+        const weightRatio = oneRepMax / weight
         let lowerBodyStrength = {
             level,
             oneRepMax,
             weightRatio
         }
         setValue(lowerBodyStrength)
-    }, [scoreData])
+    }, [level])
 
     return (
         <View>

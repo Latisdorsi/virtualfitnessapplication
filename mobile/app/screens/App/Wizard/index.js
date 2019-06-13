@@ -63,22 +63,23 @@ export default class Wizard extends React.Component {
             neck: 0,
             waist: 0,
             hips: 0,
+            level: 0,
             upperBodyStrength: {
-                level: 'Undefined',
+                level: 0,
                 oneRepMax: 0,
                 weightRatio: 0
             },
             lowerBodyStrength: {
-                level: 'Undefined',
+                level: 0,
                 oneRepMax: 0,
                 weightRatio: 0
             },
             muscleEndurance: {
-                level: 'Undefined',
+                level: 0,
                 pushUpScore: 0
             },
             flexibility: {
-                level: 'Undefined',
+                level: 0,
                 flexibilityScore: 0
             },
             goal: 0,
@@ -99,6 +100,7 @@ export default class Wizard extends React.Component {
         this.setGoal = (goal) => this.setState({ goal });
         this.setSchedule = (schedule) => this.setState({ schedule });
         this.setComposition = (composition) => this.setState({ composition });
+        this.setLevel = (level) => this.setState({level});
         this.setUpperBodyStrength = (upperBodyStrength) => this.setState({ upperBodyStrength });
         this.setLowerBodyStrength = (lowerBodyStrength) => this.setState({ lowerBodyStrength });
         this.setMuscleEndurance = (muscleEndurance) => this.setState({ muscleEndurance });
@@ -118,6 +120,7 @@ export default class Wizard extends React.Component {
             setGoal,
             setSchedule,
             setComposition,
+            setLevel,
             setUpperBodyStrength,
             setLowerBodyStrength,
             setMuscleEndurance,
@@ -137,6 +140,7 @@ export default class Wizard extends React.Component {
                     setGoal,
                     setSchedule,
                     setComposition,
+                    setLevel,
                     setUpperBodyStrength,
                     setLowerBodyStrength,
                     setMuscleEndurance,

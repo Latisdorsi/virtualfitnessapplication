@@ -55,19 +55,19 @@ const calculateScore = (gender, pushUpScore, age) => {
     if (gender == 'Male') {
         if (age > 20 && age < 30) {
             if (pushUpScore >= 36) {
-                return 'Excellent'
+                return 5;
             }
             if (pushUpScore <= 35 && pushUpScore >= 29) {
-                return 'Very Good'
+                return 4;
             }
             if (pushUpScore <= 28 && pushUpScore >= 22) {
-                return 'Good'
+                return 3;
             }
             if (pushUpScore <= 21 && pushUpScore >= 17) {
-                return 'Fair'
+                return 2;
             }
             if (pushUpScore < 17) {
-                return 'Poor'
+                return 1;
             }
         }
     }
@@ -75,20 +75,23 @@ const calculateScore = (gender, pushUpScore, age) => {
 
 export default function MuscleEnduranceTest({setValue}) {
 
-    const gender = 'Male'
+    const gender = 'Male';
     const weight = 63;
     const age = 23;
-    const [pushUp, setPushUp] = useState(0)
-    const [score, setScore] = useState('None')
+    const [pushUp, setPushUp] = useState(0);
+    const [level, setLevel] = useState(0);
 
     useEffect(() => {
-        setScore(calculateScore(gender, pushUp, age))
+        setLevel(calculateScore(gender, pushUp, age));
+    }, [pushUp]);
+
+    useEffect(()=> {
         const newMuscleEndurance ={
             pushUp,
-            score
+            level
         }
-        setValue(newMuscleEndurance)
-    }, [pushUp])
+        setValue(newMuscleEndurance);
+    }, [level])
 
 
     return (
@@ -97,7 +100,7 @@ export default function MuscleEnduranceTest({setValue}) {
         }}>
             <Subheading>Muscular Endurance</Subheading>
             <Text>Instructions</Text>
-            <Text>Score: {score}</Text>
+            <Text>Score: {level}</Text>
             <ModalSelector
                 data={pushUpData}
                 initValue="Enter Max Push-Up"

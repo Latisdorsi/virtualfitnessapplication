@@ -14,7 +14,7 @@ export default class Assessment extends React.Component {
         const { navigate } = this.props.navigation;
         return (
             <WizardContext.Consumer>
-                {({context, setUpperBodyStrength, setLowerBodyStrength, setMuscleEndurance, setFlexibility}) => (
+                {({context, setUpperBodyStrength, setLowerBodyStrength, setMuscleEndurance, setFlexibility, setLevel}) => (
                     <ScrollView>
                         <View style={{ paddingHorizontal: 15, paddingVertical: 15 }}>
                             <Headline>Fitness Level Assessment</Headline>
@@ -22,9 +22,9 @@ export default class Assessment extends React.Component {
                             <View>
                                 <Text>Score</Text>
                             </View>
-                            <View style={{ marginVertical: 15, padding: 15 }}>
+                            {/* <View style={{ marginVertical: 15, padding: 15 }}>
                                 <CardioRespiratoryTest />
-                            </View>
+                            </View> */}
                             <Divider />
 
                             <View style={{ marginVertical: 15, padding: 15 }}>
@@ -52,9 +52,11 @@ export default class Assessment extends React.Component {
                             <Button
                                 mode="contained"
                                 onPress={() => {
+                                    const level = Math.floor((context.lowerBodyStrength.level + context.upperBodyStrength.level  + context.muscleEndurance.level  + context.flexibility.level)/4);
+                                    setLevel(level);
                                     navigate('Goal');
                                 }}>
-                                Next
+                                Next)
                 </Button>
                         </View>
                     </ScrollView>

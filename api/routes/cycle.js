@@ -56,7 +56,6 @@ router.get('/cycle/:id/all', (req, res) => {
     const _id = req.params.id
     User.findOne({ _id })
         .populate('cycles')
-        
         .then(user => {
             res.status(200).json(user.cycles)
         })
@@ -72,9 +71,8 @@ router.get('/cycle/:id/all', (req, res) => {
 router.post('/cycle/:id', (req, res) => {
     const _id = req.params.id;
     const { level, goal, schedule, assessment } = req.body;
-    const startDate = new Date();
-    let targetDate = new Date();
-    targetDate = targetDate.setMonth(targetDate.getMonth + 3);
+    const startDate = Date.now();
+    const targetDate = Date.now() + 5184000000;
 
     const newCycle = new Cycle({
         level,
@@ -100,24 +98,24 @@ router.post('/cycle/:id', (req, res) => {
                                 res.status(200).json(user)
                             )
                         })
-                        .catch(err => {
+                        .catch(error => {
                             res.status(500).json({
                                 message: 'Internal Server Error',
-                                error: error
+                                error: error.message
                             });
                         })
                 })
                 .catch(error => {
                     res.status(500).json({
                         message: 'Internal Server Error',
-                        error: error
+                        error: error.message
                     });
                 });
         })
         .catch(error => {
             res.status(500).json({
                 message: 'Internal Server Error',
-                error: error
+                error: error.message
             });
         })
 })

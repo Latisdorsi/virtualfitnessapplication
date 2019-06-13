@@ -25,6 +25,7 @@ CycleSchema = new mongoose.Schema({
     },
     targetDate: {
         type: Date,
+        default: Date.now +  5184000000,
         required: true
     },
     assessment: {

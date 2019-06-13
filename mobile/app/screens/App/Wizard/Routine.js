@@ -25,29 +25,28 @@ export default class Routine extends React.Component {
                 </View> */}
 
                         <Button mode="contained"
-                        onPress={() => {
-                            // const { context } = context;
-                            const newObj = {
-                                level: context.context.level,
-                                goal: context.context.goal,
-                                schedule: context.context.schedule,
-                                assessment: {
-                                    upperBodyStrength: context.context.upperBodyStrength,
-                                    lowerBodyStrength: context.context.lowerBodyStrength,
-                                    muscleEndurance: context.context.muscleEndurance,
-                                    flexibility: context.context.flexibility
-
+                            onPress={() => {
+                                // const { context } = context;
+                                const newObj = {
+                                    level: context.context.level,
+                                    goal: context.context.goal,
+                                    schedule: context.context.schedule,
+                                    assessment: {
+                                        upperBodyStrength: context.context.upperBodyStrength,
+                                        lowerBodyStrength: context.context.lowerBodyStrength,
+                                        muscleEndurance: context.context.muscleEndurance,
+                                        flexibility: context.context.flexibility
+                                    }
                                 }
-                            }
-                            axios.post('https://mvfagb.herokuapp.com/cycle/5ce9092d50081503e89ae408', newObj)
-                            .then(
-                                console.warn('Success')
-                            )
-                            .catch( err => {
-                                console.error(err)
-                            })
-                            console.warn(newObj);
-                        }}
+                                axios.post('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408', newObj)
+                                    .then(response => {
+                                        console.warn(response);
+                                    })
+                                    .catch(err => {
+                                        console.warn(err.response);
+                                    })
+                                console.warn(newObj);
+                            }}
                         >Generate Exercises</Button>
                         {console.warn(context)}
                     </View>

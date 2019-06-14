@@ -56,12 +56,12 @@ export default class Assessment extends React.Component {
                                     setLevel(level);
                                     navigate('Goal');
                                 }}>
-                                Next)
+                                Next
                 </Button>
                         </View>
                     </ScrollView>
                 )}
-            </WizardContext.Consumer>
+            </WizardContext.Consumer>   
         )
     }
 }

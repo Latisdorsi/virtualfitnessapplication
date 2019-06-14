@@ -78,16 +78,16 @@ export default function MuscleEnduranceTest({setValue}) {
     const gender = 'Male';
     const weight = 63;
     const age = 23;
-    const [pushUp, setPushUp] = useState(0);
+    const [pushUpScore, setPushUpScore] = useState(0);
     const [level, setLevel] = useState(0);
 
     useEffect(() => {
-        setLevel(calculateScore(gender, pushUp, age));
-    }, [pushUp]);
+        setLevel(calculateScore(gender, pushUpScore, age));
+    }, [pushUpScore]);
 
     useEffect(()=> {
         const newMuscleEndurance ={
-            pushUp,
+            pushUpScore,
             level
         }
         setValue(newMuscleEndurance);
@@ -104,7 +104,7 @@ export default function MuscleEnduranceTest({setValue}) {
             <ModalSelector
                 data={pushUpData}
                 initValue="Enter Max Push-Up"
-                onChange={(option) => { setPushUp(option.label) }} />
+                onChange={(option) => { setPushUpScore(option.label) }} />
             <Text>Max Push-Ups</Text>
         </View>
     )

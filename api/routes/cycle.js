@@ -99,14 +99,14 @@ router.post('/cycle/:id', (req, res) => {
                         .catch(error => {
                             res.status(500).json({
                                 message: 'Internal Server Error',
-                                error: error.message
+                                error: error
                             });
                         })
                 })
                 .catch(error => {
                     res.status(500).json({
                         message: 'Internal Server Error',
-                        error: error.message
+                        error: error
                     });
                 });
         })

@@ -55,10 +55,8 @@ export default class Routine extends React.Component {
                                     weight: context.context.weight, 
                                     neck: context.context.neck, 
                                     waist: context.context.waist, 
-                                    hips: context.context.hips, 
-                                    bicep: context.context.bicep, 
-                                    forearm: context.context.forearm, 
-                                    bodyComp: context.context.composition
+                                    hips: context.context.hips,
+                                    bodyComposition: context.context.composition
                                 }
                                 console.warn(measurementObj);
 

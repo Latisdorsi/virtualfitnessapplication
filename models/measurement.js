@@ -14,10 +14,7 @@ MeasurementSchema = new mongoose.Schema({
     thigh: { type: Number },
     calf: { type: Number },
     bodyComposition: {
-        category: {
-            type: String,
-            enum: ['Poor', 'Below Average', 'Average', 'Above Average', 'Superior']
-        },
+        category: { type: String },
         percentBodyFat: { type: Number },
         percentLeanMass: { Type: Number }
     }

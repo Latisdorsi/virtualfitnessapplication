@@ -15,7 +15,7 @@ router.get('/cycle/:id', (req, res) => {
             justOne: true,
             options: { sort: { startDate: -1 }, limit: 1 }
         })
-        
+
         .then(user => {
             res.status(200).json(user.cycles)
         })
@@ -71,12 +71,12 @@ router.get('/cycle/:id/all', (req, res) => {
 router.post('/cycle/:id', (req, res) => {
     const _id = req.params.id;
     const { level, goal, schedule, assessment } = req.body;
-    const startDate = Date.now();
     const targetDate = Date.now() + 5184000000;
 
     const newCycle = new Cycle({
         level,
         goal,
+        targetDate,
         schedule,
         assessment
     })
@@ -92,9 +92,9 @@ router.post('/cycle/:id', (req, res) => {
                     User.findOne({ _id })
                         .then(user => {
                             user.cycles.push(cycle._id);
-                            user.save().then(
+                            user.save().then(user => {
                                 res.status(200).json(user)
-                            )
+                            })
                         })
                         .catch(error => {
                             res.status(500).json({

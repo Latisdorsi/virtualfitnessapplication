@@ -79,16 +79,8 @@ router.post('/measurement/:id', (req, res) => {
         .then(measurement => {
             User.findOne({ _id })
                 .then(user => {
-                    user.measurements.push(measurement._id)
-                    user.save().then(user => {
-                        res.status(200).json(user)
-                    })
-                        .catch(error => {
-                            res.status(500).json({
-                                message: 'Internal Server Error',
-                                error: error
-                            });
-                        })
+                    user.measurements.push(measurement._id);
+                    user.save();
                 Î})
                 .catch(error => {
                     res.status(500).json({

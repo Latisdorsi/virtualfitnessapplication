@@ -60,13 +60,13 @@ export default class Routine extends React.Component {
                                 }
                                 console.warn(measurementObj);
 
-                                // axios.post('http://mvfagb.herokuapp.com/api/measurement/5ce9092d50081503e89ae408', measurementObj)
-                                //     .then(response => {
-                                //         console.warn(response);
-                                //     })
-                                //     .catch(err => {
-                                //         console.warn(err.response);
-                                //     })
+                                axios.post('http://mvfagb.herokuapp.com/api/measurement/5ce9092d50081503e89ae408', measurementObj)
+                                    .then(response => {
+                                        console.warn(response);
+                                    })
+                                    .catch(err => {
+                                        console.warn(err.response);
+                                    })
                             }}
                         >Generate Exercises</Button>
                         {console.warn(context)}

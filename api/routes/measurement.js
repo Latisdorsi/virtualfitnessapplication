@@ -70,7 +70,7 @@ router.post('/measurement/:id', (req, res) => {
         neck,
         waist,
         hips,
-        bodyComp
+        bodyComposition
     })
 
 

@@ -16,7 +16,7 @@ MeasurementSchema = new mongoose.Schema({
     bodyComposition: {
         category: { type: String },
         percentBodyFat: { type: Number },
-        percentLeanMass: { Type: Number }
+        percentLeanMass: { type: Number }
     }
 
 

@@ -69,8 +69,8 @@ class Profile extends React.Component {
               <Button
                 mode="contained"
                 onPress={() => {
-                  setComposition(CalculateComposition(context.age, context.sex, context.weight, context.height, context.neck, context.waist, context.hips))
-                  navigate('Assessment')
+                  setComposition(CalculateComposition(context.age, context.sex, context.weight, context.height, context.neck, context.waist, context.hips));
+                  navigate('Assessment');
                 }}
               >
                 Next

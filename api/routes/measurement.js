@@ -63,14 +63,13 @@ router.get('/measurement/:id/query/:date', (req, res) => {
 // Add Measurement for Member
 router.post('/measurement/:id', (req, res) => {
     const _id = req.params.id
-    const { weight, neck, waist, hips, bicep, bodyComp } = req.body
+    const { weight, neck, waist, hips, bodyComp } = req.body
     const newMeasurement = new Measurement({
         User: _id,
         weight,
         neck,
         waist,
         hips,
-        bicep,
         bodyComp
     })
 

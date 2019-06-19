@@ -22,10 +22,10 @@ const EditableContactDetails = ({ value, setValue, editable }) => {
             home: contactDetails.phone.home,
             work: contactDetails.phone.work
         }
-        console.log(newObj)
+        // console.warn(newObj)
 
         axios
-            .put('http://10.0.2.2:3000/account/detail/' + value._id + '/contact', newObj)
+            .put('https://mvfagb.herokuapp.com/api/account/detail/' + value._id + '/contact', newObj)
             .then(response => {
                 if (response.status === 200) {
                     setValue({

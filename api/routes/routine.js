@@ -5,9 +5,22 @@ const router = express.Router()
 const Routine = require('../../models/routine')
 
 // Get All Member Cycle
-router.get('/routine', (req, res) => {
+router.get('/routine/all', (req, res) => {
     Routine.find({})
         
+        .then(routine => {
+            res.status(200).json(routine)
+        })
+        .catch(error => {
+            res.status(500).json({
+                message: 'Internal Server Error',
+                error: error
+            });
+        })
+})
+
+router.get('/routine', (req, res) => {
+    Routine.find({}).limit(1)
         .then(routine => {
             res.status(200).json(routine)
         })

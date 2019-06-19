@@ -1,18 +1,17 @@
-import React, { useState, useContext } from 'react'
-import { View, Text } from 'react-native'
+import React, { useState, useContext } from 'react';
+import { View, Text } from 'react-native';
 import RowViewComponent from 'lib/components/RowViewComponent'
 import { IconButton, Subheading } from 'react-native-paper';
 
-import ContactDetails from './ContactDetails'
-import EditableContactDetails from './EditableContactDetails'
+import ContactDetails from './ContactDetails';
+import EditableContactDetails from './EditableContactDetails';
 
-import ProfileContext from '../ProfileContext'
+import ProfileContext from '../ProfileContext';
 
 const Contact = () => {
 
-    const [user, setUser] = useContext(ProfileContext)
-    const [isContactEditable, setContactEditable] = useState(false)
-
+    const [user, setUser] = useContext(ProfileContext);
+    const [isContactEditable, setContactEditable] = useState(false);
     return (
         <View>
             <RowViewComponent>

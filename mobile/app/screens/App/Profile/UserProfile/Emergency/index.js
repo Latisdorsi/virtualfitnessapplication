@@ -8,11 +8,11 @@ import EditableEmergencyDetails from './EditableEmergencyDetails'
 
 import ProfileContext from '../ProfileContext'
 
+
 export function Emergency() {
 
     const [isEmergencyEditable, setEmergencyEditable] = useState(false)
     const [user, setUser] = useContext(ProfileContext)
-
     return (
         <View>
             <RowViewComponent>

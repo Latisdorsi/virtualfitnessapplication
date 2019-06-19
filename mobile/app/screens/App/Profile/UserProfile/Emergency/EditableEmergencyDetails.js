@@ -22,7 +22,7 @@ const EditableEmergencyDetails = ({ value, setValue, editable }) => {
             emergencyRelationship: emergencyDetails.relationship,
         }
         axios
-            .put('http://10.0.2.2:3000/account/detail/' + value._id + '/emergency', newObj)
+            .put('https://mvfagb.herokuapp.com/api/account/detail/' + value._id + '/emergency', newObj)
             .then(response => {
                 if (response.status === 200) {
                     setValue({

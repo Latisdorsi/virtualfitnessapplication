@@ -33,7 +33,7 @@ export default function UserProfile() {
 
     useEffect(() => {
         DeviceStorage.loadItem('token').then(token => {
-            const tokenData = parseToken(token)
+            const tokenData = parseToken(token);
             axios
                 .get('http://mvfagb.herokuapp.com/api/account/detail/' + tokenData._id)
                 .then(response => {
@@ -46,12 +46,7 @@ export default function UserProfile() {
         ).catch(err => {
             console.warn(err)
         })
-    }, [])
-
-    useEffect(() => {
-        const { contactDetails, emergencyDetails } = user
-        console.log({contactDetails, emergencyDetails})
-    }, [user])
+    }, []);
 
 
     return (

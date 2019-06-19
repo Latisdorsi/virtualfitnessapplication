@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react'
-import { View, Text, ScrollView } from 'react-native'
+import React, { useState, useEffect } from 'react';
+import { View, Text, ScrollView } from 'react-native';
 import { Subheading, Card, IconButton, Button } from 'react-native-paper';
 
-import RowViewComponent from 'lib/components/RowViewComponent'
-import { CalculateComposition } from 'lib/helpers/utils'
-import DeviceStorage from 'lib/services/DeviceStorage'
+import RowViewComponent from 'lib/components/RowViewComponent';
+import { CalculateComposition } from 'lib/helpers/utils';
+import DeviceStorage from 'lib/services/DeviceStorage';
+import { parseToken } from 'lib/helpers/utils';
 
-import RecordDetails from './RecordDetails'
-import EditableRecordDetails from './EditableRecordDetails'
-import Axios from 'axios';
+import RecordDetails from './RecordDetails';
+import EditableRecordDetails from './EditableRecordDetails';
+import axios from 'axios';
 export default function UserRecords() {
 
     let height = 173
@@ -19,10 +20,6 @@ export default function UserRecords() {
         neck: 0,
         waist: 0,
         hips: 0,
-        bicep: 0,
-        forearm: 0,
-        calf: 0,
-        thigh: 0,
         bodyComposition: {
             category: '',
             percentBodyFat: 0,
@@ -47,26 +44,36 @@ export default function UserRecords() {
 
     useEffect(() => {
         DeviceStorage.loadItem('token').then(token => {
+
             const tokenData = parseToken(token)
-            Axios.get('http://mvfagb.herokuapp.com/api/measurement/' + tokenData._id)
+            console.warn(tokenData);
+            axios
+                .get('http://mvfagb.herokuapp.com/api/measurement/' + tokenData._id)
                 .then(response => {
-                    //Do nothing for now
+                    measurementObj = {
+                        weight: response.data.weight,
+                        neck: response.data.neck,
+                        waist: response.data.waist,
+                        hips: response.data.hips,
+                        bodyComposition: response.data.bodyComposition
+                    }
+                    setMeasurementDetails({ ...measurementObj });
                 })
                 .catch(error => {
-                    console.log('An Error Occured')
+                    console.warn(error.response);
                 })
         })
-        .catch(err => {
-            console.log('An Error Occur')
-        })
+            .catch(err => {
+                console.warn(err);
+            })
     }, [])
 
-    useEffect(() => {
-        setMeasurementDetails({
-            ...measurementDetails,
-            bodyComposition: compositionValue
-        })
-    }, [measurementDetails])
+    // useEffect(() => {
+    //     setMeasurementDetails({
+    //         ...measurementDetails,
+    //         bodyComposition: compositionValue
+    //     })
+    // }, [measurementDetails])
 
     return (
         <ScrollView>

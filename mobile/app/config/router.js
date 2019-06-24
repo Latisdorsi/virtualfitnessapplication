@@ -34,6 +34,8 @@ import DeleteAccount from '../screens/App/Settings/DeleteAccount'
 import ExportAccount from '../screens/App/Settings/ExportAccount'
 
 
+import Records from '../screens/App/Records';
+
 // Profile Screen Stack NAvigation
 const ProfileStackNavigator = createStackNavigator({
     Profile: {
@@ -96,6 +98,21 @@ const SettingStackNavigator = createStackNavigator({
     }
 })
 
+const DashboardStackNavigator = createStackNavigator({
+    Dashboard: {
+        screen: Dashboard,
+        navigationOptions: {
+            headerVisible: false,
+            header: null
+        }
+    },
+    Records: {
+        screen: Records,
+        navigationOptions: {
+            title: 'Record Exercises'
+        }
+    }
+});
 
 
 const AppStack = createAppContainer(createBottomTabNavigator({
@@ -103,7 +120,7 @@ const AppStack = createAppContainer(createBottomTabNavigator({
         screen: ProfileStackNavigator,
         navigationOptions: {
             tabBarIcon: ({ tintColor }) => (
-                <Icon name="account-outline" size={25} />
+                <Icon name="account-outline" size={25} color={tintColor} />
             )
         }
     },
@@ -111,15 +128,15 @@ const AppStack = createAppContainer(createBottomTabNavigator({
         screen: ExerciseStackNavigator,
         navigationOptions: {
             tabBarIcon: ({ tintColor }) => (
-                <Icon name="run-fast" size={25} />
+                <Icon name="run-fast" size={25} color={tintColor} />
             )
         }
     },
     Dashboard: {
-        screen: Dashboard,
+        screen: DashboardStackNavigator,
         navigationOptions: {
             tabBarIcon: ({ tintColor }) => (
-                <Icon name="home-outline" size={25} />
+                <Icon name="home-outline" size={25} color={tintColor} />
             )
         }
     },
@@ -127,7 +144,7 @@ const AppStack = createAppContainer(createBottomTabNavigator({
         screen: CalendarStackNavigator,
         navigationOptions: {
             tabBarIcon: ({ tintColor }) => (
-                <Icon name="calendar" size={25} />
+                <Icon name="calendar" size={25} color={tintColor} />
             )
         }
     },
@@ -135,31 +152,35 @@ const AppStack = createAppContainer(createBottomTabNavigator({
         screen: SettingStackNavigator,
         navigationOptions: {
             tabBarIcon: ({ tintColor }) => (
-                <Icon name="settings-outline" size={25} />
+                <Icon name="settings-outline" size={25} color={tintColor} />
             )
         }
 
     },
 
 }, {
+        initialRouteName: 'Dashboard',
+        activeColor: '#f0edf6',
+        inactiveColor: '#3e2465',
+        barStyle: { backgroundColor: '#694fad' },
         tabBarOptions: {
-            showLabel: false
-        },
-        initialRouteName: 'Dashboard'
+            showLabel: true
+        }
     })
 )
 
 const MainStack = createAppContainer(createSwitchNavigator({
-    Wizard:{
+    Wizard: {
         screen: Wizard,
         navigationOptions: {
             title: 'Wizard'
         }
     },
     App: AppStack,
-    WizardStackLoading: AppLoadingScreen},
-     {
-        initialRouteName: 'App'
+    WizardStackLoading: AppLoadingScreen
+},
+    {
+        initialRouteName: 'WizardStackLoading'
     }
 ));
 

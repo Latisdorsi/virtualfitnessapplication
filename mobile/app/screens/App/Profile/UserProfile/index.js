@@ -3,6 +3,7 @@ import { View, Text, ScrollView } from 'react-native'
 import { Avatar, Card, IconButton, Subheading } from 'react-native-paper';
 import Contact from './Contact';
 import Emergency from './Emergency';
+import User from './User';
 import DeviceStorage from 'lib/services/DeviceStorage'
 import { parseToken } from 'lib/helpers/utils'
 import axios from 'axios'
@@ -53,11 +54,9 @@ export default function UserProfile() {
         <ProfileContext.Provider value={[user, setUser]}>
             <ScrollView>
                 <View style={{ padding: 15 }}>
-                    <View style={{ alignContent: 'center', alignItems: 'center' }}>
-                        <Avatar.Image size={80} source={{ uri: user.avatarURL }} />
-                        <Subheading>{user.name.firstName} {user.name.lastName}</Subheading>
-                        <Text>Male, 23</Text>
-                    </View>
+                    <Card style={{ padding: 15, marginVertical: 15 }}>
+                        <User />
+                    </Card>
                     <Card style={{ padding: 15, marginVertical: 15 }}>
                         <Contact />
                     </Card>

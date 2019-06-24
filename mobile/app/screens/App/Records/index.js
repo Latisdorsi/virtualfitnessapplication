@@ -1,41 +1,63 @@
-import React, { createContext, useState, useContext, useEffect } from "react";
+import React, { Component } from "react";
 import {
     View,
-    ScrollView
+    Button,
+    ScrollView,
 } from 'react-native';
 import { Divider } from 'react-native-paper'
-
-import RecordContext from './RecordContext'
+import update from 'immutability-helper';
 
 import { default as RecordHeader } from './RecordHeader'
 import { default as RecordDetails } from './RecordDetails'
 
+export default class Records extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            records: []
+        }
+    }
 
-function ExercisesWrapper({ children }) {
-    const [exercises] = useContext(RecordContext)
-    return (
-        exercises.map((exercise, index) => {
-            return (
-                <View key={index}>
-                    <RecordHeader exercise={exercise} />
-                    <RecordDetails exercise={exercise} index={index} />
-                    <Divider />
-                </View>
-            )
+    addRecords = (record) => {
+        this.setState(prevState => ({
+            records: [
+                ...prevState.records,
+                record
+            ]
+        }))
+    }
+
+    updateRecords = (index, record) => {
+        this.setState({
+            records: update(this.state.records, {
+                [index]: { $set: record }
+            })
         })
-    )
-}
+    }
 
-export default function Records({ ExerciseData, children }) {
-    const exerciseState = useState(ExerciseData)
-    return (
-        //Load Exercise Data From State
-        <RecordContext.Provider value={exerciseState}>
+    render() {
+        const { navigation } = this.props;
+        const exercises = navigation.getParam('exercises', []);
+        return (
+            // Load Exercise Data From State
+            <ScrollView>
                 <View style={{
                     padding: 15
                 }}>
-                    <ExercisesWrapper />
+                    {exercises.map((exercise, index) => {
+                        return (
+                            <View key={index}>
+                                <RecordHeader exercise={exercise} />
+                                <RecordDetails exercise={exercise} index={index} updateRecords={this.updateRecords} addRecords={this.addRecords} records={this.state.records} />
+                                <Divider />
+                            </View>
+                        )
+                    })}
+                    <Button title="Save Records" onPress={() => {
+                        console.warn(this.state.records);
+                    }} />
                 </View>
-        </RecordContext.Provider>
-    )
+            </ScrollView>
+        )
+    }
 }

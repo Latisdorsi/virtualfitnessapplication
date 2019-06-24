@@ -1,4 +1,5 @@
 import React from 'react'
+import { Card, Subheading } from 'react-native-paper'
 import { Grid, LineChart, XAxis, YAxis } from 'react-native-svg-charts'
 import { View, Text } from 'react-native'
 
@@ -19,36 +20,38 @@ class UserChart extends React.PureComponent {
         // and then displace the other axis with just as many pixels. Simple but manual.
 
         return (
-            <View>
-                <Text>Weight</Text>
-                <View style={{ height: 200, padding: 20, flexDirection: 'row' }}>
-                    <YAxis
-                        data={[1, 2, 3]}
-                        style={{ marginBottom: xAxisHeight }}
-                        contentInset={verticalContentInset}
-                        numberOfTicks={5}
-                        svg={axesSvg}
-                    />
-                    <View style={{ flex: 1, marginLeft: 10 }}>
-                        <LineChart
-                            style={{ flex: 1 }}
-                            data={data}
+            <View style={{ padding: 10 }}>
+                <Card style={{padding: 20}}>
+                <Subheading>Weight</Subheading>
+                    <View style={{ height: 200, flexDirection: 'row' }}>
+                        <YAxis
+                            data={[1, 2, 3]}
+                            style={{ marginBottom: xAxisHeight }}
                             contentInset={verticalContentInset}
-                            svg={{ stroke: 'rgb(134, 65, 244)' }}
-                        >
-                            <Grid />
-                        </LineChart>
-                        <XAxis
-                            style={{ marginHorizontal: -10, height: xAxisHeight }}
-                            data={date}
-                            xAccessor={({ item }) => item.value}
-                            formatLabel={(value) => value}
-                            contentInset={{ left: 10, right: 25 }}
+                            numberOfTicks={5}
                             svg={axesSvg}
-                            numberOfTicks={6}
                         />
+                        <View style={{ flex: 1, marginLeft: 10 }}>
+                            <LineChart
+                                style={{ flex: 1 }}
+                                data={data}
+                                contentInset={verticalContentInset}
+                                svg={{ stroke: 'rgb(134, 65, 244)' }}
+                            >
+                                <Grid />
+                            </LineChart>
+                            <XAxis
+                                style={{ marginHorizontal: -10, height: xAxisHeight }}
+                                data={date}
+                                xAccessor={({ item }) => item.value}
+                                formatLabel={(value) => value}
+                                contentInset={{ left: 10, right: 25 }}
+                                svg={axesSvg}
+                                numberOfTicks={6}
+                            />
+                        </View>
                     </View>
-                </View>
+                </Card>
             </View>
         )
     }

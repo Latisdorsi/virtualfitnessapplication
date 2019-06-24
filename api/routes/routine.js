@@ -19,23 +19,11 @@ router.get('/routine/all', (req, res) => {
         })
 })
 
-router.get('/routine', (req, res) => {
-    Routine.find({}).limit(1)
-        .then(routine => {
-            res.status(200).json(routine)
-        })
-        .catch(error => {
-            res.status(500).json({
-                message: 'Internal Server Error',
-                error: error
-            });
-        })
-})
 
 // Get Soecific Cycle
 router.get('/routine/:id', (req, res) => {
     const _id = req.params.id
-    Routine.find({ _id })
+    Routine.find({ _id }).limit(1)
         
         .then(routine => {
             res.status(200).json(routine)

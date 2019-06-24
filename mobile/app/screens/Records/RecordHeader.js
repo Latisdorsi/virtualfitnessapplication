@@ -1,24 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
     View,
     Text,
     StyleSheet,
 } from 'react-native';
-import axios from 'axios';
 import { Subheading, Divider, IconButton } from 'react-native-paper'
 
 
 export default function RecordHeader({ exercise }) {
-
-    // const [exer, setExer] = useState({})
-
-    useEffect(() => {
-        axios.get('https://mvfagb.herokuapp.com/api/exercise/detail/' + exercise._id)
-        .then(response => {
-            console.warn(response.data);
-        })
-    }, [])
-
     return (
         <View>
             <View
@@ -26,7 +15,7 @@ export default function RecordHeader({ exercise }) {
                 <Subheading
                     style={{
                         fontSize: 20
-                    }}>{exercise._id}</Subheading>
+                    }}>{exercise.name}</Subheading>
                 <View
                     style={{
                         flexDirection: 'row'
@@ -37,7 +26,7 @@ export default function RecordHeader({ exercise }) {
             </View>
 
             <Divider />
-            {/* <View
+            <View
                 style={styles.headerContainer}>
 
                 <View>
@@ -53,7 +42,7 @@ export default function RecordHeader({ exercise }) {
                     <Text>{exercise.previous.volume}lbs</Text>
                 </View>
 
-            </View> */}
+            </View>
 
             <Divider />
         </View>

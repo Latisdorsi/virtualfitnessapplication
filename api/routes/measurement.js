@@ -32,7 +32,7 @@ router.get('/measurement/:id/weight', (req, res) => {
         .populate({
             path: 'measurements',
             select: 'weight date -_id',
-            options: { sort: { date: -1 }}
+            options: { sort: { date: -1 } }
         })
         .then(user => {
             res.status(200).json(user.measurements)
@@ -52,7 +52,7 @@ router.get('/measurement/:id/neck', (req, res) => {
         .populate({
             path: 'measurements',
             select: 'date neck -_id',
-            options: { sort: { date: -1 }}
+            options: { sort: { date: -1 } }
         })
         .then(user => {
             res.status(200).json(user.measurements)
@@ -72,7 +72,7 @@ router.get('/measurement/:id/waist', (req, res) => {
         .populate({
             path: 'measurements',
             select: 'date waist -_id',
-            options: { sort: { date: -1 }}
+            options: { sort: { date: -1 } }
         })
         .then(user => {
             res.status(200).json(user.measurements)
@@ -91,7 +91,7 @@ router.get('/measurement/:id/hips', (req, res) => {
         .populate({
             path: 'measurements',
             select: 'date hips -_id',
-            options: { sort: { date: -1 }}
+            options: { sort: { date: -1 } }
         })
         .then(user => {
             res.status(200).json(user.measurements)
@@ -105,14 +105,16 @@ router.get('/measurement/:id/hips', (req, res) => {
 })
 
 
-
-
 // Get All Member Measurement
 router.get('/measurement/:id/all', (req, res) => {
     const _id = req.params.id
     User.findOne({ _id })
-        .populate('measurements')
-        .exec((err, user) => {
+        .populate({
+            path: 'measurements',
+            select: '-bodyComposition -_id',
+            options: { sort: { date: -1 } }
+        })
+        .then((user) => {
             res.status(200).json(user.measurements)
         })
         .catch(error => {
@@ -128,7 +130,7 @@ router.get('/measurement/:id/all', (req, res) => {
 router.get('/measurement/:id/query/:date', (req, res) => {
     const { id, date } = req.params
     Cycle.findOne({ User: req.params.id }).sort({ date: date }).limit(1)
-        
+
         .then(cycle => {
             res.status(200).json(cycle)
         })
@@ -171,7 +173,8 @@ router.post('/measurement/:id', (req, res) => {
                                 error: error
                             });
                         })
-                Î})
+                    Î
+                })
                 .catch(error => {
                     res.status(500).json({
                         message: 'Internal Server Error',
@@ -194,7 +197,7 @@ router.delete('/measurement/:id/:measurement', (req, res) => {
     const _id = req.params.id
     const _measurement = req.params.measurement
     User.findOne({ _id })
-        
+
         .then(
             Measurement.findOneAndRemove({
                 _measurement

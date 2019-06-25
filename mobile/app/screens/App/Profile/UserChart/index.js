@@ -5,6 +5,10 @@ import { View, Text } from 'react-native'
 
 class UserChart extends React.PureComponent {
 
+    componentDidMount(){
+        
+    }
+
     render() {
 
         const data = [23, 25, 30, 35]

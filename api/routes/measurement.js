@@ -25,6 +25,88 @@ router.get('/measurement/:id', (req, res) => {
         })
 })
 
+
+router.get('/measurement/:id/weight', (req, res) => {
+    const _id = req.params.id
+    User.findOne({ _id })
+        .populate({
+            path: 'measurements',
+            select: 'weight date -_id',
+            options: { sort: { date: -1 }}
+        })
+        .then(user => {
+            res.status(200).json(user.measurements)
+        })
+        .catch(error => {
+            res.status(500).json({
+                message: 'Internal Server Error',
+                error: error
+            });
+        })
+})
+
+
+router.get('/measurement/:id/neck', (req, res) => {
+    const _id = req.params.id
+    User.findOne({ _id })
+        .populate({
+            path: 'measurements',
+            select: 'date neck -_id',
+            options: { sort: { date: -1 }}
+        })
+        .then(user => {
+            res.status(200).json(user.measurements)
+        })
+        .catch(error => {
+            res.status(500).json({
+                message: 'Internal Server Error',
+                error: error
+            });
+        })
+})
+
+
+router.get('/measurement/:id/waist', (req, res) => {
+    const _id = req.params.id
+    User.findOne({ _id })
+        .populate({
+            path: 'measurements',
+            select: 'date waist -_id',
+            options: { sort: { date: -1 }}
+        })
+        .then(user => {
+            res.status(200).json(user.measurements)
+        })
+        .catch(error => {
+            res.status(500).json({
+                message: 'Internal Server Error',
+                error: error
+            });
+        })
+})
+
+router.get('/measurement/:id/hips', (req, res) => {
+    const _id = req.params.id
+    User.findOne({ _id })
+        .populate({
+            path: 'measurements',
+            select: 'date hips -_id',
+            options: { sort: { date: -1 }}
+        })
+        .then(user => {
+            res.status(200).json(user.measurements)
+        })
+        .catch(error => {
+            res.status(500).json({
+                message: 'Internal Server Error',
+                error: error
+            });
+        })
+})
+
+
+
+
 // Get All Member Measurement
 router.get('/measurement/:id/all', (req, res) => {
     const _id = req.params.id
@@ -134,5 +216,9 @@ router.delete('/measurement/:id/:measurement', (req, res) => {
             });
         })
 })
+
+
+
+
 
 module.exports = router

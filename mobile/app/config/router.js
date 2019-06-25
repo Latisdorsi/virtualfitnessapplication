@@ -171,15 +171,16 @@ const AppStack = createAppContainer(createBottomTabNavigator({
 
 const MainStack = createAppContainer(createSwitchNavigator({
     Wizard: {
-        screen: Wizard,
+        screen: ({ navigation }) => <Wizard screenProps={{ rootNavigation: navigation }} />,
         navigationOptions: {
             title: 'Wizard'
         }
     },
-    App: AppStack,
+    App: {
+        screen: ({ navigation }) => <AppStack screenProps={{ rootNavigation: navigation }} />
+    },
     WizardStackLoading: AppLoadingScreen
-},
-    {
+    },{
         initialRouteName: 'WizardStackLoading'
     }
 ));

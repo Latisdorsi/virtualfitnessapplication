@@ -74,7 +74,9 @@ export class Dashboard extends Component {
                         <Text>Schedule</Text>
                         <Text>3 Days a Week</Text>
                     </RowViewComponent>
-                    <Button title="Restart Cycle" />
+                    <Button title="Restart Cycle" onPress={() => {
+                         this.props.screenProps.rootNavigation.navigate('Wizard')
+                    }}/>
                 </Card>
             </View>
         )

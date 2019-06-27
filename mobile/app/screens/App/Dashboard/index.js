@@ -8,7 +8,7 @@ import Axios from 'axios';
 
 export class Dashboard extends Component {
     constructor(props) {
-        super(props)
+            super(props)
         this.state = {
             user: {
                 avatarURL: '',

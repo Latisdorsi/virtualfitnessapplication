@@ -20,6 +20,12 @@ import Routine from "./Routine";
 
 
 const WizardNavigator = createAppContainer(createStackNavigator({
+    Routine: {
+        screen: Routine,
+        navigationOptions: {
+            title: 'Routine'
+        }
+    },
     Profile: {
         screen: Profile,
         navigationOptions: {

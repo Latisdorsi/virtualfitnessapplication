@@ -7868,6 +7868,11 @@ jsx-ast-utils@^2.0.1:
   dependencies:
     array-includes "^3.0.3"
 
+jwt-decode@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/jwt-decode/-/jwt-decode-2.2.0.tgz#7d86bd56679f58ce6a84704a657dd392bba81a79"
+  integrity sha1-fYa9VmefWM5qhHBKZX3TkruoGnk=
+
 kefir@^3.7.3:
   version "3.8.6"
   resolved "https://registry.yarnpkg.com/kefir/-/kefir-3.8.6.tgz#046f0dabd870ff7cbfe039995c9bca2c1e68ac36"
@@ -9572,6 +9577,11 @@ path-type@^3.0.0:
   dependencies:
     pify "^3.0.0"
 
+paths-js@^0.4.7:
+  version "0.4.9"
+  resolved "https://registry.yarnpkg.com/paths-js/-/paths-js-0.4.9.tgz#dc926a7b35fee91bdfa7f984db904a697d8a57c0"
+  integrity sha512-bu3iCT1D/0yfIBwlw8y07Ggf4k8j1BzKtwcrQqk0XSMCJxYPJpNbSkgNPU8c63HchinmFY+vqEp/P+9oiBZZhA==
+
 pbkdf2@^3.0.3:
   version "3.0.17"
   resolved "https://registry.yarnpkg.com/pbkdf2/-/pbkdf2-3.0.17.tgz#976c206530617b14ebb32114239f7b09336e93a6"
@@ -9648,6 +9658,11 @@ pn@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/pn/-/pn-1.1.0.tgz#e2f4cef0e219f463c179ab37463e4e1ecdccbafb"
   integrity sha512-2qHaIQr2VLRFoxe2nASzsV6ef4yOOH+Fi9FBOVH6cqeSgUnoyySPZkxzLuzd+RYOQTRpROA0ztTMqxROKSb/nA==
+
+point-in-polygon@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/point-in-polygon/-/point-in-polygon-1.0.1.tgz#d59b64e8fee41c49458aac82b56718c5957b2af7"
+  integrity sha1-1Ztk6P7kHElFiqyCtWcYxZV7Kvc=
 
 polished@^2.3.3:
   version "2.3.3"
@@ -10250,6 +10265,15 @@ react-native-calendars@^1.32.0:
     lodash.isequal "^4.5.0"
     prop-types "^15.5.10"
     xdate "^0.8.0"
+
+react-native-chart-kit@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-chart-kit/-/react-native-chart-kit-3.0.0.tgz#c02305fdbfb4892311d043c2deca086ab0de9d6b"
+  integrity sha512-yIZbwvwGrU5vMsYppmDGT8H7H7M40vC2ynF/m9Uow7Vwoae98GaKK9PQXHCzwHPy9HDYukzeuPFycDrZtyFs2A==
+  dependencies:
+    lodash "^4.17.11"
+    paths-js "^0.4.7"
+    point-in-polygon "^1.0.1"
 
 react-native-circular-progress@^1.1.0:
   version "1.1.0"

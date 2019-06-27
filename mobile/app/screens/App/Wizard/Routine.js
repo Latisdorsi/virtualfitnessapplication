@@ -7,6 +7,73 @@ import RowViewComponent from 'lib/components/RowViewComponent';
 // import RowViewComponent from 'lib/components';
 
 export default class Routine extends React.Component {
+
+    getDates = (startDate, endDate, schedule) => {
+        startDate = new Date(startDate);
+        endDate = new Date(endDate);
+        arrDate = [];
+
+        while (startDate < endDate) {
+            startDate.setDate(startDate.getDate() + 1);
+            switch (schedule) {
+                case 0:
+                    if (startDate.getDay() == 1) {
+                        arrDate.push(new Date(startDate).getTime());
+                    }
+                    else if (startDate.getDay() == 3) {
+                        arrDate.push(new Date(startDate).getTime());
+                    }
+                    else if (startDate.getDay() == 5) {
+                        arrDate.push(new Date(startDate).getTime());
+                    }
+                    break;
+
+                case 1:
+                    if (startDate.getDay() == 1) {
+                        arrDate.push(new Date(startDate).getTime());
+                    }
+                    else if (startDate.getDay() == 2) {
+                        arrDate.push(new Date(startDate).getTime());
+                    }
+                    else if (startDate.getDay() == 3) {
+                        arrDate.push(new Date(startDate).getTime());
+                    }
+                    else if (startDate.getDay() == 4) {
+                        arrDate.push(new Date(startDate).getTime());
+                    }
+                    else if (startDate.getDay() == 5) {
+                        arrDate.push(new Date(startDate).getTime());
+                    }
+                    break;
+                case 2:
+                    if (startDate.getDay() == 0) {
+                        arrDate.push(new Date(startDate).getTime());
+                    }
+                    else if (startDate.getDay() == 1) {
+                        arrDate.push(new Date(startDate).getTime());
+                    }
+                    else if (startDate.getDay() == 2) {
+                        arrDate.push(new Date(startDate).getTime());
+                    }
+                    else if (startDate.getDay() == 3) {
+                        arrDate.push(new Date(startDate).getTime());
+                    }
+                    else if (startDate.getDay() == 4) {
+                        arrDate.push(new Date(startDate).getTime());
+                    }
+                    else if (startDate.getDay() == 5) {
+                        arrDate.push(new Date(startDate).getTime());
+                    }
+                    else if (startDate.getDay() == 6) {
+                        arrDate.push(new Date(startDate).getTime());
+                    }
+                    break;
+            }
+        }
+        return arrDate;
+    }
+
+
     render() {
         const { navigate } = this.props.navigation;
         return (
@@ -44,29 +111,54 @@ export default class Routine extends React.Component {
                                 // axios.post('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408', newObj)
                                 //     .then(response => {
                                 //         console.warn(response);
+                                axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408')
+                                    .then(response => {
+                                        dates = this.getDates('2019-06-14T06:17:42.276+00:00', '2019-08-13T06:17:42.267+00:00', 0);
+
+                                        scheduleArr = [];
+
+                                        dates.map(value => {
+                                            currDate = new Date(value);
+
+                                            currDayOfTheWeek = currDate.getDay();
+
+                                            exercisePerDay = exercises.filter(value => {
+                                                return value.day == currDayOfTheWeek;
+                                            });
+
+                                            scheduleArr.push({
+                                                date: currDate,
+                                                exercises: exercisePerDay
+                                            });
+                                        });
+
+                                        console.warn(scheduleArr);
+                                    })
+                                    .catch(err => {
+                                        console.warn(err);
+                                    })
+                                // })
+                                // .catch(err => {
+                                //     console.warn(err.response);
+                                // })
+                                // console.warn(newObj);
+
+                                // const measurementObj = {
+                                //     weight: context.context.weight,
+                                //     neck: context.context.neck,
+                                //     waist: context.context.waist,
+                                //     hips: context.context.hips,
+                                //     bodyComposition: context.context.composition
+                                // }
+                                // console.warn(measurementObj);
+
+                                // axios.post('http://mvfagb.herokuapp.com/api/measurement/5ce9092d50081503e89ae408', measurementObj)
+                                //     .then(response => {
+                                //         console.warn(response);
                                 //     })
                                 //     .catch(err => {
                                 //         console.warn(err.response);
                                 //     })
-                                console.warn(newObj);
-
-
-                                const measurementObj = {
-                                    weight: context.context.weight, 
-                                    neck: context.context.neck, 
-                                    waist: context.context.waist, 
-                                    hips: context.context.hips,
-                                    bodyComposition: context.context.composition
-                                }
-                                console.warn(measurementObj);
-
-                                axios.post('http://mvfagb.herokuapp.com/api/measurement/5ce9092d50081503e89ae408', measurementObj)
-                                    .then(response => {
-                                        console.warn(response);
-                                    })
-                                    .catch(err => {
-                                        console.warn(err.response);
-                                    })
                             }}
                         >Generate Exercises</Button>
                         {console.warn(context)}

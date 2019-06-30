@@ -23,7 +23,7 @@ router.post('/schedule/:id', (req, res) => {
     const _id = req.params.id
     const { date, exercises } = req.body
     const newSchedule = new Schedule({
-        User: _id,
+        user: _id,
         date,
         exercises
     })   

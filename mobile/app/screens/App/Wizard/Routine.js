@@ -103,18 +103,18 @@ export default class Routine extends React.Component {
                             mode="contained"
                             onPress={() => {
 
-                                const { context } = context;
-                                const newObj = {
-                                    level: context.context.level,
-                                    goal: context.context.goal,
-                                    schedule: context.context.schedule,
-                                    assessment: {
-                                        upperBodyStrength: context.context.upperBodyStrength,
-                                        lowerBodyStrength: context.context.lowerBodyStrength,
-                                        muscleEndurance: context.context.muscleEndurance,
-                                        flexibility: context.context.flexibility
-                                    }
-                                }
+                                // const { context } = context;
+                                // const newObj = {
+                                //     level: context.context.level,
+                                //     goal: context.context.goal,
+                                //     schedule: context.context.schedule,
+                                //     assessment: {
+                                //         upperBodyStrength: context.context.upperBodyStrength,
+                                //         lowerBodyStrength: context.context.lowerBodyStrength,
+                                //         muscleEndurance: context.context.muscleEndurance,
+                                //         flexibility: context.context.flexibility
+                                //     }
+                                // }
 
                                 // axios.post('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408', newObj)
                                 //     .then(response => {
@@ -140,6 +140,7 @@ export default class Routine extends React.Component {
                                                     });
                                                 });
                                                 scheduleArr.forEach( schedule => {
+                                                    // console.log(schedule);
                                                     axios.post('https://mvfagb.herokuapp.com/api/schedule/5ce9092d50081503e89ae408', schedule)
                                                     .then( response => {
                                                         console.log(response);

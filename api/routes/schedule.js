@@ -26,17 +26,14 @@ router.post('/schedule/:id', (req, res) => {
         User: _id,
         date,
         exercises
-    })
-
-    res.status(200).json(schedule);
-
-    // newSchedule.save()
-    //     .then(schedule => {
-    //         res.status(200).json(schedule);
-    //     })
-    //     .catch(err => {
-    //         res.status(500).json(err);
-    //     })
+    })   
+    newSchedule.save()
+        .then(schedule => {
+            res.status(200).json(schedule);
+        })
+        .catch(err => {
+            res.status(500).json(err);
+        })
 })
 
 

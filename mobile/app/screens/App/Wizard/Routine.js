@@ -135,7 +135,7 @@ export default class Routine extends React.Component {
                                                     });
 
                                                     scheduleArr.push({
-                                                        date: currDate,
+                                                        date: currDate.getTime(),
                                                         exercises: exercisePerDay
                                                     });
                                                 });

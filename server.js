@@ -73,6 +73,7 @@ app.use('/api', require('./api/routes/cycle'))
 app.use('/api', require('./api/routes/measurement'))
 app.use('/api', require('./api/routes/routine'))
 app.use('/api', require('./api/routes/records'))
+app.use('/api', require('./api/routes/schedule'))
 
 // Serve static files from the React frontend app
 app.use(express.static(path.join(__dirname, 'client/build')))

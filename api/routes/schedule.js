@@ -1,0 +1,41 @@
+const express = require('express')
+const router = express.Router()
+
+const User = require('../../models/user')
+const Exercise = require('../../models/schedule')
+const Schedule = require('../../models/schedule')
+
+router.get('/schedule/:id', (req, res) => {
+    const _id = req.params.id
+    Schedule.find({ user: _id })
+        .then(user => {
+            res.status(200).json(user.measurements)
+        })
+        .catch(error => {
+            res.status(500).json({
+                message: 'Internal Server Error',
+                error: error
+            });
+        })
+})
+
+router.post('/schedule/:id', (req, res) => {
+    const _id = req.params.id
+    const { date, exercises } = req.body
+    const newSchedule = new Schedule({
+        User: _id,
+        date,
+        exercises
+    })
+
+    newSchedule.save()
+        .then(schedule => {
+            res.status(200).json(schedule);
+        })
+        .catch(err => {
+            res.status(500).json(err);
+        })
+})
+
+
+module.exports = router

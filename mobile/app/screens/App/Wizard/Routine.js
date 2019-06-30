@@ -8,6 +8,11 @@ import RowViewComponent from 'lib/components/RowViewComponent';
 
 export default class Routine extends React.Component {
 
+    componentDidMount() {
+
+    }
+
+
     getDates = (startDate, endDate, schedule) => {
         startDate = new Date(startDate);
         endDate = new Date(endDate);
@@ -94,9 +99,11 @@ export default class Routine extends React.Component {
                             <Text>{context.context.age}</Text>
                         </RowViewComponent>
 
-                        <Button mode="contained"
+                        <Button
+                            mode="contained"
                             onPress={() => {
-                                // const { context } = context;
+
+                                const { context } = context;
                                 const newObj = {
                                     level: context.context.level,
                                     goal: context.context.goal,
@@ -108,39 +115,51 @@ export default class Routine extends React.Component {
                                         flexibility: context.context.flexibility
                                     }
                                 }
+
                                 // axios.post('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408', newObj)
                                 //     .then(response => {
                                 //         console.warn(response);
                                 axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408')
                                     .then(response => {
-                                        dates = this.getDates('2019-06-14T06:17:42.276+00:00', '2019-08-13T06:17:42.267+00:00', 0);
+                                        const dates = this.getDates(response.data.startDate, response.data.targetDate, 0);
+                                        axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408/routine')
+                                            .then(response => {
+                                                scheduleArr = [];
+                                                dates.map(value => {
+                                                    currDate = new Date(value);
 
-                                        scheduleArr = [];
+                                                    currDayOfTheWeek = currDate.getDay();
 
-                                        dates.map(value => {
-                                            currDate = new Date(value);
+                                                    exercisePerDay = response.data.exercises.filter(value => {
+                                                        return value.day == currDayOfTheWeek;
+                                                    });
 
-                                            currDayOfTheWeek = currDate.getDay();
+                                                    scheduleArr.push({
+                                                        date: currDate,
+                                                        exercises: exercisePerDay
+                                                    });
+                                                });
+                                                scheduleArr.forEach( schedule => {
+                                                    axios.post('https://mvfagb.herokuapp.com/api/schedule/5ce9092d50081503e89ae408', schedule)
+                                                    .then( response => {
+                                                        console.log(response);
+                                                    })
+                                                    .catch( err => {
+                                                        console.log(err);
+                                                    })
+                                                })
+                                                // Push Schedule Here
+                                            })
 
-                                            exercisePerDay = exercises.filter(value => {
-                                                return value.day == currDayOfTheWeek;
-                                            });
-
-                                            scheduleArr.push({
-                                                date: currDate,
-                                                exercises: exercisePerDay
-                                            });
-                                        });
-
-                                        console.warn(scheduleArr);
                                     })
                                     .catch(err => {
                                         console.warn(err);
                                     })
-                                // })
-                                // .catch(err => {
-                                //     console.warn(err.response);
-                                // })
+
+                                //     })
+                                //     .catch(err => {
+                                //         console.warn(err.response);
+                                //     })
                                 // console.warn(newObj);
 
                                 // const measurementObj = {

@@ -13,5 +13,5 @@ ScheduleSchema = new mongoose.Schema({
     }]
 })
 
-const Schedule = new mongoose.model('Schedule', RoutineSchema)
+const Schedule = new mongoose.model('Schedule', ScheduleSchema)
 module.exports = Schedule

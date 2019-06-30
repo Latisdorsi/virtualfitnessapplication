@@ -140,14 +140,14 @@ export default class Routine extends React.Component {
                                                     });
                                                 });
                                                 scheduleArr.forEach( schedule => {
-                                                    // console.log(schedule);
-                                                    axios.post('https://mvfagb.herokuapp.com/api/schedule/5ce9092d50081503e89ae408', schedule)
-                                                    .then( response => {
-                                                        console.log(response);
-                                                    })
-                                                    .catch( err => {
-                                                        console.log(err);
-                                                    })
+                                                    console.log(schedule);
+                                                    // axios.post('https://mvfagb.herokuapp.com/api/schedule/5ce9092d50081503e89ae408', schedule)
+                                                    // .then( response => {
+                                                    //     console.log(response);
+                                                    // })
+                                                    // .catch( err => {
+                                                    //     console.log(err);
+                                                    // })
                                                 })
                                                 // Push Schedule Here
                                             })

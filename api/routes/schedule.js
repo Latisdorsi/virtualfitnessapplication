@@ -8,8 +8,8 @@ const Schedule = require('../../models/schedule')
 router.get('/schedule/:id', (req, res) => {
     const _id = req.params.id
     Schedule.find({ user: _id })
-        .then(user => {
-            res.status(200).json(user.measurements)
+        .then(schedule => {
+            res.status(200).json(schedule)
         })
         .catch(error => {
             res.status(500).json({

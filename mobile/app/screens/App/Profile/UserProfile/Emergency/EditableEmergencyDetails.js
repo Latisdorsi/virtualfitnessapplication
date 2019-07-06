@@ -31,7 +31,6 @@ const EditableEmergencyDetails = ({ value, setValue, editable }) => {
                     })
                     editable(false)
                 }
-                console.log(response)
             })
             .catch(err => {
                 console.error('Request failed', err.response)

@@ -206,6 +206,36 @@ module.exports = {
             })
     },
 
+    updateUserMainDetails: function (req, res, next) {
+        const {
+            firstName,
+            lastName,
+            middleInitial
+        } = req.body
+
+        let errors = []
+
+        User
+            .update({
+                _id: req.params.id
+            }, {
+                    name: {
+                        firstName,
+                        lastName,
+                        middleInitial
+                    }
+                })
+            .then(response => {
+                res.status(200).json(response);
+            })
+            .catch(error => {
+                res.status(500).json({
+                    message: 'Internal Server Error',
+                    error: error
+                });
+            })
+    },
+
     updateUserContactDetails: function (req, res, next) {
         const {
             address,

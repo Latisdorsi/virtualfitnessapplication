@@ -3,34 +3,32 @@ import { View } from 'react-native'
 import { TextInput, Button } from 'react-native-paper'
 import axios from 'axios'
 
-const EditableContactDetails = ({ value, setValue, editable }) => {
+const EditableUserDetails = ({ value, setValue, editable }) => {
 
-    const [contactDetails, setContactDetails] = useState(Object.assign(value.contactDetails))
+    const [userDetails, setUserDetails] = useState(Object.assign(value.name));
 
     const updateValues = (name, value) => {
         let newValueTemp = {
-            ...contactDetails,
+            ...userDetails,
             [name]: value
         }
-        setContactDetails(newValueTemp)
+        setUserDetails(newValueTemp)
     }
 
     const saveValues = () => {
         const newObj = {
-            address: contactDetails.address,
-            mobile: contactDetails.phone.mobile,
-            home: contactDetails.phone.home,
-            work: contactDetails.phone.work
+            firstName: userDetails.firstName,
+            lastName: userDetails.lastName,
+            middleInitial: userDetails.middleInitial,
         }
-        // console.warn(newObj)
 
         axios
-            .put('https://mvfagb.herokuapp.com/api/account/detail/' + value._id + '/contact', newObj)
+            .put('https://mvfagb.herokuapp.com/api/account/detail/' + value._id + '/main', newObj)
             .then(response => {
                 if (response.status === 200) {
                     setValue({
                         ...value,
-                        contactDetails: contactDetails
+                        userDetails: userDetails
                     })
                     editable(false)
                 }
@@ -44,40 +42,30 @@ const EditableContactDetails = ({ value, setValue, editable }) => {
     return (
         <View>
             <TextInput
-                label="Address"
-                value={contactDetails.address}
+                label="First Name"
+                value={userDetails.firstName}
                 onChangeText={(text) => {
-                    updateValues('address', text)
+                    updateValues('firstName', text)
                 }}
                 style={{
                     marginVertical: 10,
                     backgroundColor: 'none'
                 }} />
             <TextInput
-                label="Mobile Number"
-                value={contactDetails.phone.mobile}
+                label="Last Name"
+                value={userDetails.lastName}
                 onChangeText={(text) => {
-                    updateValues('mobilePhone', text)
+                    updateValues('lastName', text)
                 }}
                 style={{
                     marginVertical: 10,
                     backgroundColor: 'none'
                 }} />
             <TextInput
-                label="Home Number"
-                value={contactDetails.phone.work}
+                label="Middle Initial"
+                value={userDetails.middleInitial}
                 onChangeText={(text) => {
-                    updateValues('workPhone', text)
-                }}
-                style={{
-                    marginVertical: 10,
-                    backgroundColor: 'none'
-                }} />
-            <TextInput
-                label="Work Number"
-                value={contactDetails.phone.home}
-                onChangeText={(text) => {
-                    updateValues('homePhone', text)
+                    updateValues('middleInitial', text)
                 }}
                 style={{
                     marginVertical: 10,
@@ -95,4 +83,4 @@ const EditableContactDetails = ({ value, setValue, editable }) => {
     )
 }
 
-export default EditableContactDetails
+export default EditableUserDetails

@@ -19,6 +19,20 @@ router.get('/schedule/:id', (req, res) => {
         })
 })
 
+router.get('/schedule/:id/now', (req, res) => {
+    const _id = req.params.id
+    Schedule.findOne({ user: _id, date: new Date().toISOString() })
+        .then(schedule => {
+            res.status(200).json(schedule)
+        })
+        .catch(error => {
+            res.status(500).json({
+                message: 'Internal Server Error',
+                error: error
+            });
+        })
+})
+
 router.post('/schedule/:id', (req, res) => {
     const _id = req.params.id
     const { date, exercises } = req.body

@@ -34,7 +34,6 @@ class UserChart extends React.PureComponent {
                     this.setState({
                         measurement: response.data
                     });
-                    console.warn(this.state.measurement);
                 })
                 .catch(err => {
                     console.warn(err);

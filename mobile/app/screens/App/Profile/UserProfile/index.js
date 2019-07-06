@@ -45,7 +45,7 @@ export default function UserProfile() {
                 })
         }
         ).catch(err => {
-            console.warn(err)
+            console.error(err)
         })
     }, []);
 

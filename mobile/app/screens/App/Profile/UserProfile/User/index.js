@@ -4,7 +4,7 @@ import RowViewComponent from 'lib/components/RowViewComponent'
 import { IconButton, Subheading } from 'react-native-paper';
 
 import UserDetails from './UserDetails';
-import EditableContactDetails from '../Contact/EditableContactDetails';
+import EditableUserDetails from './EditableUserDetails';
 
 import ProfileContext from '../ProfileContext';
 
@@ -29,7 +29,7 @@ const User = () => {
             </RowViewComponent>
             {
                 isContactEditable ?
-                    (<EditableContactDetails value={user} setValue={setUser} editable={setContactEditable} />) :
+                    (<EditableUserDetails value={user} setValue={setUser} editable={setContactEditable} />) :
                     (<UserDetails value={user} />)
             }
         </View>

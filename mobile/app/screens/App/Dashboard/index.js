@@ -24,30 +24,29 @@ export class Dashboard extends Component {
 
     componentDidMount() {
         // Convert to Promise All
-
+        const { navigation } = this.props;
+        const itemId = this.props.navigation.getParam('item', 'No Item');
+        console.log(itemId);
 
         DeviceStorage.loadItem('token').then(token => {
             const tokenData = parseToken(token);
-            Axios.get('https://mvfagb.herokuapp.com/api/cycle/' + tokenData._id + '/routine')
-                .then(response => {
-                    this.setState({
-                        exercises: response.data.exercises
-                    });
-                })
-            Axios
-                .get('http://mvfagb.herokuapp.com/api/account/detail/' + tokenData._id)
-                .then(response => {
-                    this.setState({
-                        user: response.data
-                    })
-                })
+            const routine = Axios.get('https://mvfagb.herokuapp.com/api/cycle/' + tokenData._id + '/routine')
+            const account = Axios.get('http://mvfagb.herokuapp.com/api/account/detail/' + tokenData._id)
+
+            Promise.all([account,routine]).then((values) => {
+                    const user = values[0].data;
+                    const exercises = values[1].data.exercises
+                this.setState({
+                    user,
+                    exercises
+                });
+            })
         })
     }
 
     render() {
         return (
             <View style={{ padding: 20, flex: 1, justifyContent: 'center' }}>
-                {/* <Headline>Dashboard</Headline> */}
                 <View style={{ alignContent: 'center', alignItems: 'center' }}>
                     <Avatar.Image size={80} source={{ uri: this.state.user.avatarURL }} />
                     <Subheading>{this.state.user.name.firstName} {this.state.user.name.lastName}</Subheading>

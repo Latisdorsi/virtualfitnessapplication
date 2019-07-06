@@ -19,6 +19,9 @@ router.post('/create', user.registerUser)
 router.get('/detail/:id', user.readUser)
 
 // Update User Contact Details
+router.put('/detail/:id/main', user.updateUserMainDetails);
+
+// Update User Contact Details
 router.put('/detail/:id/contact', user.updateUserContactDetails);
 
 // Update Emergency Details

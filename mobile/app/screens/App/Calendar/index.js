@@ -1,78 +1,74 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { Agenda } from 'react-native-calendars';
-import RowViewComponent from 'lib/components/RowViewComponent'
+import RowViewComponent from 'lib/components/RowViewComponent';
 import { Subheading, Button } from 'react-native-paper';
+import axios from 'axios';
 
 export default class AgendaComponent extends Component {
 
   constructor(props) {
-    super(props)
-    console.log(Date.now)
+    super(props);
     this.state = {
-      schedule:
-      {
-        '2019-05-02': [
-          {
-            title: <Subheading>Workout</Subheading>,
-            content: <View>
-              <RowViewComponent>
-                <Text>Barbell Squat</Text>
-                <Text>Sets: 1</Text>
-              </RowViewComponent>
-              <RowViewComponent>
-                <Text>Barbell Bench</Text>
-                <Text>Sets: 3</Text>
-              </RowViewComponent>
-            </View>
-          }],
-        '2019-05-03': [{
-          title: <Subheading>Workout</Subheading>,
-          content: <View>
-            <RowViewComponent>
-              <Text>Barbell Squat</Text>
-              <Text>Sets: 1</Text>
-            </RowViewComponent>
-            <RowViewComponent>
-              <Text>Barbell Bench</Text>
-              <Text>Sets: 3</Text>
-            </RowViewComponent>
-            <Button mode="contained">Start Workout</Button>
-          </View>
-        }],
-        '2019-05-05': [{
-          title: <Subheading>Workout</Subheading>,
-          content: <View>
-            <RowViewComponent>
-              <Text>Barbell Squat</Text>
-              <Text>Sets: 1</Text>
-            </RowViewComponent>
-          </View>
-        }]
-
-      }
-
+      schedule: {}
+      // {
+      //   '2019-07-24': [
+      //     {
+      //       title: <Subheading>Workout</Subheading>,
+      //       content: <View>
+      //         <RowViewComponent>
+      //           <Text>Barbell Squat</Text>
+      //           <Text>Sets: 1</Text>
+      //         </RowViewComponent>
+      //         <RowViewComponent>
+      //           <Text>Barbell Bench</Text>
+      //           <Text>Sets: 3</Text>
+      //         </RowViewComponent>
+      //       </View>
+      //     }]
     }
   }
 
   // Get Data Here
   componentDidMount() {
     //const _id = this.props.navigation.getParam('itemId', '');
-    /*
-    axios
-        .get('http://10.0.2.2:3000/exercise/detail/' + _id)
-        .then(response => {
-            console.log(response.data)
-            this.setState({
-                hasRecord: true
-            });
-            console.log(this.state)
+    axios.get('https://mvfagb.herokuapp.com/api/schedule/5ce9092d50081503e89ae408')
+      .then(response => {
+
+        const schedules = response.data.map(schedule => {
+          const date = schedule.date.slice(0, 10);
+          return {
+            key: [date],
+            value: [{
+              title: <Subheading>Workout</Subheading>,
+              content: (<View>
+                {schedule.exercises.map(exercise => (
+                  <RowViewComponent>
+                    <Text>{exercise._id}</Text>
+                    <Text>Sets: {exercise.sets}</Text>
+                  </RowViewComponent>
+                ))
+                }
+              </View>
+              )
+            }]
+          }
         })
-        .catch(function (error) {
-            console.log(error);
+
+        var scheduleObj = schedules.reduce(function (prev, curr) {
+          prev[curr.key] = curr.value;
+          return prev;
+        }, {});
+
+        this.setState({
+          schedule: scheduleObj
         })
-        */
+      })
+      .catch(err => {
+        console.log(err);
+      })
   }
+
   render() {
     return (
       <View style={{

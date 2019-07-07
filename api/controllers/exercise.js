@@ -45,8 +45,8 @@ module.exports = {
             })
     },
     listExerciseNames: function (req, res, next) {
-        Exercise.find({}).select('name').exec()
-            .then(exercise => {
+        Exercise.find({}).select('name')
+            .then(exercises => {
                 res.status(200).json(exercises)
             })
             .catch(error => {

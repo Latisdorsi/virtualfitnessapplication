@@ -14,7 +14,7 @@ export default class Exercises extends Component {
     }
 
     componentDidMount() {
-        axios.get('https://mvfagb.herokuapp.com/api/exercise/list')
+        axios.get('https://mvfagb.herokuapp.com/api/exercise/names')
             .then(response => {
                 this.setState({
                     exercises: response.data

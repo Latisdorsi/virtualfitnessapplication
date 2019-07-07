@@ -109,7 +109,6 @@ router.get('/measurement/:id/hips', (req, res) => {
 router.get('/measurement/:id/all', (req, res) => {
     const _id = req.params.id
     User.findOne({ _id })
-        .sort({ '_id': -1 })
         .populate({
             path: 'measurements',
             select: '-bodyComposition -_id',

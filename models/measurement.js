@@ -8,18 +8,11 @@ MeasurementSchema = new mongoose.Schema({
     weight: { type: Number },
     neck: { type: Number },
     waist: { type: Number },
-    hips: { type: Number },
-    bicep: { type: Number },
-    forearm: { type: Number },
-    thigh: { type: Number },
-    calf: { type: Number },
     bodyComposition: {
         category: { type: String },
         percentBodyFat: { type: Number },
         percentLeanMass: { type: Number }
     }
-
-
 })
 
 const Measurement = new mongoose.model('Measurement', MeasurementSchema)

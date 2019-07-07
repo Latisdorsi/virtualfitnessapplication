@@ -28,7 +28,7 @@ const EditableUserDetails = ({ value, setValue, editable }) => {
                 if (response.status === 200) {
                     setValue({
                         ...value,
-                        userDetails: userDetails
+                        name: userDetails
                     })
                     editable(false)
                 }

@@ -3,16 +3,14 @@ import { View, Text, ScrollView } from 'react-native';
 import { Subheading, Card, IconButton, Button } from 'react-native-paper';
 
 import RowViewComponent from 'lib/components/RowViewComponent';
-import { CalculateComposition } from 'lib/helpers/utils';
 import DeviceStorage from 'lib/services/DeviceStorage';
 import { parseToken } from 'lib/helpers/utils';
 
 import RecordDetails from './RecordDetails';
 import EditableRecordDetails from './EditableRecordDetails';
 import axios from 'axios';
-export default function UserRecords() {
 
-    let height = 173
+export default function UserRecords() {
 
     //Receive Record Details
     const [measurementDetails, setMeasurementDetails] = useState({
@@ -26,17 +24,6 @@ export default function UserRecords() {
             percentLeanMass: 0
         }
     })
-
-    //Calculate Body Composition
-    const compositionValue = CalculateComposition(
-        23,
-        'Male',
-        measurementDetails.weight,
-        height,
-        measurementDetails.neck,
-        measurementDetails.waist,
-        measurementDetails.hips
-    )
 
     //setMeasurementDetails({ bodyComposition: compositionValue })
 
@@ -126,7 +113,7 @@ export default function UserRecords() {
                     </RowViewComponent>
 
                     {editable ?
-                        <EditableRecordDetails value={measurementDetails} setValue={setmeasurementDetails} /> :
+                        <EditableRecordDetails value={measurementDetails} setValue={setMeasurementDetails} setEditable={setEditable} /> :
                         <RecordDetails value={measurementDetails} />
                     }
 

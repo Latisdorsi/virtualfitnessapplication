@@ -109,6 +109,7 @@ router.get('/measurement/:id/hips', (req, res) => {
 router.get('/measurement/:id/all', (req, res) => {
     const _id = req.params.id
     User.findOne({ _id })
+        .sort({ '_id': -1 })
         .populate({
             path: 'measurements',
             select: '-bodyComposition -_id',
@@ -149,7 +150,7 @@ router.post('/measurement/:id', (req, res) => {
     const _id = req.params.id
     const { weight, neck, waist, hips, bodyComposition } = req.body
     const newMeasurement = new Measurement({
-        User: _id,
+        user: _id,
         weight,
         neck,
         waist,
@@ -157,8 +158,6 @@ router.post('/measurement/:id', (req, res) => {
         bodyComposition
     })
 
-
-    // CALLBACK HELL (Update THIS)
     newMeasurement.save()
         .then(measurement => {
             User.findOne({ _id })
@@ -169,7 +168,7 @@ router.post('/measurement/:id', (req, res) => {
                     })
                         .catch(error => {
                             res.status(500).json({
-                                message: 'Internal Server Error',
+                                message: 'An error occured',
                                 error: error
                             });
                         })

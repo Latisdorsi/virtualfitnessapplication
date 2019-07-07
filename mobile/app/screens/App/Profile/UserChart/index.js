@@ -72,8 +72,6 @@ class UserChart extends React.PureComponent {
             return value.date.substring(5, 10);
         })
 
-        console.warn(date);
-
         return (
             <ScrollView>
                 <View style={{ padding: 20 }}>

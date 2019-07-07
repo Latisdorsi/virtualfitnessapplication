@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
-
-import { View } from 'react-native'
-import { Button } from 'react-native-paper'
-
-import MeasurementModal from 'lib/components/MeasurementModal'
+import React, { useState } from 'react';
+import { View } from 'react-native';
+import { Button } from 'react-native-paper';
+import MeasurementModal from 'lib/components/MeasurementModal';
+import { CalculateComposition } from 'lib/helpers/utils';
+import axios from 'axios';
 
 let index = 0;
 
@@ -98,29 +98,41 @@ const hipsData = [
 ]
 
 
-const EditableRecordDetails = ({ value, setValue }) => {
+const EditableRecordDetails = ({ value, setValue, setEditable }) => {
     let [weight, setWeight] = useState(value.weight)
     let [neck, setNeck] = useState(value.neck)
     let [waist, setWaist] = useState(value.waist)
     let [hips, setHips] = useState(value.hips)
 
-    let [bicep, setBicep] = useState(value.bicep)
-    let [forearm, setForearm] = useState(value.forearm)
-    let [calf, setCalf] = useState(value.calf)
-    let [thigh, setThigh] = useState(value.thigh)
 
     const saveData = () => {
+
+        const bodyComposition = CalculateComposition(
+            23,
+            'Male',
+            weight,
+            173,
+            neck,
+            waist,
+            hips
+        );
+
         const newData = {
             weight,
             neck,
             waist,
             hips,
-            bicep,
-            forearm,
-            calf,
-            thigh
+            bodyComposition
         }
-        setValue(newData)
+        axios.post('http://mvfagb.herokuapp.com/api/measurement/5ce9092d50081503e89ae408', newData)
+            .then(response => {
+                setValue(newData);
+                console.warn(response.data);
+            })
+            .catch(err => {
+                console.warn(err.response);
+            })
+        // setEditable(false);
     }
 
     return (
@@ -132,14 +144,6 @@ const EditableRecordDetails = ({ value, setValue }) => {
             <MeasurementModal name="Waist" data={waistData} suffix="cm" value={waist} setValue={setWaist} />
 
             <MeasurementModal name="Hips" data={hipsData} suffix="cm" value={hips} setValue={setHips} />
-
-            <MeasurementModal name="Bicep" data={hipsData} suffix="cm" value={bicep} setValue={setBicep} />
-
-            <MeasurementModal name="Hips" data={hipsData} suffix="cm" value={forearm} setValue={setForearm} />
-
-            <MeasurementModal name="Calf" data={hipsData} suffix="cm" value={calf} setValue={setCalf} />
-
-            <MeasurementModal name="Thigh" data={hipsData} suffix="cm" value={thigh} setValue={setThigh} />
 
             <Button mode="contained" onPress={saveData}>Save</Button>
         </View>

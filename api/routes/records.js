@@ -61,6 +61,46 @@ router.get('/records/:exercise/:user', (req, res) => {
 
 })
 
+
+router.get('/records/:exercise/:user/volume', (req, res) => {
+    const user = req.params.user;
+    const exercise = req.params.exercise;
+
+    Record.findOne({ exercise, user })
+        .sort('-volume')
+        .then(record => {
+            res.status(200).json(record.volume);
+        })
+        .catch(error => {
+            res.status(500).json({
+                message: 'Internal Server Error',
+                error: error
+            });
+        })
+
+})
+
+
+router.get('/records/:exercise/:user/onerepmax', (req, res) => {
+    const user = req.params.user;
+    const exercise = req.params.exercise;
+
+    Record.findOne({ exercise, user })
+        .sort('-oneRepMax')
+        .then(record => {
+            res.status(200).json(record.oneRepMax);
+        })
+        .catch(error => {
+            res.status(500).json({
+                message: 'Internal Server Error',
+                error: error
+            });
+        })
+
+})
+
+
+
 // Add Records For Member
 router.post('/record/:id', (req, res) => {
     const _id = req.params.id

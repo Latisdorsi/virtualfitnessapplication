@@ -25,8 +25,7 @@ export default class ChangePassword extends React.Component {
                 .get('http://mvfagb.herokuapp.com/api/account/detail/' + tokenData._id)
                 .then(response => {
                     this.setState({
-                        id: response.data._id,
-                        oldEmail: response.data.email
+                        _id: response.data._id
                     })
                 })
         })
@@ -47,7 +46,18 @@ export default class ChangePassword extends React.Component {
                     }}
                     onSubmit={(values, actions) => {
                         actions.resetForm();
-                        console.warn('hi');
+
+                        const newData = {
+                            password: values.newPassword
+                        };
+                        axios
+                            .put('https://mvfagb.herokuapp.com/api/account/change/password/' + this.state._id, newData)
+                            .then(response => {
+                                console.warn('It worked!');
+                            })
+                            .catch(err => {
+                                console.error(err.response);
+                            })
                     }}
                     render={props => (
                         <>
@@ -56,6 +66,7 @@ export default class ChangePassword extends React.Component {
                                 onChangeText={props.handleChange('oldPassword')}
                                 onBlur={props.handleBlur('oldPassword')}
                                 value={props.values.oldPassword}
+                                secureTextEntry={true}
                                 style={{ marginVertical: 10, backgroundColor: 'none' }}
                             />
                             <TextInput
@@ -63,6 +74,7 @@ export default class ChangePassword extends React.Component {
                                 onChangeText={props.handleChange('newPassword')}
                                 onBlur={props.handleBlur('newPassword')}
                                 value={props.values.newPassword}
+                                secureTextEntry={true}
                                 style={{ marginVertical: 10, backgroundColor: 'none' }}
                             />
                             <TextInput
@@ -70,6 +82,7 @@ export default class ChangePassword extends React.Component {
                                 onChangeText={props.handleChange('newPasswordConfirm')}
                                 onBlur={props.handleBlur('newPasswordConfirm')}
                                 value={props.values.newPasswordConfirm}
+                                secureTextEntry={true}
                                 style={{ marginVertical: 10, backgroundColor: 'none' }}
                             />
                             {props.errors.name && <div id="feedback">{props.errors.name}</div>}

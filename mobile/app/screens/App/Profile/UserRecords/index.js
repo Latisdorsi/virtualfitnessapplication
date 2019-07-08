@@ -32,8 +32,7 @@ export default function UserRecords() {
     useEffect(() => {
         DeviceStorage.loadItem('token').then(token => {
 
-            const tokenData = parseToken(token)
-            console.warn(tokenData);
+            const tokenData = parseToken(token);
             axios
                 .get('http://mvfagb.herokuapp.com/api/measurement/' + tokenData._id)
                 .then(response => {

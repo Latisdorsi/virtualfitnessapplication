@@ -50,10 +50,10 @@ class ChangeEmail extends React.Component {
                 .get('http://mvfagb.herokuapp.com/api/account/detail/' + tokenData._id)
                 .then(response => {
                     this.setState({
-                        id: response.data._id,
+                        _id: response.data._id,
                         oldEmail: response.data.email
                     })
-                })
+                });
         })
             .catch(err => {
                 console.error(err);
@@ -71,16 +71,20 @@ class ChangeEmail extends React.Component {
                     }}
                     onSubmit={(values, actions) => {
                         actions.resetForm();
-                        // axios
-                        //     .put('https://mvfagb.herokuapp.com/api/account/change/email/' + this.state._id)
-                        //     .then(response => {
-                        //         this.setState({
-                        //             oldEmail: values.email
-                        //         })
-                        //     })
-                        //     .catch(err => {
-                        //         console.error(err.response);
-                        //     })
+
+                        const newData = {
+                            email: values.email
+                        };
+                        axios
+                            .put('https://mvfagb.herokuapp.com/api/account/change/email/' + this.state._id, newData)
+                            .then(response => {
+                                this.setState({
+                                    oldEmail: values.email
+                                })
+                            })
+                            .catch(err => {
+                                console.error(err.response);
+                            })
                     }}
                     enableReinitialize="true"
                     render={props => (

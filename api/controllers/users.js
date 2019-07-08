@@ -394,15 +394,19 @@ module.exports = {
     },
 
     changePassword: function (req, res, next) {
+
+        const { password } = req.body
+
         User
-            .update({
+            .findOne({
                 _id: req.params.id
-            }, {
-                    password: req.body.password
-                })
-            .then(
-                res.status(200).json(false)
-            )
+            })
+            .then(user => {
+                user.password = password;
+                user.save().then(
+                    res.status(200).json(false)
+                );
+            })
             .catch(error => {
                 res.status(500).json({
                     message: 'Internal Server Errror',
@@ -419,7 +423,7 @@ module.exports = {
                     email: req.body.email
                 })
             .then(
-                res.status(200).json(false)
+                res.status(200).json(true)
             )
             .catch(error => {
                 res.status(500).json({

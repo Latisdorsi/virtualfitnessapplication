@@ -44,7 +44,7 @@ router.get('/record/:id/all', (req, res) => {
         })
 })
 
-router.get('records/:exercise/:user', (req, res) => {
+router.get('/records/:exercise/:user', (req, res) => {
     const user = req.params.user;
     const exercise = req.params.exercise;
 

@@ -17,8 +17,8 @@ const HistoryItem = ({ item }) => {
                         key={key}
                     >
                         <Text>Set {key + 1}</Text>
-                        <Text>{value.weight}kg x {value.reps}</Text>
-                        <Text>{value.oneRepMax}</Text>
+                        {/* <Text>{value.weight}kg x {value.reps}</Text> */}
+                        {/* <Text>{value.oneRepMax}</Text> */}
                     </RowViewComponent>
                 )
             })}
@@ -38,20 +38,8 @@ export default class History extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            recordDetails: [{
-                _id: '0',
-                date: '1/12/19',
-                oneRepMax: 0,
-                volume: 0,
-                sets: [
-                    {
-                        reps: 0,
-                        weight: 0,
-                        oneRepMax: 0
-                    }
-                ]
-            }],
-            hasRecord: true
+            recordDetails: [],
+            hasRecord: false
         }
     }
 
@@ -59,9 +47,13 @@ export default class History extends Component {
     componentDidMount() {
         const _id = this.props.navigation.getParam('itemId', '');
         axios
-            .get('https://mvgab.herokuapp.com/api/record/' + _id)
+            .get('https://mvgab.herokuapp.com/api/records/' + _id + '/5ce9092d50081503e89ae408')
             .then(response => {
-                console.log(response.data)
+                // console.log(response.data)
+                this.setState({
+                    recordDetails: response.data,
+                    hasRecord: true
+                })
             })
             .catch(function (error) {
                 console.log(error);

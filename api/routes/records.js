@@ -48,9 +48,9 @@ record.get('records/:exercise/:user', (req, res) => {
     const user = req.params.user;
     const exercise = req.params.exercise;
 
-    routine.find({ exercise, user })
-        .then(routine => {
-            res.status(200).json(routine);
+    Record.find({ exercise, user })
+        .then(record => {
+            res.status(200).json(record);
         })
         .catch(error => {
             res.status(500).json({

@@ -6,7 +6,7 @@ const RecordSchema = new mongoose.Schema({
     user: { type: Schema.Types.ObjectId, ref: 'User' },
     exercise: { type: Schema.Types.ObjectId, ref: 'Exercise' },
     sets: [{
-        reps: { type: Number },
+        rep: { type: Number },
         weight: { type: Number }
     }],
     oneRepMax: { type: Number },

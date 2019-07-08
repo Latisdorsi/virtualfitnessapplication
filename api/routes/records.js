@@ -56,7 +56,6 @@ router.post('/record/:id', (req, res) => {
     })
 
     newRecord.save()
-        
         .then(record => {
             User.findOne({ _id })
                 .then(user => {

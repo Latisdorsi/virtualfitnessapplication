@@ -67,7 +67,8 @@ export default class Records extends Component {
                         )
                     })}
                     <Button title="Save Records" onPress={() => {
-                        this.saveRecords(this.state.records);
+                        console.log(this.state.records);
+                        // this.saveRecords(this.state.records);
                     }} />
                 </View>
             </ScrollView>

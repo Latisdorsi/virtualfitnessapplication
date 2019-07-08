@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 const RecordSchema = new mongoose.Schema({
     Date: { type: Date, default: Date.now },
@@ -13,5 +13,5 @@ const RecordSchema = new mongoose.Schema({
     volume: { type: Number }
 })
 
-const Record = mongoose.model('Record', RecordSchema)
-module.exports = Record
+const Record = mongoose.model('Record', RecordSchema);
+module.exports = Record;

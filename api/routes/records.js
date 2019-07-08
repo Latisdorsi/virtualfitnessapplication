@@ -14,7 +14,7 @@ router.get('/record/:id', (req, res) => {
             justOne: true,
             options: { sort: { date: -1 }, limit: 1 }
         })
-        
+
         .then(user => {
             res.status(200).json(user.records)
         })
@@ -26,12 +26,13 @@ router.get('/record/:id', (req, res) => {
         })
 })
 
+
+
 // Get All Member Records
 router.get('/record/:id/all', (req, res) => {
     const _id = req.params.id
     User.findOne({ _id })
         .populate('records')
-        
         .then(user => {
             res.status(200).json(user.records)
         })
@@ -41,6 +42,23 @@ router.get('/record/:id/all', (req, res) => {
                 error: error
             });
         })
+})
+
+record.get('records/:exercise/:user', (req, res) => {
+    const user = req.params.user;
+    const exercise = req.params.exercise;
+
+    routine.find({ exercise, user })
+        .then(routine => {
+            res.status(200).json(routine);
+        })
+        .catch(error => {
+            res.status(500).json({
+                message: 'Internal Server Error',
+                error: error
+            });
+        })
+
 })
 
 // Add Records For Member

@@ -40,7 +40,7 @@ export default class Records extends Component {
         records.forEach(record => {
             Axios.post('https://mvfagb.herokuapp.com/api/record/5ce9092d50081503e89ae408', record)
                 .then(response => {
-                    console.log(response.data);
+                   this.props.navigation.goBack();
                 })
                 .catch(err => {
                     console.error(err);
@@ -67,8 +67,8 @@ export default class Records extends Component {
                         )
                     })}
                     <Button title="Save Records" onPress={() => {
-                        console.log(this.state.records);
-                        // this.saveRecords(this.state.records);
+                        // console.log(this.state.records);
+                        this.saveRecords(this.state.records);
                     }} />
                 </View>
             </ScrollView>

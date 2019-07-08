@@ -51,27 +51,21 @@ export default class History extends Component {
                     }
                 ]
             }],
-            hasRecord: false
+            hasRecord: true
         }
     }
 
 
     componentDidMount() {
         const _id = this.props.navigation.getParam('itemId', '');
-        /*
         axios
-            .get('http://10.0.2.2:3000/exercise/detail/' + _id)
+            .get('https://mvgab.herokuapp.com/api/record/' + _id)
             .then(response => {
                 console.log(response.data)
-                this.setState({
-                    hasRecord: true
-                });
-                console.log(this.state)
             })
             .catch(function (error) {
                 console.log(error);
             })
-            */
     }
     render() {
         return (

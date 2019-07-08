@@ -403,9 +403,8 @@ module.exports = {
             })
             .then(user => {
                 user.password = password;
-                user.save().then(
-                    res.status(200).json(false)
-                );
+                user.save();
+                res.status(200).json(true)
             })
             .catch(error => {
                 res.status(500).json({

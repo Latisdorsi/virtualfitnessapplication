@@ -17,7 +17,7 @@ export default class RecordDetail extends Component {
         super(props);
         this.state = {
             record: {
-                name: props.exercise._id,
+                id: props.exercise._id,
                 sets: [],
                 oneRepMax: 0,
                 volume: 0
@@ -70,14 +70,15 @@ export default class RecordDetail extends Component {
                 })
                 .reduce(function (initial, set) {
                     return initial + set;
-                }, 0);
+                }, 0)
+                .toFixed(2);
 
             const oneRepMaxArray = this.state.record.sets
                 .map((set) => {
                     return set.weight * (1 + (set.rep / 30))
                 })
 
-            const oneRepMax = Math.max.apply(0, oneRepMaxArray);
+            const oneRepMax = Math.max.apply(0, oneRepMaxArray).toFixed(2);
 
             this.setState({
                 record: {

@@ -75,20 +75,20 @@ export default function UserRecords() {
                     <Subheading>Body Composition</Subheading>
 
                     <View>
-                        <Text>Composition Level: {
+                        <Text><Subheading>Composition Level: </Subheading>{
                             measurementDetails.bodyComposition.category ?
                                 measurementDetails.bodyComposition.category :
                                 'Not Set'
                         }</Text>
                     </View>
                     <View>
-                        <Text>Body Fat Percentage: {
+                        <Text><Subheading>Body Fat Percentage: </Subheading>{
                             measurementDetails.bodyComposition.percentBodyFat ?
                                 Math.round(measurementDetails.bodyComposition.percentBodyFat * 100) / 100 :
                                 'Not Set'}</Text>
                     </View>
                     <View>
-                        <Text>Lean Body Mass Percentage: {
+                        <Text><Subheading>Lean Body Mass Percentage: </Subheading>{
                             measurementDetails.bodyComposition.percentLeanMass ?
                                 Math.round(measurementDetails.bodyComposition.percentLeanMass * 100) / 100 :
                                 'Not Set'

@@ -9,6 +9,7 @@ import update from 'immutability-helper';
 
 import { default as RecordHeader } from './RecordHeader'
 import { default as RecordDetails } from './RecordDetails'
+import Axios from "axios";
 
 export default class Records extends Component {
     constructor(props) {
@@ -35,6 +36,18 @@ export default class Records extends Component {
         })
     }
 
+    saveRecords = (records) => {
+        records.forEach(record => {
+            Axios.post('https://mvfagb.herokuapp.com/api/record/5ce9092d50081503e89ae408', record)
+                .then(response => {
+                    console.log(response.data);
+                })
+                .catch(err => {
+                    console.error(err);
+                })
+        });
+    }
+
     render() {
         const { navigation } = this.props;
         const exercises = navigation.getParam('exercises', []);
@@ -54,7 +67,7 @@ export default class Records extends Component {
                         )
                     })}
                     <Button title="Save Records" onPress={() => {
-                        console.warn(this.state.records);
+                        this.saveRecords(this.state.records);
                     }} />
                 </View>
             </ScrollView>

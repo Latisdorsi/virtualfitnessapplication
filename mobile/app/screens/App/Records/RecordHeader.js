@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Component } from "react";
 import {
     View,
     Text,
@@ -8,36 +8,44 @@ import axios from 'axios';
 import { Subheading, Divider, IconButton } from 'react-native-paper'
 
 
-export default function RecordHeader({ exercise }) {
+export default class RecordHeader extends Component {
 
-    // const [exer, setExer] = useState({})
+    constructor(props) {
+        super(props);
+        this.state = {
+            exercise: {}
+        }
+    }
+    componentDidMount() {
+        // console.log('https://mvfagb.herokuapp.com/api/exercise/detail/' + this.state.exercise._id)
+        axios.get('https://mvfagb.herokuapp.com/api/exercise/detail/' + this.props.exercise._id)
+            .then(response => {
+                this.setState({
+                    exercise: response.data
+                })
+            })
+    }
 
-    useEffect(() => {
-        axios.get('https://mvfagb.herokuapp.com/api/exercise/detail/' + exercise._id)
-        .then(response => {
-            console.warn(response.data);
-        })
-    }, [])
-
-    return (
-        <View>
-            <View
-                style={styles.headerContainer}>
-                <Subheading
-                    style={{
-                        fontSize: 20
-                    }}>{exercise._id}</Subheading>
+    render() {
+        return (
+            <View>
                 <View
-                    style={{
-                        flexDirection: 'row'
-                    }}>
-                    <IconButton name="insert-chart" size={18} color="#2a2a2a" />
-                    <IconButton name="info-outline" color="#2a2a2a" size={18} />
+                    style={styles.headerContainer}>
+                    <Subheading
+                        style={{
+                            fontSize: 20
+                        }}>{this.state.exercise.name || 'Loading...'}</Subheading>
+                    <View
+                        style={{
+                            flexDirection: 'row'
+                        }}>
+                        <IconButton name="insert-chart" size={18} color="#2a2a2a" />
+                        <IconButton name="info-outline" color="#2a2a2a" size={18} />
+                    </View>
                 </View>
-            </View>
 
-            <Divider />
-            {/* <View
+                <Divider />
+                {/* <View
                 style={styles.headerContainer}>
 
                 <View>
@@ -55,9 +63,10 @@ export default function RecordHeader({ exercise }) {
 
             </View> */}
 
-            <Divider />
-        </View>
-    )
+                <Divider />
+            </View>
+        )
+    }
 }
 
 const styles = StyleSheet.create({

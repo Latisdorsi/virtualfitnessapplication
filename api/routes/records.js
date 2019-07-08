@@ -46,11 +46,10 @@ router.get('/record/:id/all', (req, res) => {
 // Add Records For Member
 router.post('/record/:id', (req, res) => {
     const _id = req.params.id
-    const { exercise, date, sets, oneRepMax, volume } = req.body
+    const { id, sets, oneRepMax, volume } = req.body
     const newRecord = new Record({
         user: _id,
-        exercise,
-        date,
+        exercise: id,
         sets,
         oneRepMax,
         volume

@@ -54,16 +54,18 @@ export default function UserProfile() {
         <ProfileContext.Provider value={[user, setUser]}>
             <ScrollView>
                 <View style={{ padding: 15 }}>
-                    <Card style={{ padding: 15, marginVertical: 15 }}>
+                    <View style={{ paddingTop: 15, alignItems: 'center' }}>
+                        <Avatar.Image size={80} style={{ backgroundColor: 'white' }} source={{ uri: user.avatarURL || 'https://mvfagb.herokuapp.com/static/media/avatar.5ad30128.png' }} />
+                    </View>
+                    <Card style={{ padding: 10, marginVertical: 15 }}>
                         <User />
                     </Card>
-                    <Card style={{ padding: 15, marginVertical: 15 }}>
+                    <Card style={{ padding: 10, marginVertical: 15 }}>
                         <Contact />
                     </Card>
-                    <Card style={{ padding: 15, marginVertical: 15 }}>
+                    <Card style={{ padding: 10, marginVertical: 15 }}>
                         <Emergency />
                     </Card>
-
                 </View>
             </ScrollView>
         </ProfileContext.Provider>

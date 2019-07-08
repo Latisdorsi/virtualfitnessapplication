@@ -45,17 +45,18 @@ export class Dashboard extends Component {
     }
 
     render() {
+        const {user, exercises} = this.state;
         return (
             <View style={{ padding: 20, flex: 1, justifyContent: 'center' }}>
                 <View style={{ alignContent: 'center', alignItems: 'center' }}>
-                    <Avatar.Image size={80} source={{ uri: this.state.user.avatarURL }} />
-                    <Subheading>{this.state.user.name.firstName} {this.state.user.name.lastName}</Subheading>
+                    <Avatar.Image size={80}  style={{ backgroundColor: 'white' }}  source={{ uri: user.avatarURL || 'https://mvfagb.herokuapp.com/static/media/avatar.5ad30128.png' }} />
+                    <Subheading>{user.name.firstName} {user.name.lastName}</Subheading>
                 </View>
                 <Card style={{ padding: 20, alignContent: 'center', alignItems: 'center' }}>
                     <Subheading>You have a scheduled exercise today</Subheading>
                     <Button title="Start Exercise" onPress={() => {
                         this.props.navigation.navigate('Records', {
-                            exercises: this.state.exercises
+                            exercises: exercises
                         })
                     }} />
                 </Card>

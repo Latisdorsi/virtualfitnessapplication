@@ -38,12 +38,12 @@ export default class Instruction extends Component {
     render() {
         return (
             <ScrollView>
-              
+
                 <View style={{ padding: 15 }}>
                     <Image
                         resizeMode={"contain"}
                         style={{ height: 250 }}
-                        source={{ uri: this.state.imageUrl }}
+                        source={{ uri: this.state.imageUrl || 'https://mvfagb.herokuapp.com/static/media/no-img.8526acd6.jpg' }}
                     />
                     <Subheading>Instruction</Subheading>
                     <Text>{this.state.instruction}</Text>

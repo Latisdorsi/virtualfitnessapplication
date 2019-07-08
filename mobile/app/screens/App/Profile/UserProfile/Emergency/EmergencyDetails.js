@@ -12,21 +12,21 @@ const EmergencyDetails = ({ value }) => {
                     style={{ fontSize: 16 }}>
                     Name
                  </Text>
-                <Text>{value.emergencyDetails.fullName ? value.emergencyDetails.fullName : 'Not Set'}</Text>
+                <Text>{value.emergencyDetails.fullName || 'Not Set'}</Text>
             </RowViewComponent>
             <RowViewComponent>
                 <Text
                     style={{ fontSize: 16 }}>
                     Number
                  </Text>
-                <Text>{value.emergencyDetails.contactNumber ? value.emergencyDetails.contactNumber : 'Not Set'}</Text>
+                <Text>{value.emergencyDetails.contactNumber || 'Not Set'}</Text>
             </RowViewComponent>
             <RowViewComponent>
                 <Text
                     style={{ fontSize: 16 }}>
                     Relationship
                  </Text>
-                <Text>{value.emergencyDetails.relationship ? value.emergencyDetails.relationship : 'Not Set'}</Text>
+                <Text>{value.emergencyDetails.relationship || 'Not Set'}</Text>
             </RowViewComponent>
         </View>
     )

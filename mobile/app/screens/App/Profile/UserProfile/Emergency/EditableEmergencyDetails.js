@@ -17,8 +17,8 @@ const EditableEmergencyDetails = ({ value, setValue, editable }) => {
 
     const saveValues = () => {
         let newObj = {
-            emergencyFullName: emergencyDetails.name,
-            emergencyNumber: emergencyDetails.number,
+            emergencyFullName: emergencyDetails.fullName,
+            emergencyNumber: emergencyDetails.contactNumber,
             emergencyRelationship: emergencyDetails.relationship,
         }
         axios
@@ -41,9 +41,9 @@ const EditableEmergencyDetails = ({ value, setValue, editable }) => {
         <View>
             <TextInput
                 label="Name"
-                value={emergencyDetails.name}
+                value={emergencyDetails.fullName}
                 onChangeText={(text) => {
-                    updateValues('name', text)
+                    updateValues('fullName', text)
                 }}
                 style={{
                     marginVertical: 10,
@@ -51,9 +51,9 @@ const EditableEmergencyDetails = ({ value, setValue, editable }) => {
                 }} />
             <TextInput
                 label="Number"
-                value={emergencyDetails.number}
+                value={emergencyDetails.contactNumber}
                 onChangeText={(text) => {
-                    updateValues('number', text)
+                    updateValues('contactNumber', text)
                 }}
                 style={{
                     marginVertical: 10,

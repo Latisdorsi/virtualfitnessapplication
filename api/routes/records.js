@@ -80,7 +80,6 @@ router.get('/records/:exercise/:user/volume', (req, res) => {
 
 })
 
-
 router.get('/records/:exercise/:user/onerepmax', (req, res) => {
     const user = req.params.user;
     const exercise = req.params.exercise;
@@ -98,6 +97,7 @@ router.get('/records/:exercise/:user/onerepmax', (req, res) => {
         })
 
 })
+
 
 
 
@@ -120,7 +120,7 @@ router.post('/record/:id', (req, res) => {
                     user.records.push(record._id)
                     user.save().then(
                         res.status(200).json(user)
-                    )
+                    );
                 })
                 .catch(error => {
                     res.status(500).json({

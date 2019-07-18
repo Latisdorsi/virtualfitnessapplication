@@ -68,57 +68,55 @@ export default function UserRecords() {
                     justifyContent: 'center',
                     padding: 15
                 }}>
-                <View style={{
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                }}>
-                    <Subheading>Body Composition</Subheading>
+                <RowViewComponent>
+                    <Subheading>Body Measurement</Subheading>
+                    <IconButton
+                        icon="edit"
+                        size={20}
+                        onPress={() => {
+                            if (!editable)
+                                setEditable(true)
+                            else
+                                setEditable(false)
+                        }}
+                    />
+                </RowViewComponent>
+                {editable ?
+                    <EditableRecordDetails value={measurementDetails} setValue={setMeasurementDetails} setEditable={setEditable} />
+                    :
+                    <>
 
-                    <View>
-                        <Text><Subheading>Composition Level: </Subheading>{
-                            measurementDetails.bodyComposition.category ?
-                                measurementDetails.bodyComposition.category :
-                                'Not Set'
-                        }</Text>
-                    </View>
-                    <View>
-                        <Text><Subheading>Body Fat Percentage: </Subheading>{
-                            measurementDetails.bodyComposition.percentBodyFat ?
-                                Math.round(measurementDetails.bodyComposition.percentBodyFat * 100) / 100 :
-                                'Not Set'}</Text>
-                    </View>
-                    <View>
-                        <Text><Subheading>Lean Body Mass Percentage: </Subheading>{
-                            measurementDetails.bodyComposition.percentLeanMass ?
-                                Math.round(measurementDetails.bodyComposition.percentLeanMass * 100) / 100 :
-                                'Not Set'
-                        }</Text>
-                    </View>
-                </View>
-
-                <Card style={{ padding: 15, marginVertical: 15 }}>
-                    <RowViewComponent>
-                        <Subheading>Body Measurement</Subheading>
-                        <IconButton
-                            icon="edit"
-                            size={20}
-                            onPress={() => {
-                                if (!editable)
-                                    setEditable(true)
-                                else
-                                    setEditable(false)
-                            }}
-                        />
-                    </RowViewComponent>
-
-                    {editable ?
-                        <EditableRecordDetails value={measurementDetails} setValue={setMeasurementDetails} setEditable={setEditable} /> :
+                        <View style={{
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                        }}>
+                            <View>
+                                <Text><Subheading>Composition Level: </Subheading>{
+                                    measurementDetails.bodyComposition.category ?
+                                        measurementDetails.bodyComposition.category :
+                                        'Not Set'
+                                }</Text>
+                            </View>
+                            <View>
+                                <Text><Subheading>Body Fat Percentage: </Subheading>{
+                                    measurementDetails.bodyComposition.percentBodyFat ?
+                                        Math.round(measurementDetails.bodyComposition.percentBodyFat * 100) / 100 :
+                                        'Not Set'}</Text>
+                            </View>
+                            <View>
+                                <Text><Subheading>Lean Body Mass Percentage: </Subheading>{
+                                    measurementDetails.bodyComposition.percentLeanMass ?
+                                        Math.round(measurementDetails.bodyComposition.percentLeanMass * 100) / 100 :
+                                        'Not Set'
+                                }</Text>
+                            </View>
+                        </View>
                         <RecordDetails value={measurementDetails} />
-                    }
+                    </>
+                }
 
-
-                </Card>
             </View>
+
         </ScrollView >
     )
 }

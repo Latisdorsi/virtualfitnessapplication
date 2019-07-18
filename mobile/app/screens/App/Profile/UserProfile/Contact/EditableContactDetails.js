@@ -61,26 +61,6 @@ const EditableContactDetails = ({ value, setValue, editable }) => {
                     marginVertical: 10,
                     backgroundColor: 'none'
                 }} />
-            <TextInput
-                label="Home Number"
-                value={contactDetails.phone.work}
-                onChangeText={(text) => {
-                    updateValues('workPhone', text)
-                }}
-                style={{
-                    marginVertical: 10,
-                    backgroundColor: 'none'
-                }} />
-            <TextInput
-                label="Work Number"
-                value={contactDetails.phone.home}
-                onChangeText={(text) => {
-                    updateValues('homePhone', text)
-                }}
-                style={{
-                    marginVertical: 10,
-                    backgroundColor: 'none'
-                }} />
             <Button
                 mode="contained"
                 style={{

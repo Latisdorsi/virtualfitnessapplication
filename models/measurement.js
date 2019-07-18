@@ -8,6 +8,7 @@ MeasurementSchema = new mongoose.Schema({
     weight: { type: Number },
     neck: { type: Number },
     waist: { type: Number },
+    hips: { type: Number },
     bodyComposition: {
         category: { type: String },
         percentBodyFat: { type: Number },

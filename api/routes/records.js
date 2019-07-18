@@ -62,14 +62,17 @@ router.get('/records/:exercise/:user', (req, res) => {
 })
 
 
-router.get('/records/:exercise/:user/volume', (req, res) => {
+router.get('/records/:exercise/:user/record', (req, res) => {
     const user = req.params.user;
     const exercise = req.params.exercise;
 
     Record.findOne({ exercise, user })
-        .sort('-volume')
+        .sort('-volume, -oneRepMax')
         .then(record => {
-            res.status(200).json(record.volume);
+            res.status(200).json({
+                volume: record.volume,
+                oneRepMax: record.oneRepMax
+            });
         })
         .catch(error => {
             res.status(500).json({
@@ -79,25 +82,6 @@ router.get('/records/:exercise/:user/volume', (req, res) => {
         })
 
 })
-
-router.get('/records/:exercise/:user/onerepmax', (req, res) => {
-    const user = req.params.user;
-    const exercise = req.params.exercise;
-
-    Record.findOne({ exercise, user })
-        .sort('-oneRepMax')
-        .then(record => {
-            res.status(200).json(record.oneRepMax);
-        })
-        .catch(error => {
-            res.status(500).json({
-                message: 'Internal Server Error',
-                error: error
-            });
-        })
-
-})
-
 
 
 
@@ -135,7 +119,7 @@ router.post('/record/:id', (req, res) => {
                 error: error
             });
         })
-})
+});
 
 
 // Delete Record
@@ -153,7 +137,7 @@ router.delete('/record/:id', (req, res) => {
                 error: error
             });
         })
-})
+});
 
 module.exports = router
 

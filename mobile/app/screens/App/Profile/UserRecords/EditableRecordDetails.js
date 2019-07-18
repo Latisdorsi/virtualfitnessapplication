@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { Button } from 'react-native-paper';
 import MeasurementModal from 'lib/components/MeasurementModal';
 import { CalculateComposition } from 'lib/helpers/utils';
+import RowViewComponent from 'lib/components/RowViewComponent';
 import axios from 'axios';
 
 let index = 0;
@@ -132,7 +133,11 @@ const EditableRecordDetails = ({ value, setValue, setEditable }) => {
             .catch(err => {
                 console.warn(err.response);
             })
-        // setEditable(false);
+        setEditable(false);
+    }
+    
+    const cancel = () => {
+        setEditable(false);
     }
 
     return (
@@ -144,8 +149,10 @@ const EditableRecordDetails = ({ value, setValue, setEditable }) => {
             <MeasurementModal name="Waist" data={waistData} suffix="cm" value={waist} setValue={setWaist} />
 
             <MeasurementModal name="Hips" data={hipsData} suffix="cm" value={hips} setValue={setHips} />
-
-            <Button mode="contained" onPress={saveData}>Save</Button>
+            <RowViewComponent>
+                <Button mode="contained" onPress={saveData}>Save</Button>
+                <Button mode="contained" onPress={cancel}>Cancel</Button>
+            </RowViewComponent>
         </View>
     )
 }

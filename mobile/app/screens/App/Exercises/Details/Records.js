@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import { Text, View } from 'react-native'
+import { VictoryLine, VictoryChart, VictoryTheme } from 'victory-native';
+import { Text, View, ScrollView, Dimensions } from 'react-native'
 import { Subheading } from 'react-native-paper';
+import ReactDOM from 'react-dom';
 import axios from 'axios';
-import RowViewComponent from 'lib/components/RowViewComponent'
+import RowViewComponent from 'lib/components/RowViewComponent'; 
 
 export default class Charts extends Component {
     constructor(props) {
@@ -19,7 +21,7 @@ export default class Charts extends Component {
 
     componentDidMount() {
         axios
-        .get('http://10.0.2.2:5000/api/records/5cf4b301edd89700176bc18b/5ce9092d50081503e89ae408/record')
+            .get('https://mvfagb.herokuapp.com/api/records/5cf4b301edd89700176bc18b/5ce9092d50081503e89ae408/record')
             .then(response => {
                 this.setState({
                     oneRepMax: response.data.oneRepMax,
@@ -48,28 +50,65 @@ export default class Charts extends Component {
     }
 
     render() {
-        
         return (
+
             this.state.hasRecord ?
-                <View style={{ padding: 15 }}>
-                    <Subheading>Best Set</Subheading>
-                    <Text>Charts Go Here</Text>
-                    <Subheading>Total Volume</Subheading>
-                    <Text>Charts Go Here</Text>
-                    <Subheading>Personal Records</Subheading>
-                    <RowViewComponent>
-                        <Text>Esimated 1RM Record</Text>
-                        <Text>{this.state.oneRepMax}kg</Text>
-                    </RowViewComponent>
-                    <RowViewComponent>
-                        <Text>Max Volume</Text>
-                        <Text>{this.state.volume}kg</Text>
-                    </RowViewComponent>
-                </View>
+                <ScrollView>
+                    <View style={{ padding: 15 }} pointerEvents="none">
+                        <Subheading>Best Set</Subheading>
+                        < VictoryChart
+                        width={Dimensions.get('window').width} 
+                        theme={VictoryTheme.material}
+                        >
+                            <VictoryLine
+                                style={{
+                                    data: { stroke: "#9400D3" },
+                                    parent: { border: "1px solid #ccc" }
+                                }}
+                                data={[
+                                    { x: 1, y: 2 },
+                                    { x: 2, y: 3 },
+                                    { x: 3, y: 5 },
+                                    { x: 4, y: 4 },
+                                    { x: 5, y: 7 }
+                                ]}
+                            />
+                        </VictoryChart>
+                        <Subheading>Total Volume</Subheading>
+                        < VictoryChart
+                        width={Dimensions.get('window').width} 
+                        theme={VictoryTheme.material}
+                        >
+                            <VictoryLine
+                                style={{
+                                    data: { stroke: "#9400D3" },
+                                    parent: { border: "1px solid #ccc" }
+                                }}
+                                data={[
+                                    { x: 1, y: 2 },
+                                    { x: 2, y: 3 },
+                                    { x: 3, y: 5 },
+                                    { x: 4, y: 4 },
+                                    { x: 5, y: 7 }
+                                ]}
+                            />
+                        </VictoryChart>
+                        <Subheading>Personal Records</Subheading>
+                        <RowViewComponent>
+                            <Text>Esimated 1RM Record</Text>
+                            <Text>{this.state.oneRepMax}kg</Text>
+                        </RowViewComponent>
+                        <RowViewComponent>
+                            <Text>Max Volume</Text>
+                            <Text>{this.state.volume}kg</Text>
+                        </RowViewComponent>
+                    </View>
+                </ScrollView>
                 :
                 <View style={{ flex: 1, justifyContent: 'center', alignContent: 'center', alignItems: 'center' }}>
                     <Text>No Previous Record</Text>
                 </View>
+
         )
     }
 }

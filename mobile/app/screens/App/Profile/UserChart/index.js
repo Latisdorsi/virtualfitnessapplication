@@ -5,14 +5,15 @@ import { View, Text, Dimensions, ScrollView } from 'react-native'
 import DeviceStorage from 'lib/services/DeviceStorage';
 import { parseToken } from 'lib/helpers/utils';
 import Axios from 'axios';
-import {
-    LineChart,
-    BarChart,
-    PieChart,
-    ProgressChart,
-    ContributionGraph,
-    StackedBarChart
-} from 'react-native-chart-kit'
+// import {
+//     LineChart,
+//     BarChart,
+//     PieChart,
+//     ProgressChart,
+//     ContributionGraph,
+//     StackedBarChart
+// } from 'react-native-chart-kit';
+import { VictoryLine, VictoryChart, VictoryTheme, VictoryAxis } from 'victory-native';
 
 
 class UserChart extends React.PureComponent {
@@ -42,9 +43,6 @@ class UserChart extends React.PureComponent {
     }
 
     render() {
-        return(
-        <Text>HI</Text>
-        );
 
         // let data = []
         // const date = []
@@ -58,152 +56,251 @@ class UserChart extends React.PureComponent {
         // In order for us to align the axes correctly we must know the height of the x-axis or the width of the x-axis
         // and then displace the other axis with just as many pixels. Simple but manual.
 
-        // const weight = this.state.measurement.slice(0,7).map(value => {
-        //     return value.weight
-        // })
-        // const neck = this.state.measurement.slice(0,7).map(value => {
-        //     return value.neck
-        // })
-        // const waist = this.state.measurement.slice(0,7).map(value => {
-        //     return value.waist
-        // })
-        // const hips = this.state.measurement.slice(0,7).map(value => {
-        //     return value.hips
-        // })
+        const weight = this.state.measurement.map(value => {
+            return { x: value.date.substring(5, 10), y: value.weight }
+        })
+        const neck = this.state.measurement.map(value => {
+            return { x: value.date.substring(5, 10), y: value.neck }
+        })
+        const waist = this.state.measurement.map(value => {
+            return { x: value.date.substring(5, 10), y: value.waist }
+        })
+        const hips = this.state.measurement.map(value => {
+            return { x: value.date.substring(5, 10), y: value.hips }
+        })
 
-        // const date = this.state.measurement.slice(0,7).map(value => {
-        //     return value.date.substring(5, 10);
-        // })
 
-        // return (
-        //     <ScrollView>
-        //         <View style={{ padding: 20 }}>
-        //             <Subheading>
-        //                 Weight
-        //             </Subheading>
-        //             <LineChart
-        //                 data={{
-        //                     labels: date,
-        //                     datasets: [{
-        //                         data: weight.length ? weight : [0],
-        //                         // color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})` // optional
-        //                         // strokeWidth: 2 // optional
+        return (
+            <ScrollView>
+                <View style={{ padding: 20 }} pointerEvents="none">
+                    <Subheading>
+                        Weight
+                    </Subheading>
 
-        //                     }]
-        //                 }}
-        //                 width={Dimensions.get('window').width - 40} // from react-native
-        //                 height={220}
-        //                 chartConfig={{
-        //                     backgroundColor: '#6a6a6a',
-        //                     backgroundGradientFrom: '#6a6a6a',
-        //                     backgroundGradientTo: '#3a3a3a',
-        //                     decimalPlaces: 2, // optional, defaults to 2dp
-        //                     color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-        //                     style: {
-        //                         borderRadius: 16
-        //                     }
-        //                 }}
-        //                 style={{
-        //                     marginVertical: 8,
-        //                     borderRadius: 16
-        //                 }}
-        //             />
 
-        //             <Subheading>
-        //                 Neck
-        //             </Subheading>
-        //             <LineChart
-        //                 data={{
-        //                     labels: date,
-        //                     datasets: [{
-        //                         data: neck.length ? neck : [0],
-        //                         // color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})` // optional
-        //                         // strokeWidth: 2 // optional
+                    {weight.length > 0 ?
+                        < VictoryChart
+                            width={Dimensions.get('window').width}
+                            theme={VictoryTheme.material}
+                        >
+                            <VictoryAxis
+                                dependentAxis tickFormat={(tick) => `${tick}kg`} />
+                            <VictoryAxis />
+                            <VictoryLine
+                                style={{
+                                    data: { stroke: "#9400D3" },
+                                    parent: { border: "1px solid #ccc" }
+                                }}
+                                data={weight}
+                                text={"Weight"}
+                            />
+                        </VictoryChart>
+                        :
+                        <Text>Loading...</Text>
+                    }
+                    <Subheading>
+                        Neck
+                    </Subheading>
 
-        //                     }]
-        //                 }}
-        //                 width={Dimensions.get('window').width - 40} // from react-native
-        //                 height={220}
-        //                 chartConfig={{
-        //                     backgroundColor: '#6a6a6a',
-        //                     backgroundGradientFrom: '#6a6a6a',
-        //                     backgroundGradientTo: '#3a3a3a',
-        //                     decimalPlaces: 2, // optional, defaults to 2dp
-        //                     color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-        //                     style: {
-        //                         borderRadius: 16
-        //                     }
-        //                 }}
-        //                 style={{
-        //                     marginVertical: 8,
-        //                     borderRadius: 16
-        //                 }}
-        //             />
 
-        //             <Subheading>
-        //                 Waist
-        //             </Subheading>
-        //             <LineChart
-        //                 data={{
-        //                     labels: date,
-        //                     datasets: [{
-        //                         data: waist.length ? waist : [0],
-        //                         // color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})` // optional
-        //                         // strokeWidth: 2 // optional
+                    {neck.length > 0 ?
+                        < VictoryChart
+                            width={Dimensions.get('window').width}
+                            theme={VictoryTheme.material}
+                        >
+                            <VictoryAxis
+                                dependentAxis tickFormat={(tick) => `${tick}cm`} />
+                            <VictoryAxis />
+                            <VictoryLine
+                                style={{
+                                    data: { stroke: "#9400D3" },
+                                    parent: { border: "1px solid #ccc" }
+                                }}
+                                data={neck}
+                            />
+                        </VictoryChart>
+                        :
+                        <Text>Loading...</Text>
+                    }
 
-        //                     }]
-        //                 }}
-        //                 width={Dimensions.get('window').width - 40} // from react-native
-        //                 height={220}
-        //                 chartConfig={{
-        //                     backgroundColor: '#6a6a6a',
-        //                     backgroundGradientFrom: '#6a6a6a',
-        //                     backgroundGradientTo: '#3a3a3a',
-        //                     decimalPlaces: 2, // optional, defaults to 2dp
-        //                     color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-        //                     style: {
-        //                         borderRadius: 16
-        //                     }
-        //                 }}
-        //                 style={{
-        //                     marginVertical: 8,
-        //                     borderRadius: 16
-        //                 }}
-        //             />
+                    <Subheading>
+                        Waist
+                    </Subheading>
 
-        //             <Subheading>
-        //                 Hips
-        //             </Subheading>
-        //             <LineChart
-        //                 data={{
-        //                     labels: date,
-        //                     datasets: [{
-        //                         data: hips.length ? hips : [0],
-        //                         // color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})` // optional
-        //                         // strokeWidth: 2 // optional
 
-        //                     }]
-        //                 }}
-        //                 width={Dimensions.get('window').width - 40} // from react-native
-        //                 height={220}
-        //                 chartConfig={{
-        //                     backgroundColor: '#6a6a6a',
-        //                     backgroundGradientFrom: '#6a6a6a',
-        //                     backgroundGradientTo: '#3a3a3a',
-        //                     decimalPlaces: 2, // optional, defaults to 2dp
-        //                     color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-        //                     style: {
-        //                         borderRadius: 16
-        //                     }
-        //                 }}
-        //                 style={{
-        //                     marginVertical: 8,
-        //                     borderRadius: 16
-        //                 }}
-        //             />
-        //         </View>
-        //     </ScrollView>
-        // )
+                    {waist.length > 0 ?
+                        < VictoryChart
+                            width={Dimensions.get('window').width}
+                            theme={VictoryTheme.material}
+                        >
+                            <VictoryAxis
+                                dependentAxis tickFormat={(tick) => `${tick}cm`} />
+                            <VictoryAxis />
+                            <VictoryLine
+                                style={{
+                                    data: { stroke: "#9400D3" },
+                                    parent: { border: "1px solid #ccc" }
+                                }}
+                                data={waist}
+                            />
+                        </VictoryChart>
+                        :
+                        <Text>Loading...</Text>
+                    }
+
+                    <Subheading>
+                        Hips
+                    </Subheading>
+
+
+                    {hips.length > 0 ?
+                        < VictoryChart
+                            width={Dimensions.get('window').width}
+                            theme={VictoryTheme.material}
+                        >
+                            <VictoryAxis
+                                dependentAxis tickFormat={(tick) => `${tick}cm`} />
+                            <VictoryAxis />
+                            <VictoryLine
+                                style={{
+                                    data: { stroke: "#9400D3" },
+                                    parent: { border: "1px solid #ccc" }
+                                }}
+                                data={hips}
+                            />
+                        </VictoryChart>
+                        :
+                        <Text>Loading...</Text>
+                    }
+
+                    {/* <Subheading>
+                        Weight
+                    </Subheading>
+                    <LineChart
+                        data={{
+                            labels: date,
+                            datasets: [{
+                                data: weight.length ? weight : [0],
+                                // color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})` // optional
+                                // strokeWidth: 2 // optional
+
+                            }]
+                        }}
+                        width={Dimensions.get('window').width - 40} // from react-native
+                        height={220}
+                        chartConfig={{
+                            backgroundColor: '#6a6a6a',
+                            backgroundGradientFrom: '#6a6a6a',
+                            backgroundGradientTo: '#3a3a3a',
+                            decimalPlaces: 2, // optional, defaults to 2dp
+                            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                            style: {
+                                borderRadius: 16
+                            }
+                        }}
+                        style={{
+                            marginVertical: 8,
+                            borderRadius: 16
+                        }}
+                    /> */}
+                    {/* 
+                    <Subheading>
+                        Neck
+                    </Subheading>
+                    <LineChart
+                        data={{
+                            labels: date,
+                            datasets: [{
+                                data: neck.length ? neck : [0],
+                                // color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})` // optional
+                                // strokeWidth: 2 // optional
+
+                            }]
+                        }}
+                        width={Dimensions.get('window').width - 40} // from react-native
+                        height={220}
+                        chartConfig={{
+                            backgroundColor: '#6a6a6a',
+                            backgroundGradientFrom: '#6a6a6a',
+                            backgroundGradientTo: '#3a3a3a',
+                            decimalPlaces: 2, // optional, defaults to 2dp
+                            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                            style: {
+                                borderRadius: 16
+                            }
+                        }}
+                        style={{
+                            marginVertical: 8,
+                            borderRadius: 16
+                        }}
+                    />
+
+                    <Subheading>
+                        Waist
+                    </Subheading>
+                    <LineChart
+                        data={{
+                            labels: date,
+                            datasets: [{
+                                data: waist.length ? waist : [0],
+                                // color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})` // optional
+                                // strokeWidth: 2 // optional
+
+                            }]
+                        }}
+                        width={Dimensions.get('window').width - 40} // from react-native
+                        height={220}
+                        chartConfig={{
+                            backgroundColor: '#6a6a6a',
+                            backgroundGradientFrom: '#6a6a6a',
+                            backgroundGradientTo: '#3a3a3a',
+                            decimalPlaces: 2, // optional, defaults to 2dp
+                            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                            style: {
+                                borderRadius: 16
+                            }
+                        }}
+                        style={{
+                            marginVertical: 8,
+                            borderRadius: 16
+                        }}
+                    />
+
+                    <Subheading>
+                        Hips
+                    </Subheading>
+                    <LineChart
+                        data={{
+                            labels: date,
+                            datasets: [{
+                                data: hips.length ? hips : [0],
+                                // color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})` // optional
+                                // strokeWidth: 2 // optional
+
+                            }]
+                        }}
+                        width={Dimensions.get('window').width - 40} // from react-native
+                        height={220}
+                        chartConfig={{
+                            backgroundColor: '#6a6a6a',
+                            backgroundGradientFrom: '#6a6a6a',
+                            backgroundGradientTo: '#3a3a3a',
+                            decimalPlaces: 2, // optional, defaults to 2dp
+                            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                            style: {
+                                borderRadius: 16
+                            }
+                        }}
+                        style={{
+                            marginVertical: 8,
+                            borderRadius: 16
+                        }}
+                    /> */}
+
+
+                </View>
+            </ScrollView >
+        )
     }
 
 }

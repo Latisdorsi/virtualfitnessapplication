@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
-import { Button } from 'react-native-paper';
+import { View, Text } from 'react-native';
+import { Button, Subheading } from 'react-native-paper';
 import MeasurementModal from 'lib/components/MeasurementModal';
 import { CalculateComposition } from 'lib/helpers/utils';
 import RowViewComponent from 'lib/components/RowViewComponent';
@@ -105,18 +105,17 @@ const EditableRecordDetails = ({ value, setValue, setEditable }) => {
     let [waist, setWaist] = useState(value.waist)
     let [hips, setHips] = useState(value.hips)
 
+    const bodyComposition = CalculateComposition(
+        23,
+        'Male',
+        weight,
+        173,
+        neck,
+        waist,
+        hips
+    );
 
     const saveData = () => {
-
-        const bodyComposition = CalculateComposition(
-            23,
-            'Male',
-            weight,
-            173,
-            neck,
-            waist,
-            hips
-        );
 
         const newData = {
             weight,
@@ -135,13 +134,37 @@ const EditableRecordDetails = ({ value, setValue, setEditable }) => {
             })
         setEditable(false);
     }
-    
+
     const cancel = () => {
         setEditable(false);
     }
 
     return (
         <View>
+            <View style={{
+                alignItems: 'center',
+                justifyContent: 'center'
+            }}>
+                <View>
+                    <Text><Subheading>Composition Level: </Subheading>{
+                        bodyComposition.category ||
+                        'Not Set'
+                    }</Text>
+                </View>
+                <View>
+                    <Text><Subheading>Body Fat Percentage: </Subheading>{
+                        bodyComposition.percentBodyFat ?
+                            Math.round(bodyComposition.percentBodyFat * 100) / 100 :
+                            'Not Set'}</Text>
+                </View>
+                <View>
+                    <Text><Subheading>Lean Body Mass Percentage: </Subheading>{
+                        bodyComposition.percentLeanMass ?
+                            Math.round(bodyComposition.percentLeanMass * 100) / 100 :
+                            'Not Set'
+                    }</Text>
+                </View>
+            </View>
             <MeasurementModal name="Weight" data={weightData} suffix="kg" value={weight} setValue={setWeight} />
 
             <MeasurementModal name="Neck" data={neckData} suffix="cm" value={neck} setValue={setNeck} />

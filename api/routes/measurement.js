@@ -114,6 +114,7 @@ router.get('/measurement/:id/all', (req, res) => {
             path: 'measurements',
             select: '-bodyComposition -_id',
         })
+        // .distinct('measurements.date')
         .then((user) => {
             res.status(200).json(user.measurements)
         })

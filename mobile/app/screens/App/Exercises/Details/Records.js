@@ -4,7 +4,7 @@ import { Text, View, ScrollView, Dimensions } from 'react-native'
 import { Subheading } from 'react-native-paper';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import RowViewComponent from 'lib/components/RowViewComponent'; 
+import RowViewComponent from 'lib/components/RowViewComponent';
 
 export default class Charts extends Component {
     constructor(props) {
@@ -33,7 +33,7 @@ export default class Charts extends Component {
 
         // console.log('https://mvgab.herokuapp.com/api/records/' + _id + '/5ce9092d50081503e89ae408');
         axios
-            .get('https://mvfagb.herokuapp.com/api/records/' + _id + '/5ce9092d50081503e89ae408')
+            .get('https://mvfagb.herokuapp.com/api/records/5cf4b301edd89700176bc18b/5ce9092d50081503e89ae408/record/all')
             .then(response => {
                 // console.warn(response.data)
                 this.setState({
@@ -50,49 +50,53 @@ export default class Charts extends Component {
     }
 
     render() {
+        const oneRepMax = this.state.records.map(record => {
+            return { x: record.date.substring(5, 10), y: record.oneRepMax }
+        })
+        const volume = this.state.records.map(record => {
+            return { x: record.date.substring(5, 10), y: record.volume }
+        })
         return (
 
             this.state.hasRecord ?
                 <ScrollView>
                     <View style={{ padding: 15 }} pointerEvents="none">
                         <Subheading>Best Set</Subheading>
-                        < VictoryChart
-                        width={Dimensions.get('window').width} 
-                        theme={VictoryTheme.material}
-                        >
-                            <VictoryLine
-                                style={{
-                                    data: { stroke: "#9400D3" },
-                                    parent: { border: "1px solid #ccc" }
-                                }}
-                                data={[
-                                    { x: 1, y: 2 },
-                                    { x: 2, y: 3 },
-                                    { x: 3, y: 5 },
-                                    { x: 4, y: 4 },
-                                    { x: 5, y: 7 }
-                                ]}
-                            />
-                        </VictoryChart>
+                        {
+                            oneRepMax.length > 0 ?
+                                < VictoryChart
+                                    width={Dimensions.get('window').width}
+                                    theme={VictoryTheme.material}
+                                >
+                                    <VictoryLine
+                                        style={{
+                                            data: { stroke: "#9400D3" },
+                                            parent: { border: "1px solid #ccc" }
+                                        }}
+                                        data={oneRepMax}
+                                    />
+                                </VictoryChart>
+                                :
+                                <Text>Loading...</Text>
+                        }
                         <Subheading>Total Volume</Subheading>
-                        < VictoryChart
-                        width={Dimensions.get('window').width} 
-                        theme={VictoryTheme.material}
-                        >
-                            <VictoryLine
-                                style={{
-                                    data: { stroke: "#9400D3" },
-                                    parent: { border: "1px solid #ccc" }
-                                }}
-                                data={[
-                                    { x: 1, y: 2 },
-                                    { x: 2, y: 3 },
-                                    { x: 3, y: 5 },
-                                    { x: 4, y: 4 },
-                                    { x: 5, y: 7 }
-                                ]}
-                            />
-                        </VictoryChart>
+                        {
+                            volume.length > 0 ?
+                            < VictoryChart
+                                width={Dimensions.get('window').width}
+                                theme={VictoryTheme.material}
+                            >
+                                <VictoryLine
+                                    style={{
+                                        data: { stroke: "#9400D3" },
+                                        parent: { border: "1px solid #ccc" }
+                                    }}
+                                    data={volume}
+                                />
+                            </VictoryChart>
+                            :
+                            <Text>Loading...</Text>
+                        }
                         <Subheading>Personal Records</Subheading>
                         <RowViewComponent>
                             <Text>Esimated 1RM Record</Text>

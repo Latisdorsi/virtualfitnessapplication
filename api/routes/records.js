@@ -83,6 +83,31 @@ router.get('/records/:exercise/:user/record', (req, res) => {
 
 })
 
+router.get('/records/:exercise/:user/record/all', (req, res) => {
+    const user = req.params.user;
+    const exercise = req.params.exercise;
+
+    Record.find({ exercise, user })
+        .sort('-volume, -oneRepMax')
+        .then(records => {
+            newRecords = []
+            records.forEach(record =>
+                newRecords.push({
+                    volume: record.volume,
+                    oneRepMax: record.oneRepMax,
+                    date: record.date
+                })
+            )
+            res.status(200).json(newRecords);
+        })
+        .catch(error => {
+            res.status(500).json({
+                message: 'Internal Server Error',
+                error: error
+            });
+        })
+
+})
 
 
 // Add Records For Member

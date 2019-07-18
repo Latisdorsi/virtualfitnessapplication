@@ -26,6 +26,7 @@ router.get('/measurement/:id', (req, res) => {
 })
 
 
+
 router.get('/measurement/:id/weight', (req, res) => {
     const _id = req.params.id
     User.findOne({ _id })
@@ -112,7 +113,6 @@ router.get('/measurement/:id/all', (req, res) => {
         .populate({
             path: 'measurements',
             select: '-bodyComposition -_id',
-            options: { sort: { date: -1 } }
         })
         .then((user) => {
             res.status(200).json(user.measurements)

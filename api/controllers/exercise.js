@@ -10,7 +10,6 @@ module.exports = {
             imageUrl,
             name,
             instruction
-
         })
 
         newExercise.save()

@@ -11,10 +11,13 @@ import FlexibilityTest from './FlexibilityTest'
 
 export default class Assessment extends React.Component {
     render() {
+        _isEnabled = (lowerBodyStrength, upperBodyStrength, muscleEndurance, flexibility) => {
+            return lowerBodyStrength > 0 && upperBodyStrength > 0 && muscleEndurance > 0 && flexibility > 0;
+        }
         const { navigate } = this.props.navigation;
         return (
             <WizardContext.Consumer>
-                {({context, setUpperBodyStrength, setLowerBodyStrength, setMuscleEndurance, setFlexibility, setLevel}) => (
+                {({ context, setUpperBodyStrength, setLowerBodyStrength, setMuscleEndurance, setFlexibility, setLevel }) => (
                     <ScrollView>
                         <View style={{ paddingHorizontal: 15, paddingVertical: 15 }}>
                             <Headline>Fitness Level Assessment</Headline>
@@ -50,9 +53,10 @@ export default class Assessment extends React.Component {
                             </View>
 
                             <Button
+                                disabled={!_isEnabled(context.lowerBodyStrength.level, context.upperBodyStrength.level, context.muscleEndurance.level, context.flexibility.level)}
                                 mode="contained"
                                 onPress={() => {
-                                    const level = Math.floor((context.lowerBodyStrength.level + context.upperBodyStrength.level  + context.muscleEndurance.level  + context.flexibility.level)/4);
+                                    const level = Math.floor((context.lowerBodyStrength.level + context.upperBodyStrength.level + context.muscleEndurance.level + context.flexibility.level) / 4);
                                     setLevel(level);
                                     navigate('Goal');
                                 }}>
@@ -61,7 +65,7 @@ export default class Assessment extends React.Component {
                         </View>
                     </ScrollView>
                 )}
-            </WizardContext.Consumer>   
+            </WizardContext.Consumer>
         )
     }
 }

@@ -66,8 +66,11 @@ const calculateScore = (gender, pushUpScore, age) => {
             if (pushUpScore <= 21 && pushUpScore >= 17) {
                 return 2;
             }
-            if (pushUpScore < 17) {
+            if (pushUpScore < 17 && pushUpScore > 0) {
                 return 1;
+            }
+            else{
+                return 0;
             }
         }
     }

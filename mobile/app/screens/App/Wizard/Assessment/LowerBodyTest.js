@@ -23,11 +23,11 @@ const calculateScore = (gender, weightRatio, age) => {
                 return 2;
             }
 
-            if (weightRatio < 0.88) {
+            if (weightRatio < 0.88 && weightRatio > 0) {
                 return 1;
             }
 
-            else if (weightRatio == 0) {
+            else {
                 return 0;
             }
         }
@@ -58,7 +58,7 @@ export default function LowerBodyTest({ setValue }) {
     useEffect(() => {
         const oneRepMax = Math.round(scoreData.weight * (1 + (scoreData.reps / 30)) * 100) / 100
         const weightRatio = oneRepMax / weight
-        setOneRepMax(oneRepMax)
+        setOneRepMax(oneRepMax.toFixed(2))
         setLevel(calculateScore(gender, weightRatio, age))
     }, [scoreData])
 

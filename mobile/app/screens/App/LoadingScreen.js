@@ -17,7 +17,7 @@ export default class LoadingScreen extends React.Component {
         let token;
         token = !token && DeviceStorage.loadItem('token').then(token => {
             const userData = parseToken(token);            
-            this.props.navigation.navigate(userData.first ? 'App' : 'App');
+            this.props.navigation.navigate(userData.hasCycle ? 'App' : 'Wizard');
         }
         ).catch(err => {
             console.warn(err)

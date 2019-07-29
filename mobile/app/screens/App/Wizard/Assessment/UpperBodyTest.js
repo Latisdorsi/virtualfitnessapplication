@@ -21,11 +21,11 @@ const calculateScore = (gender, weightRatio, age) => {
             return 2;
         }
 
-        if (weightRatio < 0.88) {
+        if (weightRatio < 0.88 && weightRatio > 0) {
             return 1;
         }
 
-        else if (weightRatio == 0){
+        else{
             return 0;
         }
     }
@@ -59,7 +59,7 @@ export default function UpperBodyTest({setValue}) {
         const weightRatio = oneRepMax / weight;
 
         //Set OneRepMax and Level
-        setOneRepMax(oneRepMax);
+        setOneRepMax(oneRepMax.toFixed(2));
         setLevel(calculateScore(gender, weightRatio, age));
    
 

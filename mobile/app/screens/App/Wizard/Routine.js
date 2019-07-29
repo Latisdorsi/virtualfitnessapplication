@@ -8,10 +8,6 @@ import RowViewComponent from 'lib/components/RowViewComponent';
 
 export default class Routine extends React.Component {
 
-    componentDidMount() {
-
-    }
-
 
     getDates = (startDate, endDate, schedule) => {
         startDate = new Date(startDate);
@@ -81,108 +77,176 @@ export default class Routine extends React.Component {
 
     render() {
         const { navigate } = this.props.navigation;
+        _getGoal = (goal) => {
+            switch (goal) {
+                case 0:
+                    return 'Tone Muscle and Lose Weight';
+
+                case 1:
+                    return 'Increase Muscle Mass and Size';
+
+                case 2:
+                    return 'Get Stronger Lifts';
+
+                case 3:
+                    return 'General Fitness';
+
+                default:
+                    return 'Unknown';
+
+            }
+        }
+
+        _getSchedule = (schedule) => {
+            switch (schedule) {
+                case 0:
+                    return '3 Days a Week';
+
+                case 1:
+                    return '5 Days a Week';
+
+                case 2:
+                    return 'Full Week';
+
+                default:
+                    return 'Unknown';
+
+            }
+        }
+
         return (
             <WizardContext.Consumer>
-                {context =>
-                    <View style={{ paddingHorizontal: 15, paddingVertical: 15 }}>
-                        <Headline>Thank you for filling up all the forms</Headline>
-                        <Subheading> We'll create a exercise for you based on your data</Subheading>
+                {(context) =>
+                    <ScrollView>
+                        <View style={{ padding: 20 }}>
+                            <Headline>Thank you for filling up all the forms</Headline>
 
-                        <View stlye={{ justifyContent: 'center', alignContent: 'center', alignItems: 'center', textAlign: 'center' }}>
-                            <Subheading>Body Composition</Subheading>
-                            <Text>Composition Level: {context.context.composition.category}</Text>
-                            <Text>Body Fat Percentage: {context.context.composition.percentBodyFat.toString().substr(0, 5)}%</Text>
-                            <Text>Lean Body Mass Percentage: {context.context.composition.percentLeanMass.toString().substr(0, 5)}%</Text>
-                        </View>
-                        <RowViewComponent>
-                            <Text>Age</Text>
-                            <Text>{context.context.age}</Text>
-                        </RowViewComponent>
+                            <View stlye={{ justifyContent: 'center', alignContent: 'center', alignItems: 'center', textAlign: 'center' }}>
+                                <Subheading>Body Composition</Subheading>
+                                <Text>Composition Level: {context.context.composition.category}</Text>
+                                <Text>Body Fat Percentage: {context.context.composition.percentBodyFat.toString().substr(0, 5)}%</Text>
+                                <Text>Lean Body Mass Percentage: {context.context.composition.percentLeanMass.toString().substr(0, 5)}%</Text>
+                            </View>
+                            <RowViewComponent>
+                                <Text>Age</Text>
+                                <Text>{context.context.age}</Text>
+                            </RowViewComponent>
+                            <RowViewComponent>
+                                <Text>Sex</Text>
+                                <Text>{context.context.sex}</Text>
+                            </RowViewComponent>
+                            <RowViewComponent>
+                                <Text>Height</Text>
+                                <Text>{context.context.height}</Text>
+                            </RowViewComponent>
+                            <RowViewComponent>
+                                <Text>Weight</Text>
+                                <Text>{context.context.weight}</Text>
+                            </RowViewComponent>
+                            <RowViewComponent>
+                                <Text>Neck</Text>
+                                <Text>{context.context.neck}</Text>
+                            </RowViewComponent>
+                            <RowViewComponent>
+                                <Text>Waist</Text>
+                                <Text>{context.context.waist}</Text>
+                            </RowViewComponent>
+                            <RowViewComponent>
+                                <Text>Hips</Text>
+                                <Text>{context.context.hips}</Text>
+                            </RowViewComponent>
+                            <RowViewComponent>
+                                <Text>Fitness Level</Text>
+                                <Text>{context.context.level}</Text>
+                            </RowViewComponent>
+                            <RowViewComponent>
+                                <Text>Fitness Goal</Text>
+                                <Text>{_getGoal(context.context.goal)}</Text>
+                            </RowViewComponent>
+                            <RowViewComponent>
+                                <Text>Schedule</Text>
+                                <Text>{_getSchedule(context.context.schedule)}</Text>
+                            </RowViewComponent>
 
-                        <Button
-                            mode="contained"
-                            onPress={() => {
+                            <Button
+                                mode="contained"
+                                onPress={() => {
+                                    const cycleObj = {
+                                        level: context.context.level,
+                                        goal: context.context.goal,
+                                        schedule: context.context.schedule,
+                                        assessment: {
+                                            upperBodyStrength: context.context.upperBodyStrength,
+                                            lowerBodyStrength: context.context.lowerBodyStrength,
+                                            muscleEndurance: context.context.muscleEndurance,
+                                            flexibility: context.context.flexibility
+                                        }
+                                    }
 
-                                // const { context } = context;
-                                // const newObj = {
-                                //     level: context.context.level,
-                                //     goal: context.context.goal,
-                                //     schedule: context.context.schedule,
-                                //     assessment: {
-                                //         upperBodyStrength: context.context.upperBodyStrength,
-                                //         lowerBodyStrength: context.context.lowerBodyStrength,
-                                //         muscleEndurance: context.context.muscleEndurance,
-                                //         flexibility: context.context.flexibility
-                                //     }
-                                // }
 
-                                // axios.post('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408', newObj)
-                                //     .then(response => {
-                                //         console.warn(response);
-                                axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408')
-                                    .then(response => {
-                                        const dates = this.getDates(response.data.startDate, response.data.targetDate, 0);
-                                        axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408/routine')
-                                            .then(response => {
-                                                scheduleArr = [];
-                                                dates.map(value => {
-                                                    currDate = new Date(value);
+                                    const measurementObj = {
+                                        weight: context.context.weight,
+                                        neck: context.context.neck,
+                                        waist: context.context.waist,
+                                        hips: context.context.hips,
+                                        composition: context.context.composition
+                                    }
 
-                                                    currDayOfTheWeek = currDate.getDay();
+                                    let dates;
 
-                                                    exercisePerDay = response.data.exercises.filter(value => {
-                                                        return value.day == currDayOfTheWeek;
-                                                    });
+                                    axios.post('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408', cycleObj)
+                                        .then(response => {
+                                            return axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408')
+                                        })
+                                        .then(response => {
+                                            dates = this.getDates(response.data.startDate, response.data.targetDate, 0);
+                                            return axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408/routine');
+                                        })
+                                        .then(response => {
+                                            scheduleArr = [];
+                                            dates.map(value => {
+                                                currDate = new Date(value);
 
-                                                    scheduleArr.push({
-                                                        date: currDate.getTime(),
-                                                        exercises: exercisePerDay
-                                                    });
+                                                currDayOfTheWeek = currDate.getDay();
+
+                                                exercisePerDay = response.data.exercises.filter(value => {
+                                                    return value.day == currDayOfTheWeek;
                                                 });
-                                                scheduleArr.forEach( schedule => {
-                                                    // console.log(schedule);
-                                                    axios.post('https://mvfagb.herokuapp.com/api/schedule/5ce9092d50081503e89ae408', schedule)
-                                                    .then( response => {
-                                                        console.log(response);
-                                                    })
-                                                    .catch( err => {
-                                                        console.log(err);
-                                                    })
-                                                })
-                                                // Push Schedule Here
+
+                                                scheduleArr.push({
+                                                    date: currDate.getTime(),
+                                                    exercises: exercisePerDay
+                                                });
+                                            });
+                                            scheduleArr.forEach(schedule => {
+                                                return axios.post('https://mvfagb.herokuapp.com/api/schedule/5ce9092d50081503e89ae408', schedule);
                                             })
+                                        })
+                                        .then(response => {
+                                            // console.log(response);
+                                            //Redirect to Last Page or DashBoard
+                                        })
+                                        .catch(err => {
+                                            console.log(err);
+                                        })
+                                        // Push Schedule Here
+                                        .catch(err => {
+                                            console.warn(err);
+                                        });
 
-                                    })
-                                    .catch(err => {
-                                        console.warn(err);
-                                    })
-
-                                //     })
-                                //     .catch(err => {
-                                //         console.warn(err.response);
-                                //     })
-                                // console.warn(newObj);
-
-                                // const measurementObj = {
-                                //     weight: context.context.weight,
-                                //     neck: context.context.neck,
-                                //     waist: context.context.waist,
-                                //     hips: context.context.hips,
-                                //     bodyComposition: context.context.composition
-                                // }
-                                // console.warn(measurementObj);
-
-                                // axios.post('http://mvfagb.herokuapp.com/api/measurement/5ce9092d50081503e89ae408', measurementObj)
-                                //     .then(response => {
-                                //         console.warn(response);
-                                //     })
-                                //     .catch(err => {
-                                //         console.warn(err.response);
-                                //     })
-                            }}
-                        >Generate Exercises</Button>
-                        {console.warn(context)}
-                    </View>
+                                    axios.post('http://mvfagb.herokuapp.com/api/measurement/5ce9092d50081503e89ae408', measurementObj)
+                                        .then(response => {
+                                            console.warn(response);
+                                        })
+                                        .catch(err => {
+                                            console.warn(err.response);
+                                        })
+                                }}
+                            >
+                                Generate Exercises
+                                </Button>
+                        </View>
+                    </ScrollView>
                 }
             </WizardContext.Consumer>
         )

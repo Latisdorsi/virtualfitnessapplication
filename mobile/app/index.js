@@ -2,12 +2,16 @@ import React, { Component } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { createDrawerNavigator, createAppContainer } from 'react-navigation'
 import axios from 'axios'
-
+import { Provider as PaperProvider } from 'react-native-paper';
 import Router from './config/router'
 
 export default class App extends Component {
     render() {
-        return <Router />
+        return (
+            <PaperProvider>
+                <Router />
+            </PaperProvider>
+        );
     }
 }
 

@@ -163,30 +163,22 @@ router.post('/measurement/:id', (req, res) => {
             User.findOne({ _id })
                 .then(user => {
                     user.measurements.push(measurement._id)
-                    user.save().then(user => {
-                        res.status(200).json(user)
-                    })
+                    user.save()
+                        .then(
+                            res.status(200).json('Request Ok')
+                        )
                         .catch(error => {
-                            res.status(500).json({
-                                message: 'An error occured',
-                                error: error
-                            });
+                            throw new Error(error);
                         })
-                    Î
+                    
                 })
                 .catch(error => {
-                    res.status(500).json({
-                        message: 'Internal Server Error',
-                        error: error
-                    });
+                    throw new Error(error);
                 })
 
         })
         .catch(error => {
-            res.status(500).json({
-                message: 'Internal Server Error',
-                error: error
-            });
+            throw new Error(error);
         })
 })
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { VictoryLine, VictoryChart, VictoryTheme } from 'victory-native';
+import { VictoryLine, VictoryChart, VictoryTheme, VictoryAxis } from 'victory-native';
 import { Text, View, ScrollView, Dimensions } from 'react-native'
 import { Subheading } from 'react-native-paper';
 import ReactDOM from 'react-dom';
@@ -38,10 +38,7 @@ export default class Charts extends Component {
                 // console.warn(response.data)
                 this.setState({
                     records: response.data
-                    //     hasRecord: true
                 })
-
-                console.log(this.state.recordDetails);
             })
             .catch(function (error) {
                 console.log(error);
@@ -56,6 +53,7 @@ export default class Charts extends Component {
         const volume = this.state.records.map(record => {
             return { x: record.date.substring(5, 10), y: record.volume }
         })
+
         return (
 
             this.state.hasRecord ?
@@ -68,6 +66,9 @@ export default class Charts extends Component {
                                     width={Dimensions.get('window').width}
                                     theme={VictoryTheme.material}
                                 >
+                                    <VictoryAxis
+                                        dependentAxis tickFormat={(tick) => `${tick}kg`} />
+                                    <VictoryAxis />
                                     <VictoryLine
                                         style={{
                                             data: { stroke: "#9400D3" },
@@ -82,20 +83,23 @@ export default class Charts extends Component {
                         <Subheading>Total Volume</Subheading>
                         {
                             volume.length > 0 ?
-                            < VictoryChart
-                                width={Dimensions.get('window').width}
-                                theme={VictoryTheme.material}
-                            >
-                                <VictoryLine
-                                    style={{
-                                        data: { stroke: "#9400D3" },
-                                        parent: { border: "1px solid #ccc" }
-                                    }}
-                                    data={volume}
-                                />
-                            </VictoryChart>
-                            :
-                            <Text>Loading...</Text>
+                                < VictoryChart
+                                    width={Dimensions.get('window').width}
+                                    theme={VictoryTheme.material}
+                                >
+                                    <VictoryAxis
+                                        dependentAxis tickFormat={(tick) => `${tick}kg`} />
+                                    <VictoryAxis />
+                                    <VictoryLine
+                                        style={{
+                                            data: { stroke: "#9400D3" },
+                                            parent: { border: "1px solid #ccc" }
+                                        }}
+                                        data={volume}
+                                    />
+                                </VictoryChart>
+                                :
+                                <Text>Loading...</Text>
                         }
                         <Subheading>Personal Records</Subheading>
                         <RowViewComponent>

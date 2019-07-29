@@ -48,8 +48,11 @@ const calculateScore = (gender, flexibilityScore, age) => {
             else if (flexibilityScore <= 29 && flexibilityScore >= 25) {
                 return 2;
             }
-            else if (flexibilityScore < 25) {
+            else if (flexibilityScore < 25 && flexibilityScore > 0) {
                 return  1;
+            }
+            else{
+                return 0;
             }
         }
     }

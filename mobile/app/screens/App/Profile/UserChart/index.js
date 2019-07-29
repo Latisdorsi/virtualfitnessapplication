@@ -76,7 +76,7 @@ class UserChart extends React.PureComponent {
                     <Subheading>
                         Weight
                     </Subheading>
-
+            
 
                     {weight.length > 0 ?
                         < VictoryChart

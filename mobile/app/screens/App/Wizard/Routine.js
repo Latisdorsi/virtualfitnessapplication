@@ -1,12 +1,22 @@
 import React, { useState } from "react";
 import { View, Text, TouchableHighlight, ScrollView, TextInput } from "react-native"
-import { Headline, Subheading, Button, Card } from "react-native-paper";
+import { Headline, Subheading, Button, Card, Portal, Dialog, Paragraph } from "react-native-paper";
 import WizardContext from "./WizardContext";
 import axios from 'axios';
 import RowViewComponent from 'lib/components/RowViewComponent';
 // import RowViewComponent from 'lib/components';
 
 export default class Routine extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            isPromptVisible: false
+        }
+
+        this._hideDialog = this._hideDialog.bind(this);
+        this._showDialog = this._showDialog.bind(this);
+    }
 
 
     getDates = (startDate, endDate, schedule) => {
@@ -73,10 +83,16 @@ export default class Routine extends React.Component {
         }
         return arrDate;
     }
+    _showDialog = () => this.setState({ isPromptVisible: true });
 
+    _hideDialog = () => this.setState({ isPromptVisible: false });
 
     render() {
         const { navigate } = this.props.navigation;
+
+        
+
+
         _getGoal = (goal) => {
             switch (goal) {
                 case 0:
@@ -170,81 +186,87 @@ export default class Routine extends React.Component {
 
                             <Button
                                 mode="contained"
-                                onPress={() => {
-                                    const cycleObj = {
-                                        level: context.context.level,
-                                        goal: context.context.goal,
-                                        schedule: context.context.schedule,
-                                        assessment: {
-                                            upperBodyStrength: context.context.upperBodyStrength,
-                                            lowerBodyStrength: context.context.lowerBodyStrength,
-                                            muscleEndurance: context.context.muscleEndurance,
-                                            flexibility: context.context.flexibility
-                                        }
-                                    }
-
-
-                                    const measurementObj = {
-                                        weight: context.context.weight,
-                                        neck: context.context.neck,
-                                        waist: context.context.waist,
-                                        hips: context.context.hips,
-                                        composition: context.context.composition
-                                    }
-
-                                    let dates;
-
-                                    axios.post('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408', cycleObj)
-                                        .then(response => {
-                                            return axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408')
-                                        })
-                                        .then(response => {
-                                            dates = this.getDates(response.data.startDate, response.data.targetDate, 0);
-                                            return axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408/routine');
-                                        })
-                                        .then(response => {
-                                            scheduleArr = [];
-                                            dates.map(value => {
-                                                currDate = new Date(value);
-
-                                                currDayOfTheWeek = currDate.getDay();
-
-                                                exercisePerDay = response.data.exercises.filter(value => {
-                                                    return value.day == currDayOfTheWeek;
-                                                });
-
-                                                scheduleArr.push({
-                                                    date: currDate.getTime(),
-                                                    exercises: exercisePerDay
-                                                });
-                                            });
-                                            scheduleArr.forEach(schedule => {
-                                                return axios.post('https://mvfagb.herokuapp.com/api/schedule/5ce9092d50081503e89ae408', schedule);
-                                            })
-                                        })
-                                        .then(response => {
-                                            // console.log(response);
-                                            //Redirect to Last Page or DashBoard
-                                        })
-                                        .catch(err => {
-                                            console.log(err);
-                                        })
-                                        // Push Schedule Here
-                                        .catch(err => {
-                                            console.warn(err);
-                                        });
-
-                                    axios.post('http://mvfagb.herokuapp.com/api/measurement/5ce9092d50081503e89ae408', measurementObj)
-                                        .then(response => {
-                                            console.warn(response);
-                                        })
-                                        .catch(err => {
-                                            console.warn(err.response);
-                                        })
-                                }}
+                                onPress={() => { this._showDialog() }}
                             >
                                 Generate Exercises
                                 </Button>
+                            <Portal>
+                                <Dialog
+                                    visible={this.state.isPromptVisible}
+                                    onDismiss={this._hideDialog}>
+                                    <Dialog.Title>Finalize Data</Dialog.Title>
+                                    <Dialog.Content>
+                                        <Paragraph>Are you sure your data is accurate? We will save your data and generate a routine.</Paragraph>
+                                    </Dialog.Content>
+                                    <Dialog.Actions>
+                                        <Button onPress={this._hideDialog}>No</Button>
+                                        <Button onPress={() => {
+
+                                            const cycleObj = {
+                                                level: context.context.level,
+                                                goal: context.context.goal,
+                                                schedule: context.context.schedule,
+                                                assessment: {
+                                                    upperBodyStrength: context.context.upperBodyStrength,
+                                                    lowerBodyStrength: context.context.lowerBodyStrength,
+                                                    muscleEndurance: context.context.muscleEndurance,
+                                                    flexibility: context.context.flexibility
+                                                }
+                                            }
+
+
+                                            const measurementObj = {
+                                                weight: context.context.weight,
+                                                neck: context.context.neck,
+                                                waist: context.context.waist,
+                                                hips: context.context.hips,
+                                                composition: context.context.composition
+                                            }
+
+                                            let dates;
+
+                                            axios.post('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408', cycleObj)
+                                                .then(() => {
+                                                    // console.warn('Success');
+                                                    return axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408')
+                                                })
+                                                .then(response => {
+                                                    dates = this.getDates(response.data.startDate, response.data.targetDate, 0);
+                                                    return axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408/routine');
+                                                })
+                                                .then(response => {
+                                                    scheduleArr = [];
+                                                    dates.map(value => {
+                                                        currDate = new Date(value);
+
+                                                        currDayOfTheWeek = currDate.getDay();
+
+                                                        exercisePerDay = response.data.exercises.filter(value => {
+                                                            return value.day == currDayOfTheWeek;
+                                                        });
+
+                                                        scheduleArr.push({
+                                                            date: currDate.getTime(),
+                                                            exercises: exercisePerDay
+                                                        });
+                                                    });
+                                                    scheduleArr.forEach(schedule => {
+                                                        return axios.post('https://mvfagb.herokuapp.com/api/schedule/5ce9092d50081503e89ae408', schedule);
+                                                    })
+                                                    return axios.post('http://mvfagb.herokuapp.com/api/measurement/5ce9092d50081503e89ae408', measurementObj);
+                                                })
+                                                .then((response) => {
+                                                    // console.warn(response);
+                                                    // this.props.screenProps.rootNavigation.navigate('App');
+                                                    navigate('Confirmation');
+                                                })
+                                                .catch(err => {
+                                                    console.warn(err);
+                                                });
+                                        }}>Yes, I understand</Button>
+                                    </Dialog.Actions>
+                                </Dialog>
+                            </Portal>
                         </View>
                     </ScrollView>
                 }

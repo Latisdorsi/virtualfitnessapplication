@@ -21,11 +21,25 @@ router.get('/cycle/:id', (req, res) => {
         })
         .catch(error => {
             res.status(500).json({
-                message: 'Internal Server Error', 
+                message: 'Internal Server Error',
                 error: error
             });
         })
 })
+
+router.get('/cycle/:id/latest', (req, res) => {
+    const _id = req.params.id;
+    Cycle.findOne({ user: _id })
+        .then(cycle => {
+            res.status(200).json(cycle);
+        })
+        .catch(error => {
+            res.status(500).json({
+                message: 'Internal Server Error',
+                error: error
+            });
+        })
+});
 
 // Get Member Routine
 router.get('/cycle/:id/routine', (req, res) => {

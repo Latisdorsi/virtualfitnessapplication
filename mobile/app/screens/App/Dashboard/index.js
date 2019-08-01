@@ -18,6 +18,11 @@ export class Dashboard extends Component {
                 }
             },
             exercises: [],
+            cycle: {
+                level: 0,
+                goal: 0,
+                schedule: 0
+            },
             isPromptVisible: false
         }
     }
@@ -34,21 +39,26 @@ export class Dashboard extends Component {
 
         DeviceStorage.loadItem('token').then(token => {
             const tokenData = parseToken(token);
-            const routine = Axios.get('https://mvfagb.herokuapp.com/api/cycle/' + tokenData._id + '/routine')
-            const account = Axios.get('http://mvfagb.herokuapp.com/api/account/detail/' + tokenData._id)
-
-            Promise.all([account, routine]).then((values) => {
+            const routine = Axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408/routine')
+            const account = Axios.get('http://mvfagb.herokuapp.com/api/account/detail/5ce9092d50081503e89ae408')
+            const cycle = Axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408');
+            Promise.all([account, routine, cycle]).then((values) => {
                 const user = values[0].data;
-                const exercises = values[1].data.exercises
+                const exercises = values[1].data.exercises;
+                const cycle = values[0].data;
                 this.setState({
                     user,
-                    exercises
+                    exercises,
+                    cycle
                 });
             })
         })
+
+       
     }
 
     render() {
+        console.warn(this.state.cycle);
         const { user, exercises } = this.state;
         return (
             <View style={{ padding: 20, flex: 1, justifyContent: 'center' }}>
@@ -68,15 +78,15 @@ export class Dashboard extends Component {
                     <Subheading>You have an active cycle right now</Subheading>
                     <RowViewComponent>
                         <Text>Fitness Level</Text>
-                        <Text>4</Text>
+                        <Text>{this.state.cycle.level}</Text>
                     </RowViewComponent>
                     <RowViewComponent>
                         <Text>Goal</Text>
-                        <Text>Lose Weight</Text>
+                        <Text>{this.state.cycle.goal}</Text>
                     </RowViewComponent>
                     <RowViewComponent>
                         <Text>Schedule</Text>
-                        <Text>3 Days a Week</Text>
+                        <Text>{this.state.cycle.schedule}</Text>
                     </RowViewComponent>
                     <Button onPress={this._showDialog} mode="contained">Restart Cycle </Button>
                 </Card>

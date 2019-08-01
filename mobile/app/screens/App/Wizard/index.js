@@ -17,10 +17,16 @@ import Assessment from "./Assessment"
 import Goal from './Goal';
 import Schedule from './Schedule';
 import Routine from "./Routine";
+import Confirmation from "./Confirmation";
 
 
 const WizardNavigator = createAppContainer(createStackNavigator({
-  
+    Routine: {
+        screen: Routine,
+        navigationOptions: {
+            title: 'Routine'
+        }
+    },
     Profile: {
         screen: Profile,
         navigationOptions: {
@@ -45,12 +51,15 @@ const WizardNavigator = createAppContainer(createStackNavigator({
             title: 'Schedule'
         }
     },
-    Routine: {
-        screen: Routine,
+   
+    Confirmation: {
+        screen: Confirmation,
         navigationOptions: {
-            title: 'Routine'
+            title: 'Confirmation',
+            header: null
         }
     }
+
 }));
 
 export default class Wizard extends React.Component {
@@ -101,7 +110,7 @@ export default class Wizard extends React.Component {
         this.setGoal = (goal) => this.setState({ goal });
         this.setSchedule = (schedule) => this.setState({ schedule });
         this.setComposition = (composition) => this.setState({ composition });
-        this.setLevel = (level) => this.setState({level});
+        this.setLevel = (level) => this.setState({ level });
         this.setUpperBodyStrength = (upperBodyStrength) => this.setState({ upperBodyStrength });
         this.setLowerBodyStrength = (lowerBodyStrength) => this.setState({ lowerBodyStrength });
         this.setMuscleEndurance = (muscleEndurance) => this.setState({ muscleEndurance });
@@ -110,6 +119,7 @@ export default class Wizard extends React.Component {
 
 
     render() {
+        // {console.warn(this.props)}
         const {
             setAge,
             setSex,
@@ -147,7 +157,7 @@ export default class Wizard extends React.Component {
                     setMuscleEndurance,
                     setFlexibility
                 }}>
-                    <WizardNavigator />
+                    <WizardNavigator screenProps={{ rootNavigation: this.props.screenProps.rootNavigation }} />
                 </WizardContext.Provider>
             </>
         );

@@ -336,6 +336,44 @@ module.exports = {
             })
     },
 
+    activateUserCycle: function (req, res, next) {
+        User
+            .update({
+                _id: req.params.id
+            }, {
+                    hasCycle: true
+                })
+
+            .then(user => {
+                res.status(200).json(true);
+            })
+            .catch(error => {
+                res.status(500).json({
+                    message: 'Internal Server Errror',
+                    error: error
+                })
+            })
+    },
+
+    deactivateUserCycle: function (req, res, next) {
+        User
+            .update({
+                _id: req.params.id
+            }, {
+                    hasCycle: false
+                })
+
+            .then(
+                res.status(200).json(false)
+            )
+            .catch(error => {
+                res.status(500).json({
+                    message: 'Internal Server Errror',
+                    error: error
+                })
+            })
+    },
+
     deleteUser: function (req, res, next) {
         const _id = req.params.id
         User
@@ -392,6 +430,8 @@ module.exports = {
                     });
             })
     },
+
+
 
     changePassword: function (req, res, next) {
 

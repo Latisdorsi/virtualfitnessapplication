@@ -21,12 +21,7 @@ import Confirmation from "./Confirmation";
 
 
 const WizardNavigator = createAppContainer(createStackNavigator({
-    Routine: {
-        screen: Routine,
-        navigationOptions: {
-            title: 'Routine'
-        }
-    },
+
     Profile: {
         screen: Profile,
         navigationOptions: {
@@ -51,7 +46,12 @@ const WizardNavigator = createAppContainer(createStackNavigator({
             title: 'Schedule'
         }
     },
-   
+    Routine: {
+        screen: Routine,
+        navigationOptions: {
+            title: 'Routine'
+        }
+    },
     Confirmation: {
         screen: Confirmation,
         navigationOptions: {

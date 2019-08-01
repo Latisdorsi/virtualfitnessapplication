@@ -18,6 +18,10 @@ const UserSchema = new mongoose.Schema({
         type: Boolean,
         default: true
     },
+    hasCycle: {
+        type: Boolean,
+        default: true
+    },
     name: {
         firstName: {
             type: String,

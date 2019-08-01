@@ -90,9 +90,6 @@ export default class Routine extends React.Component {
     render() {
         const { navigate } = this.props.navigation;
 
-        
-
-
         _getGoal = (goal) => {
             switch (goal) {
                 case 0:
@@ -256,8 +253,7 @@ export default class Routine extends React.Component {
                                                     return axios.post('http://mvfagb.herokuapp.com/api/measurement/5ce9092d50081503e89ae408', measurementObj);
                                                 })
                                                 .then((response) => {
-                                                    // console.warn(response);
-                                                    // this.props.screenProps.rootNavigation.navigate('App');
+                                                    return axios.put('http://127.0.0.1:5000/api/account/cycle/activate/5ce9092d50081503e89ae408')
                                                     navigate('Confirmation');
                                                 })
                                                 .catch(err => {

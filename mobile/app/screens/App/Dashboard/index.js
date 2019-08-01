@@ -20,8 +20,8 @@ export class Dashboard extends Component {
             exercises: [],
             cycle: {
                 level: 0,
-                goal: 0,
-                schedule: 0
+                goal: -1,
+                schedule: -1
             },
             isPromptVisible: false
         }
@@ -41,11 +41,11 @@ export class Dashboard extends Component {
             const tokenData = parseToken(token);
             const routine = Axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408/routine')
             const account = Axios.get('http://mvfagb.herokuapp.com/api/account/detail/5ce9092d50081503e89ae408')
-            const cycle = Axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408');
+            const cycle = Axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408/latest');
             Promise.all([account, routine, cycle]).then((values) => {
                 const user = values[0].data;
                 const exercises = values[1].data.exercises;
-                const cycle = values[0].data;
+                const cycle = values[2].data;
                 this.setState({
                     user,
                     exercises,
@@ -54,11 +54,48 @@ export class Dashboard extends Component {
             })
         })
 
-       
+
+    }
+
+    _getGoal = (goal) => {
+        switch (goal) {
+            case 0:
+                return 'Tone Muscle and Lose Weight';
+
+            case 1:
+                return 'Increase Muscle Mass and Size';
+
+            case 2:
+                return 'Get Stronger Lifts';
+
+            case 3:
+                return 'General Fitness';
+
+            default:
+                return 'Unknown';
+
+        }
+    }
+
+    _getSchedule = (schedule) => {
+        switch (schedule) {
+            case 0:
+                return '3 Days a Week';
+
+            case 1:
+                return '5 Days a Week';
+
+            case 2:
+                return 'Full Week';
+
+            default:
+                return 'Unknown';
+
+        }
     }
 
     render() {
-        console.warn(this.state.cycle);
+        // console.warn(this.state.cycle);
         const { user, exercises } = this.state;
         return (
             <View style={{ padding: 20, flex: 1, justifyContent: 'center' }}>
@@ -82,11 +119,11 @@ export class Dashboard extends Component {
                     </RowViewComponent>
                     <RowViewComponent>
                         <Text>Goal</Text>
-                        <Text>{this.state.cycle.goal}</Text>
+                        <Text>{this._getGoal(this.state.cycle.goal)}</Text>
                     </RowViewComponent>
                     <RowViewComponent>
                         <Text>Schedule</Text>
-                        <Text>{this.state.cycle.schedule}</Text>
+                        <Text>{this._getSchedule(this.state.cycle.schedule)}</Text>
                     </RowViewComponent>
                     <Button onPress={this._showDialog} mode="contained">Restart Cycle </Button>
                 </Card>

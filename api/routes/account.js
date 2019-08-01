@@ -33,6 +33,12 @@ router.put('/activate/:id', user.activateUser);
 // Deactivate User
 router.put('/deactivate/:id', user.deactivateUser);
 
+// Activate User Cycle
+router.put('/cycle/activate/:id', user.activateUserCycle);
+
+// Deactivate User Cycle
+router.put('/cycle/deactivate/:id', user.deactivateUserCycle);
+
 // Update User Avatar
 router.put('/detail/:id/avatar', user.updateUserAvatar);
 

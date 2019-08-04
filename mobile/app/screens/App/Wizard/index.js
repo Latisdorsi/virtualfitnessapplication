@@ -4,8 +4,9 @@ import Modal from "react-native-modal";
 import { Headline, Subheading, Button, Card } from "react-native-paper";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
-
+// import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { createAppContainer, createStackNavigator } from "react-navigation";
+import DeviceStorage from 'lib/services/DeviceStorage'
 
 
 
@@ -17,7 +18,7 @@ import Assessment from "./Assessment"
 import Goal from './Goal';
 import Schedule from './Schedule';
 import Routine from "./Routine";
-import Confirmation from "./Confirmation";
+
 
 
 const WizardNavigator = createAppContainer(createStackNavigator({
@@ -51,14 +52,8 @@ const WizardNavigator = createAppContainer(createStackNavigator({
         navigationOptions: {
             title: 'Routine'
         }
-    },
-    Confirmation: {
-        screen: Confirmation,
-        navigationOptions: {
-            title: 'Confirmation',
-            header: null
-        }
     }
+
 
 }));
 
@@ -115,11 +110,20 @@ export default class Wizard extends React.Component {
         this.setLowerBodyStrength = (lowerBodyStrength) => this.setState({ lowerBodyStrength });
         this.setMuscleEndurance = (muscleEndurance) => this.setState({ muscleEndurance });
         this.setFlexibility = (flexibility) => this.setState({ flexibility });
+
+        this.logOutUser = this.logOutUser.bind(this);
+    }
+    logOutUser() {
+        DeviceStorage.deleteItem('token')
+            .then(
+                this.props.screenProps.rootNavigation.navigate('AuthLoading')
+            )
+            .catch(err =>
+                this.props.screenProps.rootNavigation.navigate('AuthLoading')
+            )
     }
 
-
     render() {
-        // {console.warn(this.props)}
         const {
             setAge,
             setSex,

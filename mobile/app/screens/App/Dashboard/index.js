@@ -6,6 +6,7 @@ import { parseToken } from 'lib/helpers/utils';
 import RowViewComponent from 'lib/components/RowViewComponent'
 import Axios from 'axios';
 
+
 export class Dashboard extends Component {
     constructor(props) {
         super(props)
@@ -23,7 +24,8 @@ export class Dashboard extends Component {
                 goal: -1,
                 schedule: -1
             },
-            isPromptVisible: false
+            isPromptVisible: false,
+            hasExercise: false
         }
     }
 
@@ -39,17 +41,19 @@ export class Dashboard extends Component {
 
         DeviceStorage.loadItem('token').then(token => {
             const tokenData = parseToken(token);
-            const routine = Axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408/routine')
             const account = Axios.get('http://mvfagb.herokuapp.com/api/account/detail/5ce9092d50081503e89ae408')
+            const routine = Axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408/routine')
             const cycle = Axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408/latest');
-            Promise.all([account, routine, cycle]).then((values) => {
+            const schedule = Axios.get('https://mvfagb.herokiuapp.com/api/schedules/5ce9092d50081503e89ae408/now')
+            Promise.all([account, routine, cycle, schedule]).then((values) => {
                 const user = values[0].data;
                 const exercises = values[1].data.exercises;
                 const cycle = values[2].data;
                 this.setState({
                     user,
                     exercises,
-                    cycle
+                    cycle,
+                    hasExercise: true
                 });
             })
         })
@@ -104,12 +108,19 @@ export class Dashboard extends Component {
                     <Subheading>{user.name.firstName} {user.name.lastName}</Subheading>
                 </View>
                 <Card style={{ padding: 20, alignContent: 'center', alignItems: 'center' }}>
+                    { this.state.hasExercise ?
+                    <>
                     <Subheading>You have a scheduled exercise today</Subheading>
                     <Button mode="contained" onPress={() => {
                         this.props.navigation.navigate('Records', {
                             exercises: exercises
                         })
-                    }} > Start Exercise </Button>
+                    }} > Start Exercise </Button> 
+                    </>
+                    :
+                    <Subheading>You have no schedule exercise today</Subheading>
+
+                }
                 </Card>
                 <Card style={{ padding: 20, marginTop: 20, alignContent: 'center', alignItems: 'center' }}>
                     <Subheading>You have an active cycle right now</Subheading>
@@ -138,7 +149,13 @@ export class Dashboard extends Component {
                         <Dialog.Actions>
                             <Button onPress={this._hideDialog}>No</Button>
                             <Button onPress={() => {
-                                this.props.screenProps.rootNavigation.navigate('Wizard')
+                                Axios.put('https://mvfagb.herokuapp.com/api/account/cycle/deactivate/5ce9092d50081503e89ae408')
+                                    .then(
+                                        this.props.screenProps.rootNavigation.navigate('Wizard')
+                                    )
+                                    .catch(error => {
+                                        console.log(error);
+                                    })
                             }}>Yes, I understand</Button>
                         </Dialog.Actions>
                     </Dialog>

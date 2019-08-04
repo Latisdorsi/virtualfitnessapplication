@@ -21,7 +21,19 @@ router.get('/schedule/:id', (req, res) => {
 
 router.get('/schedule/:id/now', (req, res) => {
     const _id = req.params.id
-    Schedule.findOne({ user: _id, date: new Date().toISOString() })
+    const start = new Date();
+    const end = new Date();
+
+    start.setHours(0,0,0,0);
+    end.setHours(24,0,0,0);
+
+    // start.setDate(start.getDate() + 1);
+    // end.setDate(end.getDate() + 1);
+
+    Schedule.findOne({
+        "date" : {"$gte": start.toISOString(),
+                  "$lt": end.toISOString()}
+      })
         .then(schedule => {
             res.status(200).json(schedule)
         })

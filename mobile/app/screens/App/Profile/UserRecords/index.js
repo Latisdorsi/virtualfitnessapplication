@@ -41,7 +41,7 @@ export default function UserRecords() {
                         neck: response.data.neck,
                         waist: response.data.waist,
                         hips: response.data.hips,
-                        bodyComposition: response.data.bodyComposition
+                        bodyComposition: response.data.composition
                     }
                     setMeasurementDetails({ ...measurementObj });
                 })
@@ -92,20 +92,20 @@ export default function UserRecords() {
                         }}>
                             <View>
                                 <Text><Subheading>Composition Level: </Subheading>{
-                                    measurementDetails.bodyComposition.category ?
+                                    measurementDetails.bodyComposition ?
                                         measurementDetails.bodyComposition.category :
                                         'Not Set'
                                 }</Text>
                             </View>
                             <View>
                                 <Text><Subheading>Body Fat Percentage: </Subheading>{
-                                    measurementDetails.bodyComposition.percentBodyFat ?
+                                    measurementDetails.bodyComposition ?
                                         Math.round(measurementDetails.bodyComposition.percentBodyFat * 100) / 100 :
                                         'Not Set'}</Text>
                             </View>
                             <View>
                                 <Text><Subheading>Lean Body Mass Percentage: </Subheading>{
-                                    measurementDetails.bodyComposition.percentLeanMass ?
+                                    measurementDetails.bodyComposition ?
                                         Math.round(measurementDetails.bodyComposition.percentLeanMass * 100) / 100 :
                                         'Not Set'
                                 }</Text>

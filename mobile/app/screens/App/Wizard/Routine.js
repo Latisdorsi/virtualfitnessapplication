@@ -187,6 +187,7 @@ export default class Routine extends React.Component {
                             >
                                 Generate Exercises
                                 </Button>
+
                             <Portal>
                                 <Dialog
                                     visible={this.state.isPromptVisible}
@@ -224,7 +225,7 @@ export default class Routine extends React.Component {
 
                                             axios.post('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408', cycleObj)
                                                 .then(() => {
-                                                    // console.warn('Success');
+    
                                                     return axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408')
                                                 })
                                                 .then(response => {
@@ -252,9 +253,11 @@ export default class Routine extends React.Component {
                                                     })
                                                     return axios.post('http://mvfagb.herokuapp.com/api/measurement/5ce9092d50081503e89ae408', measurementObj);
                                                 })
-                                                .then((response) => {
-                                                    return axios.put('http://127.0.0.1:5000/api/account/cycle/activate/5ce9092d50081503e89ae408')
-                                                    navigate('Confirmation');
+                                                .then(() => {
+                                                    return axios.put('https://mvfagb.herokuapp.com/api/account/cycle/activate/5ce9092d50081503e89ae408')
+                                                })
+                                                .then(() => {
+                                                    this.props.screenProps.rootNavigation.navigate('Confirmation')
                                                 })
                                                 .catch(err => {
                                                     console.warn(err);

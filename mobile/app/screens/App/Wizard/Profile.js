@@ -42,7 +42,6 @@ class Profile extends React.Component {
 
 
   _checkFields = () => {
-    // console.warn(age);
     return this.state.age > 0 && this.state.sex.length > 0 && this.state.height > 0 && this.state.weight > 0 && this.state.neck > 0 && this.state.waist > 0 && this.state.hips > 0;
   }
   render() {

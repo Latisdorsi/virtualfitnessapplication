@@ -7,7 +7,6 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 // Initial Loading Screen
 import AuthLoadingScreen from '../screens/Auth/AuthLoadingScreen'
 import AppLoadingScreen from '../screens/App/LoadingScreen'
-
 //Auth Stack Screens
 import Login from "../screens/Auth/Login";
 import Register from "../screens/Auth/Register"
@@ -33,6 +32,8 @@ import ChangePassword from '../screens/App/Settings/ChangePassword'
 import DeleteAccount from '../screens/App/Settings/DeleteAccount'
 import ExportAccount from '../screens/App/Settings/ExportAccount'
 
+//Wizard Confirmation Screen
+import Confirmation from "../screens/App/Confirmation";
 
 import Records from '../screens/App/Records';
 
@@ -176,12 +177,19 @@ const MainStack = createAppContainer(createSwitchNavigator({
             title: 'Wizard'
         }
     },
+    Confirmation: {
+        screen: ({ navigation }) => <Confirmation screenProps={{ rootNavigation: navigation }} />,
+        navigationOptions: {
+            title: 'Confirmation',
+            header: null
+        }
+    },
     App: {
         screen: ({ navigation }) => <AppStack screenProps={{ rootNavigation: navigation }} />
     },
     WizardStackLoading: AppLoadingScreen
-    },{
-        initialRouteName: 'Wizard'
+}, {
+        initialRouteName: 'App'
     }
 ));
 

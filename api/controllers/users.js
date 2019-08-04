@@ -412,7 +412,7 @@ module.exports = {
                                 });
                         } else {
                             // Issue token
-                            const payload = { email, _id, active, first };
+                            const payload = { email, _id, active, first, hasCycle };
                             const token = jwt.sign(payload, config.SECRET, {
                                 expiresIn: '2h'
                             });

@@ -222,13 +222,14 @@ export default class Routine extends React.Component {
                                             }
 
                                             let dates;
-
+                                            let cycleID;
                                             axios.post('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408', cycleObj)
                                                 .then(() => {
     
                                                     return axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408')
                                                 })
                                                 .then(response => {
+                                                    cycleID = response.data._id;
                                                     dates = this.getDates(response.data.startDate, response.data.targetDate, 0);
                                                     return axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408/routine');
                                                 })
@@ -244,6 +245,7 @@ export default class Routine extends React.Component {
                                                         });
 
                                                         scheduleArr.push({
+                                                            cycle: cylceID,
                                                             date: currDate.getTime(),
                                                             exercises: exercisePerDay
                                                         });

@@ -13,13 +13,20 @@ export default class RecordHeader extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            exercise: {}
+            exercise: {
+                "imageUrl": "",
+                "imageName": "",
+                "name": "",
+                "instruction": "",
+                "createdDate": "",
+            }
         }
     }
     componentDidMount() {
         // console.log('https://mvfagb.herokuapp.com/api/exercise/detail/' + this.state.exercise._id)
         axios.get('https://mvfagb.herokuapp.com/api/exercise/detail/' + this.props.exercise._id)
             .then(response => {
+               
                 this.setState({
                     exercise: response.data
                 })
@@ -27,6 +34,7 @@ export default class RecordHeader extends Component {
     }
 
     render() {
+        // console.warn(this.state.exercise);
         return (
             <View>
                 <View

@@ -3,6 +3,7 @@ import {
     View,
     Button,
     ScrollView,
+    Text
 } from 'react-native';
 import { Divider } from 'react-native-paper'
 import update from 'immutability-helper';
@@ -15,8 +16,21 @@ export default class Records extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            records: []
+            records: [],
+            schedule: {}
         }
+    }
+
+    componentDidMount(){
+        Axios.get('https://mvfagb.herokuapp.com/api/schedule/5ce9092d50081503e89ae408/now')
+        .then(response => {
+            this.setState({
+                schedule: response.data
+            });
+        })
+        .catch(error => {
+            console.error(error);
+        })
     }
 
     addRecords = (record) => {
@@ -36,28 +50,18 @@ export default class Records extends Component {
         })
     }
 
-    saveRecords = (records) => {
-        records.forEach(record => {
-            Axios.post('https://mvfagb.herokuapp.com/api/record/5ce9092d50081503e89ae408', record)
-                .then(response => {
-                   this.props.navigation.goBack();
-                })
-                .catch(err => {
-                    console.error(err);
-                })
-        });
-    }
+    
 
     render() {
         const { navigation } = this.props;
-        const exercises = navigation.getParam('exercises', []);
+        // const exercises = navigation.getParam('exercises', []);
         return (
             // Load Exercise Data From State
             <ScrollView>
                 <View style={{
                     padding: 15
                 }}>
-                    {exercises.map((exercise, index) => {
+                    {this.state.schedule.exercises ? this.state.schedule.exercises.map((exercise, index) => {
                         return (
                             <View key={index}>
                                 <RecordHeader exercise={exercise} />
@@ -65,10 +69,13 @@ export default class Records extends Component {
                                 <Divider />
                             </View>
                         )
-                    })}
+                    }) : 
+                    <Text>No Data Found</Text>}
                     <Button title="Save Records" onPress={() => {
                         // console.log(this.state.records);
-                        this.saveRecords(this.state.records);
+                         navigation.navigate('SaveRecord', {
+                             records: this.state.records
+                         })
                     }} />
                 </View>
             </ScrollView>

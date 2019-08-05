@@ -36,6 +36,7 @@ import ExportAccount from '../screens/App/Settings/ExportAccount'
 import Confirmation from "../screens/App/Confirmation";
 
 import Records from '../screens/App/Records';
+import SaveRecord from '../screens/App/Records/SaveRecord';
 
 // Profile Screen Stack NAvigation
 const ProfileStackNavigator = createStackNavigator({
@@ -111,6 +112,13 @@ const DashboardStackNavigator = createStackNavigator({
         screen: Records,
         navigationOptions: {
             title: 'Record Exercises'
+        }
+    },
+    SaveRecord: {
+        screen: SaveRecord,
+        navigationOpitons:{
+            header: null,
+            headerVisible: false
         }
     }
 });

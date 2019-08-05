@@ -37,23 +37,23 @@ export class Dashboard extends Component {
         // Convert to Promise All
         const { navigation } = this.props;
         const itemId = this.props.navigation.getParam('item', 'No Item');
-        console.log(itemId);
 
         DeviceStorage.loadItem('token').then(token => {
             const tokenData = parseToken(token);
             const account = Axios.get('http://mvfagb.herokuapp.com/api/account/detail/5ce9092d50081503e89ae408')
             const routine = Axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408/routine')
             const cycle = Axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408/latest');
-            const schedule = Axios.get('https://mvfagb.herokiuapp.com/api/schedules/5ce9092d50081503e89ae408/now')
+            const schedule = Axios.get('https://mvfagb.herokuapp.com/api/schedules/5ce9092d50081503e89ae408/now')
             Promise.all([account, routine, cycle, schedule]).then((values) => {
                 const user = values[0].data;
                 const exercises = values[1].data.exercises;
                 const cycle = values[2].data;
+                const hasExercise = values[3].data !== null;
                 this.setState({
                     user,
                     exercises,
                     cycle,
-                    hasExercise: true
+                    hasExercise
                 });
             })
         })
@@ -99,7 +99,7 @@ export class Dashboard extends Component {
     }
 
     render() {
-        // console.warn(this.state.cycle);
+        
         const { user, exercises } = this.state;
         return (
             <View style={{ padding: 20, flex: 1, justifyContent: 'center' }}>
@@ -112,13 +112,11 @@ export class Dashboard extends Component {
                     <>
                     <Subheading>You have a scheduled exercise today</Subheading>
                     <Button mode="contained" onPress={() => {
-                        this.props.navigation.navigate('Records', {
-                            exercises: exercises
-                        })
+                        this.props.navigation.navigate('Records')
                     }} > Start Exercise </Button> 
                     </>
                     :
-                    <Subheading>You have no schedule exercise today</Subheading>
+                    <Subheading>You have no scheduled exercise today</Subheading>
 
                 }
                 </Card>

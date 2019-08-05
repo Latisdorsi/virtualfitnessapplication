@@ -2,15 +2,19 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const Exercise = require('./exercise')
 const User = require('./user')
+const Cycle = require('./cycle')
 
 ScheduleSchema = new mongoose.Schema({
     user: { type: Schema.Types.ObjectId, ref: 'User' },
+    cycle: { type: Schema.Types.ObjectId, ref: 'Cycle' },
     date: { type: Date },
     exercises: [{
         exercise: { type: Schema.Types.ObjectId, ref: 'Exercise' },
         sets: { type: Number },
         day: { type: Number, enum: [0, 1, 2, 3, 4, 5] }
-    }]
+    }],
+    isActive: {type: Boolean},
+    isPending: {type: Boolean}
 })
 
 const Schedule = new mongoose.model('Schedule', ScheduleSchema)

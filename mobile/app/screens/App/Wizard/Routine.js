@@ -255,9 +255,9 @@ export default class Routine extends React.Component {
                                                     })
                                                     return axios.post('http://mvfagb.herokuapp.com/api/measurement/5ce9092d50081503e89ae408', measurementObj);
                                                 })
-                                                .then(() => {
-                                                    return axios.put('https://mvfagb.herokuapp.com/api/account/cycle/activate/5ce9092d50081503e89ae408')
-                                                })
+                                                // .then(() => {
+                                                //     return axios.put('https://mvfagb.herokuapp.com/api/account/cycle/activate/5ce9092d50081503e89ae408')
+                                                // })
                                                 .then(() => {
                                                     this.props.screenProps.rootNavigation.navigate('Confirmation')
                                                 })

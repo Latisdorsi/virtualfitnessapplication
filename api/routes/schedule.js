@@ -68,7 +68,7 @@ router.put('/schedule/:id/deactivate/:cycle', (req, res) => {
     const _id = req.params.id;
     const cycle = req.params.cycle;
 
-    Schedule.findOneAndUpdate({ cycle: cycle, user: _id }, { $set: { isActive: false } })
+    Schedule.findAndModify({ cycle: cycle, user: _id }, { $set: { isActive: false } })
         .then(schedule => {
             res.status(200).json(schedule)
         })

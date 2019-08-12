@@ -99,7 +99,7 @@ export class Dashboard extends Component {
     }
 
     render() {
-        
+
         const { user, exercises } = this.state;
         return (
             <View style={{ padding: 20, flex: 1, justifyContent: 'center' }}>
@@ -108,17 +108,17 @@ export class Dashboard extends Component {
                     <Subheading>{user.name.firstName} {user.name.lastName}</Subheading>
                 </View>
                 <Card style={{ padding: 20, alignContent: 'center', alignItems: 'center' }}>
-                    { this.state.hasExercise ?
-                    <>
-                    <Subheading>You have a scheduled exercise today</Subheading>
-                    <Button mode="contained" onPress={() => {
-                        this.props.navigation.navigate('Records')
-                    }} > Start Exercise </Button> 
-                    </>
-                    :
-                    <Subheading>You have no scheduled exercise today</Subheading>
+                    {this.state.hasExercise ?
+                        <>
+                            <Subheading>You have a scheduled exercise today</Subheading>
+                            <Button mode="contained" onPress={() => {
+                                this.props.navigation.navigate('Records')
+                            }} > Start Exercise </Button>
+                        </>
+                        :
+                        <Subheading>You have no scheduled exercise today</Subheading>
 
-                }
+                    }
                 </Card>
                 <Card style={{ padding: 20, marginTop: 20, alignContent: 'center', alignItems: 'center' }}>
                     <Subheading>You have an active cycle right now</Subheading>
@@ -147,10 +147,16 @@ export class Dashboard extends Component {
                         <Dialog.Actions>
                             <Button onPress={this._hideDialog}>No</Button>
                             <Button onPress={() => {
-                                Axios.put('https://mvfagb.herokuapp.com/api/account/cycle/deactivate/5ce9092d50081503e89ae408')
-                                    .then(
-                                        this.props.screenProps.rootNavigation.navigate('Wizard')
-                                    )
+                                Axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408/latest')
+                                    .then(response => {
+                                        return Axios.get('https://mvfagb.herokuapp.com/api/schedule/5ce9092d50081503e89ae408/deactivate/' + response.data._id);
+                                    })
+                                    .then(response => {
+                                        return Axios.put('https://mvfagb.herokuapp.com/api/account/cycle/deactivate/5ce9092d50081503e89ae408');
+                                    })
+                                    .then(response => {
+                                        this.props.screenProps.rootNavigation.navigate('Wizard');
+                                    })
                                     .catch(error => {
                                         console.log(error);
                                     })

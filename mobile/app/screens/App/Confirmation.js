@@ -27,12 +27,18 @@ export default class Confirmation extends React.Component {
                     style={{ marginTop: 15, marginBottom: 15 }}
                     mode="contained"
                     onPress={() => {
-                        axios.put('https://mvfagb.herokuapp.com/api/account/cycle/deactivate/5ce9092d50081503e89ae408')
-                            .then(() => {
-                                this.props.screenProps.rootNavigation.navigate('Wizard')
+                        Axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408/latest')
+                            .then(response => {
+                                return Axios.get('https://mvfagb.herokuapp.com/api/schedule/5ce9092d50081503e89ae408/deactivate/' + response.data._id);
                             })
-                            .catch(err => {
-                                console.error(err);
+                            .then(() => {
+                                return Axios.put('https://mvfagb.herokuapp.com/api/account/cycle/deactivate/5ce9092d50081503e89ae408');
+                            })
+                            .then(() => {
+                                this.props.screenProps.rootNavigation.navigate('Wizard');
+                            })
+                            .catch(error => {
+                                console.log(error);
                             })
                     }}
                 >

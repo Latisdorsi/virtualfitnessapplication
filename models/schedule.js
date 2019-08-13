@@ -13,8 +13,8 @@ ScheduleSchema = new mongoose.Schema({
         sets: { type: Number },
         day: { type: Number, enum: [0, 1, 2, 3, 4, 5] }
     }],
-    isActive: {type: Boolean},
-    isPending: {type: Boolean}
+    isActive: {type: Boolean, default: true},
+    isPending: {type: Boolean, default: true}
 })
 
 const Schedule = new mongoose.model('Schedule', ScheduleSchema)

@@ -222,15 +222,16 @@ export default class Routine extends React.Component {
                                             }
 
                                             let dates;
-                                            let cycleID;
+                                            let cycle;
                                             axios.post('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408', cycleObj)
-                                                .then(() => {
-    
+                                            .then(() => {
+                                                
                                                     return axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408')
                                                 })
                                                 .then(response => {
-                                                    cycleID = response.data._id;
+                                                    
                                                     dates = this.getDates(response.data.startDate, response.data.targetDate, 0);
+                                                    cycle = response.data._id;
                                                     return axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408/routine');
                                                 })
                                                 .then(response => {
@@ -245,7 +246,7 @@ export default class Routine extends React.Component {
                                                         });
 
                                                         scheduleArr.push({
-                                                            cycle: cylceID,
+                                                            cycle: cylce,
                                                             date: currDate.getTime(),
                                                             exercises: exercisePerDay
                                                         });
@@ -253,14 +254,14 @@ export default class Routine extends React.Component {
                                                     scheduleArr.forEach(schedule => {
                                                         return axios.post('https://mvfagb.herokuapp.com/api/schedule/5ce9092d50081503e89ae408', schedule);
                                                     })
-                                                    return axios.post('http://mvfagb.herokuapp.com/api/measurement/5ce9092d50081503e89ae408', measurementObj);
+                                                    return axios.post('https://mvfagb.herokuapp.com/api/measurement/5ce9092d50081503e89ae408', measurementObj);
                                                 })
-                                                // .then(() => {
-                                                //     return axios.put('https://mvfagb.herokuapp.com/api/account/cycle/activate/5ce9092d50081503e89ae408')
-                                                // })
                                                 .then(() => {
-                                                    this.props.screenProps.rootNavigation.navigate('Confirmation')
+                                                    return axios.put('https://mvfagb.herokuapp.com/api/account/cycle/activate/5ce9092d50081503e89ae408')
                                                 })
+                                                .then(
+                                                    this.props.screenProps.rootNavigation.navigate('Confirmation')
+                                                )
                                                 .catch(err => {
                                                     console.warn(err);
                                                 });

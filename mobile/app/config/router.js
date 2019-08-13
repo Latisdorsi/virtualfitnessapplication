@@ -197,7 +197,7 @@ const MainStack = createAppContainer(createSwitchNavigator({
     },
     WizardStackLoading: AppLoadingScreen
 }, {
-        initialRouteName: 'Wizard'
+        initialRouteName: 'Confirmation'
     }
 ));
 

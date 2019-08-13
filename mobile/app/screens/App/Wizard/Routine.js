@@ -246,14 +246,17 @@ export default class Routine extends React.Component {
                                                         });
 
                                                         scheduleArr.push({
-                                                            cycle: cylce,
+                                                            cycle: cycle,
                                                             date: currDate.getTime(),
                                                             exercises: exercisePerDay,
                                                         });
                                                     });
+                                                    console.log(scheduleArr);
                                                     scheduleArr.forEach(schedule => {
                                                         return axios.post('https://mvfagb.herokuapp.com/api/schedule/5ce9092d50081503e89ae408', schedule);
                                                     })
+
+                                                    console.log(scheduleArr);
                                                     return axios.post('https://mvfagb.herokuapp.com/api/measurement/5ce9092d50081503e89ae408', measurementObj);
                                                 })
                                                 .then(() => {

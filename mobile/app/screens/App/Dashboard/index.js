@@ -151,10 +151,10 @@ export class Dashboard extends Component {
                                     .then(response => {
                                         return Axios.get('https://mvfagb.herokuapp.com/api/schedule/5ce9092d50081503e89ae408/deactivate/' + response.data._id);
                                     })
-                                    .then(response => {
+                                    .then(() => {
                                         return Axios.put('https://mvfagb.herokuapp.com/api/account/cycle/deactivate/5ce9092d50081503e89ae408');
                                     })
-                                    .then(response => {
+                                    .then(() => {
                                         this.props.screenProps.rootNavigation.navigate('Wizard');
                                     })
                                     .catch(error => {

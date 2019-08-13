@@ -88,8 +88,6 @@ router.post('/schedule/:id', (req, res) => {
         date,
         cycle,
         exercises,
-        isActive: true, 
-        isPending: true
     })
     // res.json(newSchedule);
     newSchedule.save()

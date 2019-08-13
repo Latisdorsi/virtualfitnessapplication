@@ -248,7 +248,7 @@ export default class Routine extends React.Component {
                                                         scheduleArr.push({
                                                             cycle: cylce,
                                                             date: currDate.getTime(),
-                                                            exercises: exercisePerDay
+                                                            exercises: exercisePerDay,
                                                         });
                                                     });
                                                     scheduleArr.forEach(schedule => {

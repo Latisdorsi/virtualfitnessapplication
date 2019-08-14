@@ -4,7 +4,7 @@ import { Avatar, Card, Headline, Subheading, Dialog, Portal, Paragraph, Button }
 import DeviceStorage from 'lib/services/DeviceStorage';
 import { parseToken } from 'lib/helpers/utils';
 import RowViewComponent from 'lib/components/RowViewComponent'
-import Axios from 'axios';
+import axios from 'axios';
 
 
 export class Dashboard extends Component {
@@ -147,12 +147,16 @@ export class Dashboard extends Component {
                         <Dialog.Actions>
                             <Button onPress={this._hideDialog}>No</Button>
                             <Button onPress={() => {
-                                Axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408/latest')
+                                axios.get('https://mvfagb.herokuapp.com/api/schedule/5ce9092d50081503e89ae408')
                                     .then(response => {
-                                        return Axios.get('https://mvfagb.herokuapp.com/api/schedule/5ce9092d50081503e89ae408/deactivate/' + response.data._id);
+                                        console.log(response);
+                                        response.data.forEach(schedule => {
+                                            // console.log(schedule);
+                                            return axios.put('https://mvfagb.herokuapp.com/api/schedule/' + schedule._id + '/deactivate/');
+                                        });
                                     })
                                     .then(() => {
-                                        return Axios.put('https://mvfagb.herokuapp.com/api/account/cycle/deactivate/5ce9092d50081503e89ae408');
+                                        return axios.put('https://mvfagb.herokuapp.com/api/account/cycle/deactivate/5ce9092d50081503e89ae408');
                                     })
                                     .then(() => {
                                         this.props.screenProps.rootNavigation.navigate('Wizard');

@@ -398,7 +398,7 @@ module.exports = {
                         });
                 } else { //Password is Incorrect
                     //Get user id from call
-                    const { _id, active, first } = user
+                    const { _id, active, first, hasCycle } = user
                     user.comparePassword(password, function (err, same) {
                         if (err) {
                             res.status(500)

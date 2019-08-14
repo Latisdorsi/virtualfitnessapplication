@@ -13,6 +13,7 @@ import DeviceStorage from 'lib/services/DeviceStorage'
 import WizardContext from './WizardContext';
 import { CalculateComposition } from 'lib/helpers/utils';
 
+import Start from './Start';
 import Profile from './Profile';
 import Assessment from "./Assessment"
 import Goal from './Goal';
@@ -22,7 +23,13 @@ import Routine from "./Routine";
 
 
 const WizardNavigator = createAppContainer(createStackNavigator({
-
+    Start: {
+        screen: Start,
+        navigationOptions: {
+            title: 'Start',
+            header: null
+        }
+    },
     Profile: {
         screen: Profile,
         navigationOptions: {

@@ -478,6 +478,26 @@ module.exports = {
             email: req.email,
             _id: req._id
         });
+    },
+
+    getUserFlags: function (req, res, next) {
+        User
+            .findOne({
+                _id: req.params.id
+            })
+            .then(user => {
+                res.status(200).json({
+                    hasCycle: user.hasCycle,
+                    isActive: user.active,
+                    isFirst: user.first
+                })
+            })
+            .catch(error => {
+                res.status(500).json({
+                    message: 'Internal Server Errror',
+                    error: error
+                })
+            })
     }
 
 }

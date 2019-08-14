@@ -28,8 +28,8 @@ export default class Login extends Component {
             })
             .then(response => {
                 if (response.status === 200) {
-                    DeviceStorage.saveItem("token", response.data.token)
-                    this.props.navigation.navigate('AuthLoading')
+                    DeviceStorage.saveItem("token", response.data.token);
+                    this.props.navigation.navigate('AuthLoading');
                 } else {
                     const error = new Error(response.error);
                     throw error;

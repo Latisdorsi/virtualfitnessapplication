@@ -65,4 +65,7 @@ router.put('/change/email/:id', user.changeEmail);
 // Update Account Password
 router.put('/change/password/:id', user.changePassword);
 
+// Get User Flag States
+router.get('/detail/:id/flags', user.getUserFlags);
+
 module.exports = router

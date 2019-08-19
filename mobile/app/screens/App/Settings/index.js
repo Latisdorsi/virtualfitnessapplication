@@ -18,13 +18,16 @@ class Settings extends Component {
     }
 
     logOutUser() {
+        // console.warn('deleted');
+
+        console.log(this.props);
         DeviceStorage.deleteItem('token')
-            .then(
+            .then( () => {
+                this.props.screenProps.screenProps.rootNavigation.navigate('AuthLoading')
+            })
+            .catch(() => {
                 this.props.screenProps.rootNavigation.navigate('AuthLoading')
-            )
-            .catch(err =>
-                this.props.screenProps.rootNavigation.navigate('AuthLoading')
-            )
+            })
     }
 
     render() {

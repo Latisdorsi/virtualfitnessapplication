@@ -40,18 +40,15 @@ export class Dashboard extends Component {
 
         DeviceStorage.loadItem('token').then(token => {
             const tokenData = parseToken(token);
-            const account = Axios.get('http://mvfagb.herokuapp.com/api/account/detail/5ce9092d50081503e89ae408')
-            const routine = Axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408/routine')
-            const cycle = Axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408/latest');
-            const schedule = Axios.get('https://mvfagb.herokuapp.com/api/schedules/5ce9092d50081503e89ae408/now')
-            Promise.all([account, routine, cycle, schedule]).then((values) => {
+            const account = axios.get('http://mvfagb.herokuapp.com/api/account/detail/5ce9092d50081503e89ae408') 
+            const cycle = axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408/latest');
+            const schedule = axios.get('https://mvfagb.herokuapp.com/api/schedule/5ce9092d50081503e89ae408/now')
+            Promise.all([account, cycle, schedule]).then((values) => {
                 const user = values[0].data;
-                const exercises = values[1].data.exercises;
-                const cycle = values[2].data;
-                const hasExercise = values[3].data !== null;
+                const cycle = values[1].data;
+                const hasExercise = values[2].data;
                 this.setState({
                     user,
-                    exercises,
                     cycle,
                     hasExercise
                 });
@@ -100,7 +97,7 @@ export class Dashboard extends Component {
 
     render() {
 
-        const { user, exercises } = this.state;
+        const { user } = this.state;
         return (
             <View style={{ padding: 20, flex: 1, justifyContent: 'center' }}>
                 <View style={{ alignContent: 'center', alignItems: 'center' }}>
@@ -108,6 +105,7 @@ export class Dashboard extends Component {
                     <Subheading>{user.name.firstName} {user.name.lastName}</Subheading>
                 </View>
                 <Card style={{ padding: 20, alignContent: 'center', alignItems: 'center' }}>
+                    {console.warn(this.state.hasExercise)}
                     {this.state.hasExercise ?
                         <>
                             <Subheading>You have a scheduled exercise today</Subheading>

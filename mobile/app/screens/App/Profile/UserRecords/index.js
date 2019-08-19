@@ -41,7 +41,7 @@ export default function UserRecords() {
                         neck: response.data.neck,
                         waist: response.data.waist,
                         hips: response.data.hips,
-                        bodyComposition: response.data.composition
+                        bodyComposition: response.data.bodyComposition
                     }
                     setMeasurementDetails({ ...measurementObj });
                 })

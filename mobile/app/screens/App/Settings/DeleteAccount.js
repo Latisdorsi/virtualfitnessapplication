@@ -21,10 +21,10 @@ export default function DeleteAccount() {
                                     .then(
                                         DeviceStorage.deleteItem('token')
                                             .then(
-                                                this.props.screenProps.rootNavigation.navigate('AuthLoading')
+                                                this.props.screenProps.screenProps.rootNavigation.navigate('AuthLoading')
                                             )
                                             .catch(err =>
-                                                this.props.screenProps.rootNavigation.navigate('AuthLoading')
+                                                this.props.screenProps.screenProps.rootNavigation.navigate('AuthLoading')
                                             )
                                     )
 

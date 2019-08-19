@@ -18,6 +18,7 @@ export default class RecordDetail extends Component {
         this.state = {
             record: {
                 id: props.exercise._id,
+                name: props.exercise.name,
                 sets: [],
                 oneRepMax: 0,
                 volume: 0

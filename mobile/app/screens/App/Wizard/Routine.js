@@ -218,7 +218,7 @@ export default class Routine extends React.Component {
                                                 neck: context.context.neck,
                                                 waist: context.context.waist,
                                                 hips: context.context.hips,
-                                                composition: context.context.composition
+                                                bodyComposition: context.context.composition
                                             }
 
                                             let dates;
@@ -262,9 +262,9 @@ export default class Routine extends React.Component {
                                                 .then(() => {
                                                     return axios.put('https://mvfagb.herokuapp.com/api/account/cycle/activate/5ce9092d50081503e89ae408')
                                                 })
-                                                .then(
-                                                    this.props.screenProps.rootNavigation.navigate('Confirmation')
-                                                )
+                                                .then(() => {
+                                                    return this.props.screenProps.rootNavigation.navigate('Confirmation')
+                                                })
                                                 .catch(err => {
                                                     console.warn(err);
                                                 });

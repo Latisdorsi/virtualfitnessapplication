@@ -116,9 +116,8 @@ const DashboardStackNavigator = createStackNavigator({
     },
     SaveRecord: {
         screen: SaveRecord,
-        navigationOpitons: {
-            header: null,
-            headerVisible: false
+        navigationOptions: {
+            title: 'Record Summary'
         }
     }
 });
@@ -193,11 +192,11 @@ const MainStack = createAppContainer(createSwitchNavigator({
         }
     },
     App: {
-        screen: ({ navigation }) => <AppStack screenProps={{ rootNavigation: navigation }} />
+        screen: ({ navigation, screenProps }) => <AppStack screenProps={{ rootNavigation: navigation,  screenProps: screenProps }} />
     },
     WizardStackLoading: AppLoadingScreen
 }, {
-        initialRouteName: 'WizardStackLoading'
+        initialRouteName: 'Confirmation'
     }
 ));
 

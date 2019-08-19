@@ -11,19 +11,82 @@ export default class Confirmation extends React.Component {
         super(props);
 
         this.state = {
-            isPromptVisible: false
+            isPromptVisible: false,
+            schedules: [],
+            exercises: []
         }
+    }
+
+    componentDidMount() {
+        let schedules;
+        let exercises;
+        axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408/routine')
+            .then(response => {
+                schedules = response.data.exercises;
+
+
+            })
+            .then(() => {
+                this.setState({
+                    schedules,
+                    exercises
+                })
+            })
+            .catch(err => {
+                console.warn(err);
+            })
     }
 
     _showDialog = () => this.setState({ isPromptVisible: true });
 
     _hideDialog = () => this.setState({ isPromptVisible: false });
 
+    getScheduledDay(day) {
+        return this.state.schedules.filter(schedule => {
+            return schedule.day == day
+        });
+    }
+
     render() {
+        console.log(this.state.exercises)
+        const days = [
+            { name: 'Sunday', number: 0 },
+            { name: 'Monday', number: 1 },
+            { name: 'Tuesday', number: 2 },
+            { name: 'Wednesday', number: 3 },
+            { name: 'Thursday', number: 4 },
+            { name: 'Firday', number: 5 },
+            { name: 'Saturday', number: 6 }
+        ];
         return (
             <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
                 <Headline>Success!</Headline>
                 <Subheading>We've successfully created your routine</Subheading>
+                {
+                    days.map((day, index) => {
+                        if (this.getScheduledDay(day.number).length > 0) {
+                            return (
+                                <View key={index}>
+                                    <Subheading style={{ textAlign: 'center' }}>{day.name}</Subheading>
+                                    <RowViewComponent>
+                                        <Subheading>Sets</Subheading>
+                                        <Subheading>Name</Subheading>
+                                    </RowViewComponent>
+                                    {this.getScheduledDay(day.number).map((item, key) => {
+                                        return (
+                                            <RowViewComponent key={key}>
+                                                <Text>{item._id}</Text>
+                                                <Text>{item.sets}</Text>
+                                            </RowViewComponent>
+                                        )
+                                    })}
+                                </View>
+                            )
+                        }
+                    })
+                }
+
+
                 <Button
                     style={{ marginTop: 15, marginBottom: 15 }}
                     onPress={() => this.props.screenProps.rootNavigation.navigate('App')} mode="contained">

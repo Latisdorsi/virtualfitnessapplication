@@ -14,6 +14,7 @@ import { default as RecordDetails } from './RecordDetails'
 function ExercisesWrapper({ children }) {
     const [exercises] = useContext(RecordContext)
     return (
+        exercises ?
         exercises.map((exercise, index) => {
             return (
                 <View key={index}>
@@ -23,21 +24,34 @@ function ExercisesWrapper({ children }) {
                 </View>
             )
         })
+        :
+        <Text>Loading Exercises...</Text>
     )
 }
 
 
 
 export default function Records({ ExerciseData, children }) {
-    const exerciseState = useState(ExerciseData)
+
+    const [ exerciseState, setExerciseState] = useState([]);
+    useEffect(() => {
+        axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408/routine')
+        .then(response => {
+            setExerciseState(response.data);
+        })
+        .catch(err => {
+            console.warn(err);
+        })
+    }, []);
+
     return (
         //Load Exercise Data From State
         <RecordContext.Provider value={exerciseState}>
-                <View style={{
-                    padding: 15
-                }}>
-                    <ExercisesWrapper />
-                </View>
+            <View style={{
+                padding: 15
+            }}>
+                <ExercisesWrapper />
+            </View>
         </RecordContext.Provider>
     )
 }

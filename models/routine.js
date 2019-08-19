@@ -17,6 +17,7 @@ RoutineSchema = new mongoose.Schema({
     },
     exercises: [{
         exercise: { type: Schema.Types.ObjectId, ref: 'Exercise' },
+        name: {type: String },
         sets: { type: Number },
         day: { type: Number, enum: [0, 1, 2, 3, 4, 5] }
     }]

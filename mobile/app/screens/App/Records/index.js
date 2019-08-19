@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import {
     View,
-    Button,
     ScrollView,
     Text
 } from 'react-native';
-import { Divider } from 'react-native-paper'
+import { Divider, Button } from 'react-native-paper'
 import update from 'immutability-helper';
 
 import { default as RecordHeader } from './RecordHeader'
@@ -21,16 +20,16 @@ export default class Records extends Component {
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         Axios.get('https://mvfagb.herokuapp.com/api/schedule/5ce9092d50081503e89ae408/now')
-        .then(response => {
-            this.setState({
-                schedule: response.data
-            });
-        })
-        .catch(error => {
-            console.error(error);
-        })
+            .then(response => {
+                this.setState({
+                    schedule: response.data
+                });
+            })
+            .catch(error => {
+                console.error(error);
+            })
     }
 
     addRecords = (record) => {
@@ -50,10 +49,11 @@ export default class Records extends Component {
         })
     }
 
-    
+
 
     render() {
         const { navigation } = this.props;
+        console.log(this.state.schedule);
         // const exercises = navigation.getParam('exercises', []);
         return (
             // Load Exercise Data From State
@@ -69,14 +69,20 @@ export default class Records extends Component {
                                 <Divider />
                             </View>
                         )
-                    }) : 
-                    <Text>No Data Found</Text>}
-                    <Button title="Save Records" onPress={() => {
-                        // console.log(this.state.records);
-                         navigation.navigate('SaveRecord', {
-                             records: this.state.records
-                         })
-                    }} />
+                    }) :
+                        <Text>No Data Found</Text>
+                    }
+                    <Button
+                        mode="contained"
+                        onPress={() => {
+                            // console.log(this.state.records);
+                            navigation.navigate('SaveRecord', {
+                                records: this.state.records
+                            })
+
+                        }}>
+                        Save Records
+                    </Button>
                 </View>
             </ScrollView>
         )

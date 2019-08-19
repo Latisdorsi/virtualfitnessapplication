@@ -127,7 +127,7 @@ const EditableRecordDetails = ({ value, setValue, setEditable }) => {
         axios.post('http://mvfagb.herokuapp.com/api/measurement/5ce9092d50081503e89ae408', newData)
             .then(response => {
                 setValue(newData);
-                console.warn(response.data);
+
             })
             .catch(err => {
                 console.warn(err.response);

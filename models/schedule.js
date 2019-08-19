@@ -12,6 +12,7 @@ ScheduleSchema = new mongoose.Schema({
     isPending: {type: Boolean, default: true, required: true},
     exercises: [{
         exercise: { type: Schema.Types.ObjectId, ref: 'Exercise' },
+        name: { type: String },
         sets: { type: Number },
         day: { type: Number, enum: [0, 1, 2, 3, 4, 5] }
     }],

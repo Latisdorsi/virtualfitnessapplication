@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Text, View } from "react-native"
-import { Button, Headline, Subheading, Portal, Dialog, Paragraph } from "react-native-paper";
+import { Text, View, ActivityIndicator, StatusBar } from "react-native"
+import { Button, Headline, Subheading, Portal, Dialog, Paragraph, Divider } from "react-native-paper";
 import WizardContext from "./Wizard/WizardContext";
 import axios from 'axios';
 import RowViewComponent from 'lib/components/RowViewComponent';
@@ -48,7 +48,6 @@ export default class Confirmation extends React.Component {
     }
 
     render() {
-        console.log(this.state.exercises)
         const days = [
             { name: 'Sunday', number: 0 },
             { name: 'Monday', number: 1 },
@@ -59,31 +58,42 @@ export default class Confirmation extends React.Component {
             { name: 'Saturday', number: 6 }
         ];
         return (
-            <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+            <View style={{ padding: 15 }}>
                 <Headline>Success!</Headline>
-                <Subheading>We've successfully created your routine</Subheading>
+                <Subheading>We've successfully created your routine based on your data.</Subheading>
                 {
-                    days.map((day, index) => {
-                        if (this.getScheduledDay(day.number).length > 0) {
-                            return (
-                                <View key={index}>
-                                    <Subheading style={{ textAlign: 'center' }}>{day.name}</Subheading>
-                                    <RowViewComponent>
-                                        <Subheading>Sets</Subheading>
-                                        <Subheading>Name</Subheading>
-                                    </RowViewComponent>
-                                    {this.getScheduledDay(day.number).map((item, key) => {
-                                        return (
-                                            <RowViewComponent key={key}>
-                                                <Text>{item._id}</Text>
-                                                <Text>{item.sets}</Text>
-                                            </RowViewComponent>
-                                        )
-                                    })}
-                                </View>
-                            )
-                        }
-                    })
+                    this.state.schedules.length > 0 ?
+                        days.map((day, index) => {
+                            if (this.getScheduledDay(day.number).length > 0) {
+                                return (
+                                    <View key={index}>
+                                        <Subheading style={{ textAlign: 'center' }}>{day.name}</Subheading>
+                                        <RowViewComponent>
+                                            <Subheading>Name</Subheading>
+                                            <Subheading>Sets</Subheading>
+                                        </RowViewComponent>
+                                        <Divider />
+
+                                        <View>
+                                            {this.getScheduledDay(day.number).map((item, key) => {
+                                                return (
+                                                    <RowViewComponent key={key}>
+                                                        <Text>{item.name}</Text>
+                                                        <Text>{item.sets}</Text>
+                                                    </RowViewComponent>
+                                                )
+                                            })
+                                            }
+                                        </View>
+                                    </View>
+                                )
+                            }
+                        })
+                        :
+                        <View>
+                            <ActivityIndicator />
+                            <StatusBar barStyle="default" />
+                        </View>
                 }
 
 

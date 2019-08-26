@@ -47,10 +47,9 @@ router.get('/schedule/:id/now', (req, res) => {
         })
 })
 
-router.put('/schedule/:id/complete/:schedule', (req, res) => {
+router.put('/schedule/:id/complete/', (req, res) => {
     const _id = req.params.id;
-    const schedule = req.params.schedule;
-    Schedule.findOneAndUpdate({ _id: schedule, user: _id }, { $set: { isPending: false } })
+    Schedule.findOneAndUpdate({ _id }, { $set: { isPending: false } })
     .then(schedule => {
         res.status(200).json(schedule)
     })

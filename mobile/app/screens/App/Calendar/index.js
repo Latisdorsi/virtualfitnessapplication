@@ -44,7 +44,7 @@ export default class AgendaComponent extends Component {
               content: (<View>
                 {schedule.exercises.map(exercise => (
                   <RowViewComponent>
-                    <Text>{exercise._id}</Text>
+                    <Text>{exercise.name}</Text>
                     <Text>Sets: {exercise.sets}</Text>
                   </RowViewComponent>
                 ))

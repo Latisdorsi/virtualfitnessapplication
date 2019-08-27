@@ -64,7 +64,7 @@ export default class SaveRecord extends Component {
     saveRecords = (records) => {
         records.forEach(record => {
             Axios.post('https://mvfagb.herokuapp.com/api/record/5ce9092d50081503e89ae408', record)
-                .then(response => {
+                .then(()=> {
                     this._hideDialog();
                     this.props.navigation.popToTop();
                 })
@@ -72,6 +72,13 @@ export default class SaveRecord extends Component {
                     console.error(err);
                 })
         });
+        Axios.get('https://mvfagb.herokuapp.com/api/schedule/5ce9092d50081503e89ae408/now')
+        .then( response => {
+            return Axios.put('https://mvfagb.herokuapp.com/api/schedule/' + response.data._id + '/complete/')
+        })
+        .catch(err => {
+            console.error(err);
+        })
     }
 
     _showDialog = () => this.setState({ isPromptVisible: true });

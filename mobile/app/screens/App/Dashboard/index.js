@@ -40,7 +40,7 @@ export class Dashboard extends Component {
 
         DeviceStorage.loadItem('token').then(token => {
             const tokenData = parseToken(token);
-            const account = axios.get('http://mvfagb.herokuapp.com/api/account/detail/5ce9092d50081503e89ae408') 
+            const account = axios.get('http://mvfagb.herokuapp.com/api/account/detail/5ce9092d50081503e89ae408')
             const cycle = axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408/latest');
             const schedule = axios.get('https://mvfagb.herokuapp.com/api/schedule/5ce9092d50081503e89ae408/now')
             Promise.all([account, cycle, schedule]).then((values) => {
@@ -105,14 +105,16 @@ export class Dashboard extends Component {
                     <Subheading>{user.name.firstName} {user.name.lastName}</Subheading>
                 </View>
                 <Card style={{ padding: 20, alignContent: 'center', alignItems: 'center' }}>
-                    {console.warn(this.state.hasExercise)}
                     {this.state.hasExercise ?
-                        <>
-                            <Subheading>You have a scheduled exercise today</Subheading>
-                            <Button mode="contained" onPress={() => {
-                                this.props.navigation.navigate('Records')
-                            }} > Start Exercise </Button>
-                        </>
+                        this.state.hasExercise.isPending ?
+                            <>
+                                <Subheading>You have a scheduled exercise today</Subheading>
+                                <Button mode="contained" onPress={() => {
+                                    this.props.navigation.navigate('Records')
+                                }} > Start Exercise </Button>
+                            </>
+                            :
+                            <Subheading style={{textAlign:'center'}}>Exercise succesfully finished!</Subheading>
                         :
                         <Subheading>You have no scheduled exercise today</Subheading>
 

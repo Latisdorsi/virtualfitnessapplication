@@ -35,7 +35,6 @@ export default class Charts extends Component {
         axios
             .get('https://mvfagb.herokuapp.com/api/records/5cf4b301edd89700176bc18b/5ce9092d50081503e89ae408/record/all')
             .then(response => {
-                // console.warn(response.data)
                 this.setState({
                     records: response.data
                 })
@@ -58,7 +57,17 @@ export default class Charts extends Component {
 
             this.state.hasRecord ?
                 <ScrollView>
+
                     <View style={{ padding: 15 }} pointerEvents="none">
+                        <Subheading>Personal Records</Subheading>
+                        <RowViewComponent>
+                            <Text>Esimated 1RM Record</Text>
+                            <Text>{this.state.oneRepMax}kg</Text>
+                        </RowViewComponent>
+                        <RowViewComponent>
+                            <Text>Max Volume</Text>
+                            <Text>{this.state.volume}kg</Text>
+                        </RowViewComponent>
                         <Subheading>Best Set</Subheading>
                         {
                             oneRepMax.length > 0 ?
@@ -101,15 +110,7 @@ export default class Charts extends Component {
                                 :
                                 <Text>Loading...</Text>
                         }
-                        <Subheading>Personal Records</Subheading>
-                        <RowViewComponent>
-                            <Text>Esimated 1RM Record</Text>
-                            <Text>{this.state.oneRepMax}kg</Text>
-                        </RowViewComponent>
-                        <RowViewComponent>
-                            <Text>Max Volume</Text>
-                            <Text>{this.state.volume}kg</Text>
-                        </RowViewComponent>
+
                     </View>
                 </ScrollView>
                 :

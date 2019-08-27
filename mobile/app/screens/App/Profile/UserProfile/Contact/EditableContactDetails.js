@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
-import { View } from 'react-native'
-import { TextInput, Button } from 'react-native-paper'
-import axios from 'axios'
+import React, { useState } from 'react';
+import { View } from 'react-native';
+import { TextInput, Button } from 'react-native-paper';
+import axios from 'axios';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
 
 const EditableContactDetails = ({ value, setValue, editable }) => {
 
@@ -15,12 +17,10 @@ const EditableContactDetails = ({ value, setValue, editable }) => {
         setContactDetails(newValueTemp)
     }
 
-    const saveValues = () => {
+    const saveValues = (values) => {
         const newObj = {
-            address: contactDetails.address,
-            mobile: contactDetails.phone.mobile,
-            home: contactDetails.phone.home,
-            work: contactDetails.phone.work
+            address: values.address,
+            mobile: values.mobile,
         }
         axios
             .put('https://mvfagb.herokuapp.com/api/account/detail/' + value._id + '/contact', newObj)
@@ -28,7 +28,7 @@ const EditableContactDetails = ({ value, setValue, editable }) => {
                 if (response.status === 200) {
                     setValue({
                         ...value,
-                        contactDetails: contactDetails
+                        contactDetails: newObj
                     })
                     editable(false)
                 }
@@ -39,37 +39,51 @@ const EditableContactDetails = ({ value, setValue, editable }) => {
 
     }
 
+    const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+
     return (
-        <View>
-            <TextInput
-                label="Address"
-                value={contactDetails.address}
-                onChangeText={(text) => {
-                    updateValues('address', text)
-                }}
-                style={{
-                    marginVertical: 10,
-                    backgroundColor: 'none'
-                }} />
-            <TextInput
-                label="Mobile Number"
-                value={contactDetails.phone.mobile}
-                onChangeText={(text) => {
-                    updateValues('mobilePhone', text)
-                }}
-                style={{
-                    marginVertical: 10,
-                    backgroundColor: 'none'
-                }} />
-            <Button
-                mode="contained"
-                style={{
-                    marginVertical: 10
-                }}
-                onPress={() => {
-                    saveValues()
-                }}>Save</Button>
-        </View>
+        <Formik
+            initialValues={{ ...contactDetails }}
+            onSubmit={values => saveValues(values)}
+            validationSchema={Yup.object().shape({
+                address: Yup.string()
+                    .max(40, 'Please enter no more than 40 characters')
+                    .min(2, 'Please enter a minimum of 2 characters')
+                    .required('Please enter your first name'),
+                mobile: Yup.string().matches(phoneRegExp, 'Phone number is not valid'),
+            })}
+        >
+            {props => (
+                <View>
+                    <TextInput
+                        label="Address"
+                        value={props.values.address}
+                        onChangeText={props.handleChange('address')}
+                        onBlur={() => props.setFieldTouched('address')}
+                        style={{
+                            marginVertical: 10,
+                            backgroundColor: 'none'
+                        }} />
+                    <TextInput
+                        label="Mobile Number"
+                        value={props.values.mobile}
+                        keyboardType={'numeric'}
+                        onChangeText={props.handleChange('mobile')}
+                        onBlur={() => props.setFieldTouched('mobile')}
+                        style={{
+                            marginVertical: 10,
+                            backgroundColor: 'none'
+                        }} />
+                    <Button
+                        mode="contained"
+                        style={{
+                            marginVertical: 10
+                        }}
+                        onPress={props.handleSubmit}>
+                        Save</Button>
+                </View>
+            )}
+        </Formik>
     )
 }
 

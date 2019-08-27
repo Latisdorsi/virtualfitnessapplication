@@ -18,7 +18,7 @@ const ContactDetails = ({ value }) => {
                     style={{ fontSize: 16 }}>
                     Mobile Phone
                  </Text>
-                <Text>{value.contactDetails.phone.mobile ? value.contactDetails.phone.mobile : 'Not Set'}</Text>
+                <Text>{value.contactDetails.mobile ? value.contactDetails.mobile : 'Not Set'}</Text>
             </RowViewComponent>
         </View>
     )

@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
-import { View } from 'react-native'
-import { TextInput, Button } from 'react-native-paper'
-import axios from 'axios'
+import React, { useState } from 'react';
+import { View, Text } from 'react-native';
+import { TextInput, Button } from 'react-native-paper';
+import axios from 'axios';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
 
 const EditableUserDetails = ({ value, setValue, editable }) => {
 
@@ -15,11 +17,11 @@ const EditableUserDetails = ({ value, setValue, editable }) => {
         setUserDetails(newValueTemp)
     }
 
-    const saveValues = () => {
+    const saveValues = (values) => {
         const newObj = {
-            firstName: userDetails.firstName,
-            lastName: userDetails.lastName,
-            middleInitial: userDetails.middleInitial,
+            firstName: values.firstName,
+            lastName: values.lastName,
+            middleInitial: values.middleInitial,
         }
 
         axios
@@ -28,7 +30,7 @@ const EditableUserDetails = ({ value, setValue, editable }) => {
                 if (response.status === 200) {
                     setValue({
                         ...value,
-                        name: userDetails
+                        name: newObj
                     })
                     editable(false)
                 }
@@ -41,44 +43,69 @@ const EditableUserDetails = ({ value, setValue, editable }) => {
 
     return (
         <View>
-            <TextInput
-                label="First Name"
-                value={userDetails.firstName}
-                onChangeText={(text) => {
-                    updateValues('firstName', text)
-                }}
-                style={{
-                    marginVertical: 10,
-                    backgroundColor: 'none'
-                }} />
-            <TextInput
-                label="Last Name"
-                value={userDetails.lastName}
-                onChangeText={(text) => {
-                    updateValues('lastName', text)
-                }}
-                style={{
-                    marginVertical: 10,
-                    backgroundColor: 'none'
-                }} />
-            <TextInput
-                label="Middle Initial"
-                value={userDetails.middleInitial}
-                onChangeText={(text) => {
-                    updateValues('middleInitial', text)
-                }}
-                style={{
-                    marginVertical: 10,
-                    backgroundColor: 'none'
-                }} />
-            <Button
-                mode="contained"
-                style={{
-                    marginVertical: 10
-                }}
-                onPress={() => {
-                    saveValues()
-                }}>Save</Button>
+            <Formik
+                initialValues={{ ...userDetails }}
+                onSubmit={values => saveValues(values)}
+                validationSchema={Yup.object().shape({
+                    firstName: Yup.string()
+                        .max(40, 'Please enter no more than 40 characters')
+                        .min(2, 'Please enter a minimum of 2 characters')
+                        .required('Please enter your first name'),
+                    lastName: Yup.string()
+                        .max(40, 'Please enter no more than 40 characters')
+                        .min(2, 'Please enter a minimum of 2 characters')
+                        .required('Please enter a last name')
+                })}
+            >
+                {props => (
+                    <View>
+                        <TextInput
+                            label="First Name"
+                            value={props.values.firstName}
+                            onChangeText={props.handleChange('firstName')}
+                            onBlur={() => props.setFieldTouched('firstNAme')}
+                            style={{
+                                marginVertical: 10,
+                                backgroundColor: 'none'
+                            }} />
+                        {props.touched.firstName && props.errors.firstName &&
+                            <Text style={{ fontSize: 15, color: 'red' }}>{props.errors.firstName}</Text>
+                        }
+                        <TextInput
+                            label="Last Name"
+                            value={props.values.lastName}
+                            onChangeText={props.handleChange('lastName')}
+                            onBlur={() => props.setFieldTouched('lastName')}
+                            style={{
+                                marginVertical: 10,
+                                backgroundColor: 'none'
+                            }} />
+                        {props.touched.lastName && props.errors.lastName &&
+                            <Text style={{ fontSize: 15, color: 'red' }}>{props.errors.lastName}</Text>
+                        }
+                        <TextInput
+                            label="Middle Initial"
+                            maxLength={1}
+                            value={props.values.middleInitial}
+                            onChangeText={props.handleChange('middleInitial')}
+                            onBlur={() => props.setFieldTouched('middleInitial')}
+                            style={{
+                                marginVertical: 10,
+                                backgroundColor: 'none'
+                            }} />
+                        {props.touched.midleInitial && props.errors.middleInitial &&
+                            <Text style={{ fontSize: 15, color: 'red' }}>{props.errors.middleInitial}</Text>
+                        }
+                        <Button
+                            mode="contained"
+                            style={{
+                                marginVertical: 10
+                            }}
+                            onPress={props.handleSubmit}
+                        >Save</Button>
+                    </View>
+                )}
+            </Formik>
         </View>
     )
 }

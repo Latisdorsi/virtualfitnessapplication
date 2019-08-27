@@ -42,7 +42,7 @@ export default class RecordHeader extends Component {
                     <Subheading
                         style={{
                             fontSize: 20
-                        }}>{this.state.exercise.name || 'Loading...'}</Subheading>
+                        }}>{this.state.exercise.name || 'Loading Name...'}</Subheading>
                     <View
                         style={{
                             flexDirection: 'row'

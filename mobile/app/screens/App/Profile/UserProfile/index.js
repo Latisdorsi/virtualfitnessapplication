@@ -19,11 +19,7 @@ export default function UserProfile() {
         },
         contactDetails: {
             address: '',
-            phone: {
-                mobile: '',
-                home: '',
-                work: ''
-            }
+            mobile: 0
         },
         emergencyDetails: {
             name: '',

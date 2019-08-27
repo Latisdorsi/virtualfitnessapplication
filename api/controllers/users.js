@@ -251,11 +251,7 @@ module.exports = {
             }, {
                     contactDetails: {
                         address,
-                        phone: {
-                            mobile,
-                            home,
-                            work
-                        }
+                        mobile
                     }
                 })
 

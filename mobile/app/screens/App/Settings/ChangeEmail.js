@@ -52,21 +52,21 @@ class ChangeEmail extends React.Component {
                             email: values.email
                         };
                         axios.get('https://mvfagb.herokuapp.com/api/account/verify/email/', newData)
-                        .then(
-                        axios
-                            .put('https://mvfagb.herokuapp.com/api/account/change/email/' + this.state._id, newData)
-                            .then(response => {
-                                this.setState({
-                                    oldEmail: values.email
-                                })
+                            .then(
+                                axios
+                                    .put('https://mvfagb.herokuapp.com/api/account/change/email/' + this.state._id, newData)
+                                    .then(response => {
+                                        this.setState({
+                                            oldEmail: values.email
+                                        })
+                                    })
+                                    .catch(err => {
+                                        console.error(err.response);
+                                    })
+                            )
+                            .catch(error => {
+                                console.warn(error.response);
                             })
-                            .catch(err => {
-                                console.error(err.response);
-                            })
-                        )
-                        .catch(error => {
-                            
-                        })
                     }}
                     validationSchema={
                         yup.object().shape({

@@ -466,8 +466,13 @@ module.exports = {
                 if (!user) { //User does not exist
                     res.status(200)
                         .json({
-                            message: 'User does not exists'
+                            message: 'User does not exist'
                         });
+                } else {
+                    res.status(401)
+                    .json({
+                        error: 'Email address already exists!'
+                    })
                 }
             })
             .catch(error => {

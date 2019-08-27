@@ -5,33 +5,9 @@ import { Formik } from 'formik'
 import axios from 'axios';
 import DeviceStorage from 'lib/services/DeviceStorage'
 import { parseToken } from 'lib/helpers/utils'
+import * as yup from 'yup';
 
 class ChangeEmail extends React.Component {
-
-    // const saveValues = () => {
-    //     r  const newObj = {
-    //         address: contactDetails.address,
-    //         mobile: contactDetails.phone.mobile,
-    //         home: contactDetails.phone.home,
-    //         work: contactDetails.phone.work
-    //     }
-    //     console.log(newObj)
-
-    //     axios
-    //         .put('http://10.0.2.2:3000/account/detail/' + value._id + '/contact', newObj)
-    //         .then(response => {
-    //             if (response.status === 200) {
-    //                 setValue({
-    //                     ...value,
-    //                     contactDetails: contactDetails
-    //                 })
-    //                 editable(false)
-    //             }
-    //         })
-    //         .catch(err => {
-    //             console.error('Request failed', err.response)
-    //         });
-    // }
 
     constructor(props) {
         super(props);
@@ -75,6 +51,8 @@ class ChangeEmail extends React.Component {
                         const newData = {
                             email: values.email
                         };
+                        axios.get('https://mvfagb.herokuapp.com/api/account/verify/email/', newData)
+                        .then(
                         axios
                             .put('https://mvfagb.herokuapp.com/api/account/change/email/' + this.state._id, newData)
                             .then(response => {
@@ -85,7 +63,20 @@ class ChangeEmail extends React.Component {
                             .catch(err => {
                                 console.error(err.response);
                             })
+                        )
+                        .catch(error => {
+                            
+                        })
                     }}
+                    validationSchema={
+                        yup.object().shape({
+                            email: yup
+                                .string()
+                                .email('Please enter a valid email')
+                                .required('Please enter an email')
+
+                        })
+                    }
                     enableReinitialize="true"
                     render={props => (
                         <>
@@ -98,11 +89,14 @@ class ChangeEmail extends React.Component {
                             <TextInput
                                 label='New Email'
                                 onChangeText={props.handleChange('email')}
-                                onBlur={props.handleBlur('email')}
+                                onBlur={() => props.setFieldTouched('email')}
                                 value={props.values.email}
                                 style={{ marginVertical: 10, backgroundColor: 'none' }}
                             />
-                            <Button mode="contained" onPress={props.handleSubmit} style={{ marginVertical: 10 }}>Change Email Address</Button>
+                            {props.touched.email && props.errors.email &&
+                                <Text style={{ fontSize: 15, color: 'red' }}>{props.errors.email}</Text>
+                            }
+                            <Button mode="contained" disabled={!props.isValid} onPress={props.handleSubmit} style={{ marginVertical: 10 }}>Change Email Address</Button>
                         </>
                     )}
                 />

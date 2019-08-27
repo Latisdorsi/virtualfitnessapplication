@@ -66,7 +66,7 @@ const EditableContactDetails = ({ value, setValue, editable }) => {
                         }} />
                     <TextInput
                         label="Mobile Number"
-                        value={props.values.mobile}
+                        value={props.values.mobile.toString()}
                         keyboardType={'numeric'}
                         onChangeText={props.handleChange('mobile')}
                         onBlur={() => props.setFieldTouched('mobile')}

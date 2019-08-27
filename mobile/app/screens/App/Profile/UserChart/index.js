@@ -102,7 +102,6 @@ class UserChart extends React.PureComponent {
                         Neck
                     </Subheading>
 
-
                     {neck.length > 0 ?
                         < VictoryChart
                             width={Dimensions.get('window').width}

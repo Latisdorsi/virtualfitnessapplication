@@ -62,6 +62,14 @@ router.get('/delete/:id', user.deleteUser);
 //Update Account Email
 router.put('/change/email/:id', user.changeEmail);
 
+// Verify Email
+router.get('/verify/email', user.verifyEmail);
+
+// Verify Password
+router.get('/verify/password/:id', user.verifyPassword);
+
+
+
 // Update Account Password
 router.put('/change/password/:id', user.changePassword);
 

@@ -239,9 +239,7 @@ module.exports = {
     updateUserContactDetails: function (req, res, next) {
         const {
             address,
-            mobile,
-            home,
-            work,
+            mobile
         } = req.body
 
         let errors = []
@@ -414,7 +412,6 @@ module.exports = {
                             });
                             res.cookie('token', token, { httpOnly: true })
                                 .status(200).json({ token });
-
                         }
                     });
                 }
@@ -427,7 +424,59 @@ module.exports = {
             })
     },
 
+    verifyPassword: function (req, res, next) {
+        const _id = req.params.id;
+        const { password } = req.body;
+        User.findOne({ _id })
+            .then(user => {
+                if (!user) { //User does not exist
+                    res.status(401)
+                        .json({
+                            error: 'User does not exist'
+                        });
+                } else { //Password is Incorrect
+                    //Get user id from call
+                    const { _id, active, first, hasCycle } = user
+                    user.comparePassword(password, function (err, same) {
+                        if (err) {
+                            res.status(500)
+                                .json({ // Internal Error
+                                    error: 'Oops! Internal error please try again'
+                                });
+                        } else if (!same) {
+                            res.status(401)
+                                .json({
+                                    error: 'Invalid password entered!'
+                                });
+                        } else {
+                            res.status(200)
+                                .json({
+                                    message: 'Ok'
+                                })
+                        }
+                    })
+                }
+            })
+    },
 
+    verifyEmail: function (req, res, next) {
+        const { email } = req.body;
+        User.findOne({ email })
+            .then(user => {
+                if (!user) { //User does not exist
+                    res.status(200)
+                        .json({
+                            message: 'User does not exists'
+                        });
+                }
+            })
+            .catch(error => {
+                res.status(500).json({
+                    message: 'Internal Server Errror',
+                    error: error
+                })
+            })
+    },
 
     changePassword: function (req, res, next) {
 

@@ -22,7 +22,7 @@ const EditableEmergencyDetails = ({ value, setValue, editable }) => {
         let newObj = {
             emergencyFullName: values.fullName,
             emergencyNumber: values.contactNumber,
-            emergencyRelationship: values.relationship,
+            emergencyRelationship: values.relationship
         }
         axios
             .put('https://mvfagb.herokuapp.com/api/account/detail/' + value._id + '/emergency', newObj)
@@ -36,74 +36,78 @@ const EditableEmergencyDetails = ({ value, setValue, editable }) => {
                 }
             })
             .catch(err => {
-                console.error('Request failed', err.response)
+                console.error('Request failed', err.response);
             });
     }
 
     const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
-    console.log(emergencyDetails);
+
     return (
-        <Formik
-            initialValues={{ ...emergencyDetails }}
-            onSubmit={values => saveValues(values)}
-            validationSchema={Yup.object().shape({
-                name: Yup.string()
-                    .max(40, 'Please enter no more than 40 characters')
-                    .min(2, 'Please enter a minimum of 2 characters')
-                    .required('Please enter your first name'),
-                contactNumber: Yup.string().matches(phoneRegExp, 'Phone number is not valid'),
-                relationship: Yup.string().required()
-            })}
-        >
-            {props => (
-                <View>
-                    <TextInput
-                        label="Name"
-                        value={props.values.fullName}
-                        onChangeText={props.handleChange('fullName')}
-                        onBlur={() => props.setFieldTouched('fullName')}
-                        style={{
-                            marginVertical: 10,
-                            backgroundColor: 'none'
-                        }} />
-                          {props.touched.fullName && props.errors.fullName &&
+        <View>
+            <Formik
+                initialValues={{ ...emergencyDetails }}
+                onSubmit={values => saveValues(values)}
+                validationSchema={Yup.object().shape({
+                    name: Yup.string()
+                        .max(40, 'Please enter no more than 40 characters')
+                        .min(2, 'Please enter a minimum of 2 characters')
+                        .required('Please enter your first name'),
+                    contactNumber: Yup.string()
+                        .matches(phoneRegExp, 'Phone number is not valid'),
+                    relationship: Yup.string()
+                        .required('Please enter the relationship')
+                })}
+            >
+                {props => (
+                    <View>
+                        <TextInput
+                            label="Name"
+                            value={props.values.fullName}
+                            onChangeText={props.handleChange('fullName')}
+                            onBlur={() => props.setFieldTouched('fullName')}
+                            style={{
+                                marginVertical: 10,
+                                backgroundColor: 'none'
+                            }} />
+                        {props.touched.fullName && props.errors.fullName &&
                             <Text style={{ fontSize: 15, color: 'red' }}>{props.errors.fullName}</Text>
                         }
-                    <TextInput
-                        label="Mobile Number"
-                        value={props.values.contactNumber.toString()}
-                        keyboardType={'numeric'}
-                        onChangeText={props.handleChange('contactNumber')}
-                        onBlur={() => props.setFieldTouched('contactNumber')}
-                        style={{
-                            marginVertical: 10,
-                            backgroundColor: 'none'
-                        }} />
-                          {props.touched.contactNumber && props.errors.contactNumber &&
+                        <TextInput
+                            label="Mobile Number"
+                            value={props.values.contactNumber.toString()}
+                            keyboardType={'numeric'}
+                            onChangeText={props.handleChange('contactNumber')}
+                            onBlur={() => props.setFieldTouched('contactNumber')}
+                            style={{
+                                marginVertical: 10,
+                                backgroundColor: 'none'
+                            }} />
+                        {props.touched.contactNumber && props.errors.contactNumber &&
                             <Text style={{ fontSize: 15, color: 'red' }}>{props.errors.contactNumber}</Text>
                         }
-                    <TextInput
-                        label="Relationship"
-                        value={props.values.relationship}
-                        onChangeText={props.handleChange('relationship')}
-                        onBlur={() => props.setFieldTouched('relationship')}
-                        style={{
-                            marginVertical: 10,
-                            backgroundColor: 'none'
-                        }} />
-                          {props.touched.relationship && props.errors.relationship &&
+                        <TextInput
+                            label="Relationship"
+                            value={props.values.relationship}
+                            onChangeText={props.handleChange('relationship')}
+                            onBlur={() => props.setFieldTouched('relationship')}
+                            style={{
+                                marginVertical: 10,
+                                backgroundColor: 'none'
+                            }} />
+                        {props.touched.relationship && props.errors.relationship &&
                             <Text style={{ fontSize: 15, color: 'red' }}>{props.errors.relationship}</Text>
                         }
-                    <Button
-                        mode="contained"
-                        style={{
-                            marginVertical: 10
-                        }}
-                        onPress={props.handleSubmit}>
-                        Save</Button>
-                </View>
-            )}
-        </Formik>
+                         <Button
+                            mode="contained"
+                            style={{
+                                marginVertical: 10
+                            }}
+                            onPress={props.handleSubmit}
+                        >Save</Button>
+                    </View>
+                )}
+            </Formik>
+        </View>
     )
 }
 

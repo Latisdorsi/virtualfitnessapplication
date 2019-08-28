@@ -51,18 +51,27 @@ class ChangeEmail extends React.Component {
                         const newData = {
                             email: values.email
                         };
-                        axios.get('https://mvfagb.herokuapp.com/api/account/verify/email/', newData)
-                            .then(
-                                axios
-                                    .put('https://mvfagb.herokuapp.com/api/account/change/email/' + this.state._id, newData)
-                                    .then(response => {
-                                        this.setState({
-                                            oldEmail: values.email
+
+                        axios.get('https://mvfagb.herokuapp.com/api/account/verify/email', newData)
+                            .then(response => {
+                                if (response.status == 200) {
+                                    console.warn('reached 200');
+                                    axios
+                                        .put('https://mvfagb.herokuapp.com/api/account/change/email/' + this.state._id, newData)
+                                        .then(response => {
+                                            this.setState({
+                                                oldEmail: values.email
+                                            })
                                         })
-                                    })
-                                    .catch(err => {
-                                        console.error(err.response);
-                                    })
+                                        .catch(err => {
+                                            console.error(err.response);
+                                        })
+                                }
+                                else if (response.status == 401) {
+                                    console.warn('reached 401');
+                                    alert('Email already exists!');
+                                }
+                            }
                             )
                             .catch(error => {
                                 console.warn(error.response);

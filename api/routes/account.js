@@ -63,10 +63,10 @@ router.get('/delete/:id', user.deleteUser);
 router.put('/change/email/:id', user.changeEmail);
 
 // Verify Email
-router.get('/verify/email', user.verifyEmail);
+router.post('/verify/email', user.verifyEmail);
 
 // Verify Password
-router.get('/verify/password/:id', user.verifyPassword);
+router.post('/verify/password/:id', user.verifyPassword);
 
 
 

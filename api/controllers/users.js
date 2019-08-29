@@ -266,18 +266,18 @@ module.exports = {
 
     updateUserEmergencyDetails: function (req, res, next) {
         const {
-            emergencyFullName,
-            emergencyNumber,
-            emergencyRelationship
+            fullName,
+            contactNumber,
+            relationship
         } = req.body
         User
             .update({
                 _id: req.params.id
             }, {
                     emergencyDetails: {
-                        fullName: emergencyFullName,
-                        contactNumber: emergencyNumber,
-                        relationship: emergencyRelationship
+                        fullName: fullName,
+                        contactNumber: contactNumber,
+                        relationship: relationship
                     }
                 })
 

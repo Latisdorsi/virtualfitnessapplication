@@ -52,10 +52,9 @@ class ChangeEmail extends React.Component {
                             email: values.email
                         };
 
-                        axios.get('https://mvfagb.herokuapp.com/api/account/verify/email', newData)
+                        axios.post('https://mvfagb.herokuapp.com/api/account/verify/email', newData)
                             .then(response => {
                                 if (response.status == 200) {
-                                    console.warn('reached 200');
                                     axios
                                         .put('https://mvfagb.herokuapp.com/api/account/change/email/' + this.state._id, newData)
                                         .then(response => {
@@ -68,13 +67,12 @@ class ChangeEmail extends React.Component {
                                         })
                                 }
                                 else if (response.status == 401) {
-                                    console.warn('reached 401');
-                                    alert('Email already exists!');
+                                    this.alert('Email already exists!');
                                 }
                             }
                             )
                             .catch(error => {
-                                console.warn(error.response);
+                                alert(error.response.data.error);
                             })
                     }}
                     validationSchema={

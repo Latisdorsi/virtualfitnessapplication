@@ -12,9 +12,9 @@ export default class ChangePassword extends React.Component {
     constructor(props) {
         super(props);
         this.state = ({
-            _id: '',
-            oldEmail: '',
-            email: ''
+            oldPassword: '',
+            newPassword: '',
+            newPasswordConfirm: ''
         })
     }
 
@@ -40,9 +40,7 @@ export default class ChangePassword extends React.Component {
 
                 <Formik
                     initialValues={{
-                        oldPassword: '',
-                        newPassword: '',
-                        newPasswordConfirm: ''
+                        ...this.state
                     }}
                     validationSchema={Yup.object().shape({
                         oldPassword: Yup.string()
@@ -53,22 +51,33 @@ export default class ChangePassword extends React.Component {
                             .min(6, 'Please enter a minimum of 6 characters'),
                         newPasswordConfirm: Yup.string()
                             .required('Password confirmation is required')
-                            .oneOf([Yup.ref('password'), null], 'Passwords do not match!')
+                            .oneOf([Yup.ref('newPassword'), null], 'Passwords do not match!')
                     })}
                     onSubmit={(values, actions) => {
-                        actions.resetForm();
+                        
 
                         const newData = {
                             password: values.newPassword
                         };
-                        axios
-                            .put('https://mvfagb.herokuapp.com/api/account/change/password/' + this.state._id, newData)
+
+                        axios.post('https://mvfagb.herokuapp.com/api/account/verify/password/' + this.state._id, { password: values.oldPassword })
                             .then(response => {
-                                console.warn('It worked!');
+                                axios
+                                    .put('https://mvfagb.herokuapp.com/api/account/change/password/' + this.state._id, newData)
+                                    .then(response => {
+                                        actions.resetForm();
+                                        this.props.navigation.popToTop();
+                                    })
+                                    .catch(err => {
+                                        console.error(err.response);
+                                    });
+
                             })
-                            .catch(err => {
-                                console.error(err.response);
+                            .catch(error => {
+                                alert(error.response.data.error);
                             })
+
+
                     }}
                     render={props => (
                         <>
@@ -81,8 +90,8 @@ export default class ChangePassword extends React.Component {
                                 style={{ marginVertical: 10, backgroundColor: 'none' }}
                             />
                             {props.touched.oldPassword && props.errors.oldPassword &&
-                                    <Text style={{ fontSize: 15, color: 'red' }}>{props.errors.oldPassword}</Text>
-                                }
+                                <Text style={{ fontSize: 15, color: 'red' }}>{props.errors.oldPassword}</Text>
+                            }
                             <TextInput
                                 label='New Password'
                                 onChangeText={props.handleChange('newPassword')}
@@ -92,8 +101,8 @@ export default class ChangePassword extends React.Component {
                                 style={{ marginVertical: 10, backgroundColor: 'none' }}
                             />
                             {props.touched.newPassword && props.errors.newPassword &&
-                                    <Text style={{ fontSize: 15, color: 'red' }}>{props.errors.newPassword}</Text>
-                                }
+                                <Text style={{ fontSize: 15, color: 'red' }}>{props.errors.newPassword}</Text>
+                            }
                             <TextInput
                                 label='Repeat New Password'
                                 onChangeText={props.handleChange('newPasswordConfirm')}
@@ -102,11 +111,11 @@ export default class ChangePassword extends React.Component {
                                 secureTextEntry={true}
                                 style={{ marginVertical: 10, backgroundColor: 'none' }}
                             />
-                           {props.touched.newPasswordConfirm && props.errors.newPasswordConfirm &&
-                                    <Text style={{ fontSize: 15, color: 'red' }}>{props.errors.newPasswordConfirm}</Text>
-                                }
+                            {props.touched.newPasswordConfirm && props.errors.newPasswordConfirm &&
+                                <Text style={{ fontSize: 15, color: 'red' }}>{props.errors.newPasswordConfirm}</Text>
+                            }
 
-                            <Button mode="contained" onPress={props.handleSubmit} style={{ marginVertical: 1 }}>Change Password</Button>
+                            <Button mode="contained" onPress={props.handleSubmit} disabled={!props.isValid} style={{ marginVertical: 1 }}>Change Password</Button>
                         </>
                     )}
                 />

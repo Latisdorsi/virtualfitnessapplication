@@ -319,8 +319,8 @@ module.exports = {
                     active: false
                 })
 
-            .then(
-                res.status(200).json(false)
+            .then( () =>
+                res.status(200).json('message: ok')
             )
             .catch(error => {
                 res.status(500).json({

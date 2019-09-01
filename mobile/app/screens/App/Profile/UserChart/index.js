@@ -1,18 +1,17 @@
 import React from 'react'
 import { Card, Subheading } from 'react-native-paper'
 // import { Grid, LineChart, XAxis, YAxis } from 'react-native-svg-charts'
-import { View, Text, Dimensions, ScrollView } from 'react-native'
+import {
+    ActivityIndicator,
+    StatusBar,
+    View,
+    Text,
+    Dimensions,
+    ScrollView
+} from 'react-native'
 import DeviceStorage from 'lib/services/DeviceStorage';
 import { parseToken } from 'lib/helpers/utils';
 import Axios from 'axios';
-// import {
-//     LineChart,
-//     BarChart,
-//     PieChart,
-//     ProgressChart,
-//     ContributionGraph,
-//     StackedBarChart
-// } from 'react-native-chart-kit';
 import { VictoryLine, VictoryChart, VictoryTheme, VictoryAxis } from 'victory-native';
 
 
@@ -76,17 +75,21 @@ class UserChart extends React.PureComponent {
                     <Subheading>
                         Weight
                     </Subheading>
-            
+
 
                     {weight.length > 0 ?
                         < VictoryChart
                             width={Dimensions.get('window').width}
                             theme={VictoryTheme.material}
+
                         >
                             <VictoryAxis
                                 dependentAxis tickFormat={(tick) => `${tick}kg`} />
-                            <VictoryAxis />
+                            <VictoryAxis
+                                tickCount={5} />
                             <VictoryLine
+
+                                domainPadding={{ x: [20, 0] }}
                                 style={{
                                     data: { stroke: "#9400D3" },
                                     parent: { border: "1px solid #ccc" }
@@ -96,7 +99,10 @@ class UserChart extends React.PureComponent {
                             />
                         </VictoryChart>
                         :
-                        <Text>Loading...</Text>
+                        <View>
+                            <ActivityIndicator />
+                            <StatusBar barStyle="default" />
+                        </View>
                     }
                     <Subheading>
                         Neck
@@ -108,8 +114,10 @@ class UserChart extends React.PureComponent {
                             theme={VictoryTheme.material}
                         >
                             <VictoryAxis
+
                                 dependentAxis tickFormat={(tick) => `${tick}cm`} />
-                            <VictoryAxis />
+                            <VictoryAxis
+                                tickCount={5} />
                             <VictoryLine
                                 style={{
                                     data: { stroke: "#9400D3" },
@@ -119,7 +127,10 @@ class UserChart extends React.PureComponent {
                             />
                         </VictoryChart>
                         :
-                        <Text>Loading...</Text>
+                        <View>
+                            <ActivityIndicator />
+                            <StatusBar barStyle="default" />
+                        </View>
                     }
 
                     <Subheading>
@@ -134,7 +145,9 @@ class UserChart extends React.PureComponent {
                         >
                             <VictoryAxis
                                 dependentAxis tickFormat={(tick) => `${tick}cm`} />
-                            <VictoryAxis />
+                            <VictoryAxis
+                                tickCount={5}
+                            />
                             <VictoryLine
                                 style={{
                                     data: { stroke: "#9400D3" },
@@ -144,7 +157,10 @@ class UserChart extends React.PureComponent {
                             />
                         </VictoryChart>
                         :
-                        <Text>Loading...</Text>
+                        <View>
+                            <ActivityIndicator />
+                            <StatusBar barStyle="default" />
+                        </View>
                     }
 
                     <Subheading>
@@ -159,7 +175,8 @@ class UserChart extends React.PureComponent {
                         >
                             <VictoryAxis
                                 dependentAxis tickFormat={(tick) => `${tick}cm`} />
-                            <VictoryAxis />
+                            <VictoryAxis
+                                tickCount={5} />
                             <VictoryLine
                                 style={{
                                     data: { stroke: "#9400D3" },
@@ -169,134 +186,11 @@ class UserChart extends React.PureComponent {
                             />
                         </VictoryChart>
                         :
-                        <Text>Loading...</Text>
+                        <View>
+                            <ActivityIndicator />
+                            <StatusBar barStyle="default" />
+                        </View>
                     }
-
-                    {/* <Subheading>
-                        Weight
-                    </Subheading>
-                    <LineChart
-                        data={{
-                            labels: date,
-                            datasets: [{
-                                data: weight.length ? weight : [0],
-                                // color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})` // optional
-                                // strokeWidth: 2 // optional
-
-                            }]
-                        }}
-                        width={Dimensions.get('window').width - 40} // from react-native
-                        height={220}
-                        chartConfig={{
-                            backgroundColor: '#6a6a6a',
-                            backgroundGradientFrom: '#6a6a6a',
-                            backgroundGradientTo: '#3a3a3a',
-                            decimalPlaces: 2, // optional, defaults to 2dp
-                            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                            style: {
-                                borderRadius: 16
-                            }
-                        }}
-                        style={{
-                            marginVertical: 8,
-                            borderRadius: 16
-                        }}
-                    /> */}
-                    {/* 
-                    <Subheading>
-                        Neck
-                    </Subheading>
-                    <LineChart
-                        data={{
-                            labels: date,
-                            datasets: [{
-                                data: neck.length ? neck : [0],
-                                // color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})` // optional
-                                // strokeWidth: 2 // optional
-
-                            }]
-                        }}
-                        width={Dimensions.get('window').width - 40} // from react-native
-                        height={220}
-                        chartConfig={{
-                            backgroundColor: '#6a6a6a',
-                            backgroundGradientFrom: '#6a6a6a',
-                            backgroundGradientTo: '#3a3a3a',
-                            decimalPlaces: 2, // optional, defaults to 2dp
-                            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                            style: {
-                                borderRadius: 16
-                            }
-                        }}
-                        style={{
-                            marginVertical: 8,
-                            borderRadius: 16
-                        }}
-                    />
-
-                    <Subheading>
-                        Waist
-                    </Subheading>
-                    <LineChart
-                        data={{
-                            labels: date,
-                            datasets: [{
-                                data: waist.length ? waist : [0],
-                                // color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})` // optional
-                                // strokeWidth: 2 // optional
-
-                            }]
-                        }}
-                        width={Dimensions.get('window').width - 40} // from react-native
-                        height={220}
-                        chartConfig={{
-                            backgroundColor: '#6a6a6a',
-                            backgroundGradientFrom: '#6a6a6a',
-                            backgroundGradientTo: '#3a3a3a',
-                            decimalPlaces: 2, // optional, defaults to 2dp
-                            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                            style: {
-                                borderRadius: 16
-                            }
-                        }}
-                        style={{
-                            marginVertical: 8,
-                            borderRadius: 16
-                        }}
-                    />
-
-                    <Subheading>
-                        Hips
-                    </Subheading>
-                    <LineChart
-                        data={{
-                            labels: date,
-                            datasets: [{
-                                data: hips.length ? hips : [0],
-                                // color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})` // optional
-                                // strokeWidth: 2 // optional
-
-                            }]
-                        }}
-                        width={Dimensions.get('window').width - 40} // from react-native
-                        height={220}
-                        chartConfig={{
-                            backgroundColor: '#6a6a6a',
-                            backgroundGradientFrom: '#6a6a6a',
-                            backgroundGradientTo: '#3a3a3a',
-                            decimalPlaces: 2, // optional, defaults to 2dp
-                            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                            style: {
-                                borderRadius: 16
-                            }
-                        }}
-                        style={{
-                            marginVertical: 8,
-                            borderRadius: 16
-                        }}
-                    /> */}
-
-
                 </View>
             </ScrollView >
         )

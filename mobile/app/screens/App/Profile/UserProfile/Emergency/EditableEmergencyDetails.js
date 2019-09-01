@@ -45,9 +45,23 @@ const EditableEmergencyDetails = ({ value, setValue, editable }) => {
     return (
         <View>
             <Formik
-                initialValues={{ ...emergencyDetails }}
+                initialValues={{ 
+                    fullName: emergencyDetails.fullName,
+                    contactNumber: emergencyDetails.contactNumber.toString(),
+                    relationship: emergencyDetails.relationship
+                 }}
                 onSubmit={values => saveValues(values)}
-                
+                validationSchema={Yup.object().shape({
+                    fullName: Yup.string()
+                        .max(40, 'Please enter no more than 40 characters')
+                        .min(2, 'Please enter a minimum of 2 characters')
+                        .required('Please enter the full name'),
+                    contactNumber: Yup.string().matches(phoneRegExp, 'Phone number is not valid'),
+                    relationship: Yup.string()
+                    .max(40, 'Please enter no more than 40 characters')
+                    .min(2, 'Please enter a minimum of 2 characters')
+                    .required('Please enter your relationship with this person'),
+                })}
             >
                 {props => (
                     <View>
@@ -60,9 +74,9 @@ const EditableEmergencyDetails = ({ value, setValue, editable }) => {
                                 marginVertical: 10,
                                 backgroundColor: 'none'
                             }} />
-                        {/* {props.touched.fullName && props.errors.fullName &&
+                        {props.touched.fullName && props.errors.fullName &&
                             <Text style={{ fontSize: 15, color: 'red' }}>{props.errors.fullName}</Text>
-                        } */}
+                        }
                         <TextInput
                             label="Mobile Number"
                             value={props.values.contactNumber}
@@ -73,9 +87,9 @@ const EditableEmergencyDetails = ({ value, setValue, editable }) => {
                                 marginVertical: 10,
                                 backgroundColor: 'none'
                             }} />
-                        {/* {props.touched.contactNumber && props.errors.contactNumber &&
+                        {props.touched.contactNumber && props.errors.contactNumber &&
                             <Text style={{ fontSize: 15, color: 'red' }}>{props.errors.contactNumber}</Text>
-                        } */}
+                        }
                         <TextInput
                             label="Relationship"
                             value={props.values.relationship}
@@ -85,16 +99,17 @@ const EditableEmergencyDetails = ({ value, setValue, editable }) => {
                                 marginVertical: 10,
                                 backgroundColor: 'none'
                             }} />
-                        {/* {props.touched.relationship && props.errors.relationship &&
+                        {props.touched.relationship && props.errors.relationship &&
                             <Text style={{ fontSize: 15, color: 'red' }}>{props.errors.relationship}</Text>
-                        } */}
-                         <Button
+                        }
+                        <Button
                             mode="contained"
                             style={{
                                 marginVertical: 10
                             }}
                             // disabled={!props.isValid}
                             onPress={props.handleSubmit}
+                            disabled={!props.isValid}
                         >Save</Button>
                     </View>
                 )}

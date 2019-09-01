@@ -58,7 +58,7 @@ export default class Charts extends Component {
             this.state.hasRecord ?
                 <ScrollView>
 
-                    <View style={{ padding: 15 }} pointerEvents="none">
+                    <View style={{ padding: 20 }} pointerEvents="none">
                         <Subheading>Personal Records</Subheading>
                         <RowViewComponent>
                             <Text>Esimated 1RM Record</Text>
@@ -72,11 +72,13 @@ export default class Charts extends Component {
                         {
                             oneRepMax.length > 0 ?
                                 < VictoryChart
-                                    width={Dimensions.get('window').width}
+                                width={Dimensions.get('window').width}
                                     theme={VictoryTheme.material}
+                                    padding={50}
                                 >
                                     <VictoryAxis
-                                        dependentAxis tickFormat={(tick) => `${tick}kg`} />
+
+                                        dependentAxis tickFormat={(tick) => `${tick.toFixed(2)}kg`} />
                                     <VictoryAxis />
                                     <VictoryLine
                                         style={{
@@ -95,9 +97,10 @@ export default class Charts extends Component {
                                 < VictoryChart
                                     width={Dimensions.get('window').width}
                                     theme={VictoryTheme.material}
+                                    padding={50}
                                 >
                                     <VictoryAxis
-                                        dependentAxis tickFormat={(tick) => `${tick}kg`} />
+                                        dependentAxis tickFormat={(tick) => `${tick.toFixed(2)}kg`} />
                                     <VictoryAxis />
                                     <VictoryLine
                                         style={{

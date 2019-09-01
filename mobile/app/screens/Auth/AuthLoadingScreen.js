@@ -19,7 +19,7 @@ export default class AuthLoadingScreen extends React.Component {
             userData.active ? this.props.navigation.navigate('LoggedIn') : this.props.navigation.navigate('LoggedOut');
         }
         ).catch(err => {
-            console.warn(err);
+            // console.warn(err);
             this.props.navigation.navigate('LoggedOut')
         })
         this.props.navigation.navigate('LoggedOut')

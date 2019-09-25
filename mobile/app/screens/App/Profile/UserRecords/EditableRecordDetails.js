@@ -103,7 +103,16 @@ const EditableRecordDetails = ({ value, setValue, setEditable }) => {
     let [weight, setWeight] = useState(value.weight)
     let [neck, setNeck] = useState(value.neck)
     let [waist, setWaist] = useState(value.waist)
-    let [hips, setHips] = useState(value.hips)
+    let [hips, setHips] = useState(value.hips);
+
+    const _checkComposition = (bodyComposition) => {
+        if(bodyComposition.category == null || bodyComposition.category == 'Unacceptable' || bodyComposition.category == ''){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
 
     const bodyComposition = CalculateComposition(
         23,
@@ -139,6 +148,7 @@ const EditableRecordDetails = ({ value, setValue, setEditable }) => {
         setEditable(false);
     }
 
+
     return (
         <View>
             <View style={{
@@ -173,7 +183,7 @@ const EditableRecordDetails = ({ value, setValue, setEditable }) => {
 
             <MeasurementModal name="Hips" data={hipsData} suffix="cm" value={hips} setValue={setHips} />
             <RowViewComponent>
-                <Button mode="contained" onPress={saveData}>Save</Button>
+                <Button mode="contained" disabled={!_checkComposition(bodyComposition)} onPress={saveData}>Save</Button>
                 <Button mode="contained" onPress={cancel}>Cancel</Button>
             </RowViewComponent>
         </View>

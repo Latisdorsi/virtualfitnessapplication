@@ -2,9 +2,7 @@ import React from 'react';
 import {
     ActivityIndicator,
     StatusBar,
-    StyleSheet,
-    View,
-    Text
+    View
 } from 'react-native';
 import DeviceStorage from 'lib/services/DeviceStorage'
 import { parseToken } from 'lib/helpers/utils'
@@ -16,10 +14,17 @@ export default class AuthLoadingScreen extends React.Component {
         const loggedIn = false
         token = !token && DeviceStorage.loadItem('token').then(token => {
             const userData = parseToken(token)
-            userData.active ? this.props.navigation.navigate('LoggedIn') : this.props.navigation.navigate('LoggedOut');
+            if (userData.active) {
+                this.props.navigation.navigate('LoggedIn')
+            } else {
+                DeviceStorage.deleteItem('token').then(() => {
+                    alert('User does not exist!');
+                    this.props.navigation.navigate('LoggedOut');
+                }
+                )
+            }
         }
         ).catch(err => {
-            // console.warn(err);
             this.props.navigation.navigate('LoggedOut')
         })
         this.props.navigation.navigate('LoggedOut')

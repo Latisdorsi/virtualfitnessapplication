@@ -50,6 +50,19 @@ export default class RecordDetail extends Component {
         // console.warn(newProps);
     }
 
+    handleInputChange = (index, type, value) => {
+        if (type == 'rep') {
+            if (/^\d+$/.test(value)) {
+                updateSets(index, type, value)
+            }
+        }
+        else if (type == 'weight') {
+            if (/^\d*\.?\d*$/.test(value)) {
+                updateSets(index, type, value)
+            }
+        }
+    }
+
     updateSets = (index, name, value) => {
 
         const updatedRecord =
@@ -154,7 +167,7 @@ export default class RecordDetail extends Component {
                                         value={set.rep}
                                         maxLength={2}
                                         placeholder="0"
-                                        onChangeText={value => { this.updateSets(index, 'rep', value) }}
+                                        onChangeText={value => { this.handleInputChange(index, 'rep', value) }}
                                         label="reps"
                                         underlineColorAndroid="#666666"
                                         keyboardType='numeric' />
@@ -167,7 +180,7 @@ export default class RecordDetail extends Component {
                                         placeholder="0"
                                         maxLength={3}
                                         value={set.weight}
-                                        onChangeText={value => { this.updateSets(index, 'weight', value) }}
+                                        onChangeText={value => { this.handleInputChange(index, 'weight', value) }}
                                         underlineColorAndroid="#666666"
                                         keyboardType='numeric' />
                                     <Text style={styles.accentedText}>KG</Text>

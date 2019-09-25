@@ -29,7 +29,7 @@ export default class DeleteAccount extends React.Component {
                                 actions.setSubmitting(false);
                                 DeviceStorage.loadItem('token').then(token => {
                                     const tokenData = parseToken(token)
-                                    Axios.put('https://mvfagb.herokuapp.com/deactivate/' + tokenData._id)
+                                    Axios.put('https://mvfagb.herokuapp.com/api/account/deactivate/' + tokenData._id)
                                         .then(
                                             DeviceStorage.deleteItem('token')
                                                 .then( () =>

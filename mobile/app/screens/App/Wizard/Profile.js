@@ -40,7 +40,13 @@ class Profile extends React.Component {
     }
   }
 
-
+  _checkComposition = (composition) => {
+    if(composition.category == null || composition.category == 'Unacceptable' || composition.category == ''){
+        return false;
+    } else {
+        return true;
+    }
+}
   _checkFields = () => {
     return this.state.age > 0 && this.state.sex.length > 0 && this.state.height > 0 && this.state.weight > 0 && this.state.neck > 0 && this.state.waist > 0 && this.state.hips > 0;
   }
@@ -48,7 +54,8 @@ class Profile extends React.Component {
     const { navigate } = this.props.navigation;
     
     const composition = CalculateComposition(this.state.age, this.state.sex, this.state.weight, this.state.height, this.state.neck, this.state.waist, this.state.hips)
-    
+  
+
     return (
 
       <WizardContext.Consumer>
@@ -86,23 +93,12 @@ class Profile extends React.Component {
                 <Measurement name="Waist" data={waistData} suffix="cm" value={this.state.waist} setValue={(waist) => this.setState({ waist })} />
 
                 <Measurement name="Hips" data={hipsData} suffix="cm" value={this.state.hips} setValue={(hips) => this.setState({ hips })} />
-
-
-                {/* <View style={{
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}>
-                  <Subheading>Body Composition</Subheading>
-                  <Text>Composition Level: {context.composition.category}</Text>
-                  <Text>Body Fat Percentage: {context.composition.percentBodyFat.toString().substr(0, 5)}%</Text>
-                  <Text>Lean Body Mass Percentage: {context.composition.percentLeanMass.toString().substr(0, 5)}%</Text>
-                </View> */}
               </View>
 
 
               <Button
                 disabled={
-                  !this._checkFields()
+                  !(this._checkFields() && this._checkComposition(composition))
                 }
                 mode="contained"
                 onPress={() => {

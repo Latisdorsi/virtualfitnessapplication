@@ -47,6 +47,18 @@ export default function LowerBodyTest({ setValue }) {
     const [level, setLevel] = useState(0)
 
 
+    handleInputChange = (type, value) => {
+        if (type == 'reps') {
+            if (/^\d+$/.test(value)) {
+                updateSets(type, value)
+            }
+        }
+        else if(type == 'weight'){    
+            if (/^\d*\.?\d*$/.test(value)) {
+                updateSets(type, value)
+            }
+        }
+    }
     const updateSets = (name, value) => {
         const updatedSet = {
             ...scoreData,
@@ -62,7 +74,7 @@ export default function LowerBodyTest({ setValue }) {
         setLevel(calculateScore(gender, weightRatio, age))
     }, [scoreData])
 
-    useEffect(()=>{
+    useEffect(() => {
         const weightRatio = oneRepMax / weight
         let lowerBodyStrength = {
             level,
@@ -96,7 +108,7 @@ export default function LowerBodyTest({ setValue }) {
                         style={styles.recordsInput}
                         placeholder="0"
                         value={scoreData.reps}
-                        onChangeText={value => { updateSets('reps', value) }}
+                        onChangeText={value => { handleInputChange('reps', value) }}
                         maxLength={2}
                         underlineColorAndroid="#666666"
                         keyboardType='numeric' />
@@ -108,8 +120,8 @@ export default function LowerBodyTest({ setValue }) {
                         style={styles.recordsInput}
                         placeholder="0"
                         value={scoreData.weight}
-                        maxLength={3}
-                        onChangeText={value => { updateSets('weight', value) }}
+                        maxLength={5}
+                        onChangeText={value => { handleInputChange('weight', value) }}
                         underlineColorAndroid="#666666"
                         keyboardType='numeric' />
                     <Text style={styles.accentedText}>KG</Text>

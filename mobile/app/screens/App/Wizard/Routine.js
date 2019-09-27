@@ -223,51 +223,54 @@ export default class Routine extends React.Component {
 
                                             let dates;
                                             let cycle;
-                                            axios.post('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408', cycleObj)
-                                            .then(() => {
-                                                
-                                                    return axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408')
-                                                })
-                                                .then(response => {
-                                                    
-                                                    dates = this.getDates(response.data.startDate, response.data.targetDate, 0);
-                                                    cycle = response.data._id;
-                                                    return axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408/routine');
-                                                })
-                                                .then(response => {
-                                                    scheduleArr = [];
-                                                    dates.map(value => {
-                                                        currDate = new Date(value);
+                                            DeviceStorage.loadItem('token').then(token => {
+                                                const tokenData = parseToken(token);
+                                                axios.post('https://mvfagb.herokuapp.com/api/cycle/' + token._id, cycleObj)
+                                                    .then(() => {
 
-                                                        currDayOfTheWeek = currDate.getDay();
-
-                                                        exercisePerDay = response.data.exercises.filter(value => {
-                                                            return value.day == currDayOfTheWeek;
-                                                        });
-
-                                                        scheduleArr.push({
-                                                            cycle: cycle,
-                                                            date: currDate.getTime(),
-                                                            exercises: exercisePerDay,
-                                                        });
-                                                    });
-                                                    console.log(scheduleArr);
-                                                    scheduleArr.forEach(schedule => {
-                                                        return axios.post('https://mvfagb.herokuapp.com/api/schedule/5ce9092d50081503e89ae408', schedule);
+                                                        return axios.get('https://mvfagb.herokuapp.com/api/cycle/' + token._id)
                                                     })
+                                                    .then(response => {
 
-                                                    console.log(scheduleArr);
-                                                    return axios.post('https://mvfagb.herokuapp.com/api/measurement/5ce9092d50081503e89ae408', measurementObj);
-                                                })
-                                                .then(() => {
-                                                    return axios.put('https://mvfagb.herokuapp.com/api/account/cycle/activate/5ce9092d50081503e89ae408')
-                                                })
-                                                .then(() => {
-                                                    return this.props.screenProps.rootNavigation.navigate('Confirmation')
-                                                })
-                                                .catch(err => {
-                                                    console.warn(err);
-                                                });
+                                                        dates = this.getDates(response.data.startDate, response.data.targetDate, 0);
+                                                        cycle = response.data._id;
+                                                        return axios.get('https://mvfagb.herokuapp.com/api/cycle/'+ token._id + '/routine');
+                                                    })
+                                                    .then(response => {
+                                                        scheduleArr = [];
+                                                        dates.map(value => {
+                                                            currDate = new Date(value);
+
+                                                            currDayOfTheWeek = currDate.getDay();
+
+                                                            exercisePerDay = response.data.exercises.filter(value => {
+                                                                return value.day == currDayOfTheWeek;
+                                                            });
+
+                                                            scheduleArr.push({
+                                                                cycle: cycle,
+                                                                date: currDate.getTime(),
+                                                                exercises: exercisePerDay,
+                                                            });
+                                                        });
+                                                        console.log(scheduleArr);
+                                                        scheduleArr.forEach(schedule => {
+                                                            return axios.post('https://mvfagb.herokuapp.com/api/schedule/' + token._id, schedule);
+                                                        })
+
+                                                        console.log(scheduleArr);
+                                                        return axios.post('https://mvfagb.herokuapp.com/api/measurement/' + token._id, measurementObj);
+                                                    })
+                                                    .then(() => {
+                                                        return axios.put('https://mvfagb.herokuapp.com/api/account/cycle/activate/' + token._id)
+                                                    })
+                                                    .then(() => {
+                                                        return this.props.screenProps.rootNavigation.navigate('Confirmation')
+                                                    })
+                                                    .catch(err => {
+                                                        console.warn(err);
+                                                    });
+                                            })
                                         }}>Yes, I understand</Button>
                                     </Dialog.Actions>
                                 </Dialog>

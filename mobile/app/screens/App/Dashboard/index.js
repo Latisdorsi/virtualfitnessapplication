@@ -40,9 +40,9 @@ export class Dashboard extends Component {
 
         DeviceStorage.loadItem('token').then(token => {
             const tokenData = parseToken(token);
-            const account = axios.get('http://mvfagb.herokuapp.com/api/account/detail/5ce9092d50081503e89ae408')
-            const cycle = axios.get('https://mvfagb.herokuapp.com/api/cycle/5ce9092d50081503e89ae408/latest');
-            const schedule = axios.get('https://mvfagb.herokuapp.com/api/schedule/5ce9092d50081503e89ae408/now')
+            const account = axios.get('http://mvfagb.herokuapp.com/api/account/detail/' + tokenData._id + '/')
+            const cycle = axios.get('https://mvfagb.herokuapp.com/api/cycle/' + tokenData._id + '/latest');
+            const schedule = axios.get('https://mvfagb.herokuapp.com/api/schedule/' + tokenData._id + '/now')
             Promise.all([account, cycle, schedule]).then((values) => {
                 const user = values[0].data;
                 const cycle = values[1].data;

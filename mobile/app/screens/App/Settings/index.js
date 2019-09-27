@@ -18,11 +18,8 @@ class Settings extends Component {
     }
 
     logOutUser() {
-        // console.warn('deleted');
-
-        console.log(this.props);
         DeviceStorage.deleteItem('token')
-            .then( () => {
+            .then(() => {
                 this.props.screenProps.screenProps.rootNavigation.navigate('AuthLoading')
             })
             .catch(() => {
@@ -56,14 +53,6 @@ class Settings extends Component {
                     <List.Section>
                         <List.Subheader>Account</List.Subheader>
                         <TouchableOpacity onPress={() => {
-                            this.props.navigation.navigate('ExportAccount');
-                        }}>
-                            <List.Item
-                                title="Export Account Data"
-
-                            />
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => {
                             this.props.navigation.navigate('DeleteAccount');
                         }}>
                             <List.Item
@@ -72,7 +61,7 @@ class Settings extends Component {
                             />
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => {
-                                this.logOutUser()
+                            this.logOutUser()
                         }}>
                             <List.Item
                                 title="Logout"

@@ -1,12 +1,11 @@
-import React, { Component } from 'react'
-import { StyleSheet, ScrollView, Text, Image, View } from 'react-native'
+import React, { Component } from 'react'    
 import { createStackNavigator, createBottomTabNavigator, createSwitchNavigator, createAppContainer } from "react-navigation";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-
 
 // Initial Loading Screen
 import AuthLoadingScreen from '../screens/Auth/AuthLoadingScreen'
 import AppLoadingScreen from '../screens/App/LoadingScreen'
+
 //Auth Stack Screens
 import Login from "../screens/Auth/Login";
 import Register from "../screens/Auth/Register"
@@ -196,7 +195,7 @@ const MainStack = createAppContainer(createSwitchNavigator({
     },
     WizardStackLoading: AppLoadingScreen
 }, {
-        initialRouteName: 'Wizard'
+        initialRouteName: 'WizardStackLoading'
     }
 ));
 

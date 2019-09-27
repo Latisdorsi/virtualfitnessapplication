@@ -19,6 +19,8 @@ router.get('/schedule/:id', (req, res) => {
         })
 })
 
+
+
 router.get('/schedule/:id/now', (req, res) => {
     const _id = req.params.id
     const start = new Date();

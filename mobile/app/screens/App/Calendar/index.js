@@ -11,59 +11,45 @@ export default class AgendaComponent extends Component {
     super(props);
     this.state = {
       schedule: {}
-      // {
-      //   '2019-07-24': [
-      //     {
-      //       title: <Subheading>Workout</Subheading>,
-      //       content: <View>
-      //         <RowViewComponent>
-      //           <Text>Barbell Squat</Text>
-      //           <Text>Sets: 1</Text>
-      //         </RowViewComponent>
-      //         <RowViewComponent>
-      //           <Text>Barbell Bench</Text>
-      //           <Text>Sets: 3</Text>
-      //         </RowViewComponent>
-      //       </View>
-      //     }]
     }
   }
 
   // Get Data Here
   componentDidMount() {
-    //const _id = this.props.navigation.getParam('itemId', '');
-    axios.get('https://mvfagb.herokuapp.com/api/schedule/5ce9092d50081503e89ae408')
-      .then(response => {
+    DeviceStorage.loadItem('token').then(token => {
+      const tokenData = parseToken(token);
+      axios.get('https://mvfagb.herokuapp.com/api/schedule/' + tokenData._id)
+        .then(response => {
 
-        const schedules = response.data.map(schedule => {
-          const date = schedule.date.slice(0, 10);
-          return {
-            key: [date],
-            value: [{
-              title: <Subheading>Workout</Subheading>,
-              content: (<View>
-                {schedule.exercises.map(exercise => (
-                  <RowViewComponent>
-                    <Text>{exercise.name}</Text>
-                    <Text>Sets: {exercise.sets}</Text>
-                  </RowViewComponent>
-                ))
-                }
-              </View>
-              )
-            }]
-          }
+          const schedules = response.data.map(schedule => {
+            const date = schedule.date.slice(0, 10);
+            return {
+              key: [date],
+              value: [{
+                title: <Subheading>Workout</Subheading>,
+                content: (<View>
+                  {schedule.exercises.map(exercise => (
+                    <RowViewComponent>
+                      <Text>{exercise.name}</Text>
+                      <Text>Sets: {exercise.sets}</Text>
+                    </RowViewComponent>
+                  ))
+                  }
+                </View>
+                )
+              }]
+            }
+          })
         })
+      var scheduleObj = schedules.reduce(function (prev, curr) {
+        prev[curr.key] = curr.value;
+        return prev;
+      }, {});
 
-        var scheduleObj = schedules.reduce(function (prev, curr) {
-          prev[curr.key] = curr.value;
-          return prev;
-        }, {});
-
-        this.setState({
-          schedule: scheduleObj
-        })
+      this.setState({
+        schedule: scheduleObj
       })
+    })
       .catch(err => {
         console.log(err);
       })

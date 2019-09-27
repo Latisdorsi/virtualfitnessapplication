@@ -153,32 +153,34 @@ router.delete('/cycle/:id/:cycle', (req, res) => {
         )
 })
 
-/*
-// Update cycle
-router.put('/cycle/:id', (req, res) => {
-    const { Routine, level, goal, startDate, targetDate, assessment } = req.body
-    Cycle.findOne({ _id })
+
+
+router.get('/cycle/:id/end', (req, res) => {
+    const _id = req.params.id
+    const start = new Date();
+    const end = new Date();
+
+    start.setHours(0, 0, 0, 0);
+    end.setHours(24, 0, 0, 0);
+
+
+    Cycle.findOne({
+        "targetDate": {
+            "$gte": start.toISOString(),
+            "$lt": end.toISOString()
+        },
+        user: _id,
+        isActive: true
+    })
         .then(cycle => {
-            cycle.Routine = Routine
-            cycle.level = level
-            cycle.goal = goal
-            cycle.startDate = startDate
-            cycle.targetDate = targetDate
-            cycle.assessment = assessment
-            cycle.save()
-                .then(cycle => {
-                    res.json(cycle)
-                })
-                .catch(err => {
-                    console.error(err)
-                })
+            res.status(200).json(cycle)
         })
-        .catch(err => {
-            console.error(err)
+        .catch(error => {
+            res.status(500).json({
+                message: 'Internal Server Error',
+                error: error
+            });
         })
 })
-*/
-
-
 
 module.exports = router

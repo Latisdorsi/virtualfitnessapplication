@@ -21,16 +21,19 @@ export default class Records extends Component {
     }
 
     componentDidMount() {
-        Axios.get('https://mvfagb.herokuapp.com/api/schedule/5ce9092d50081503e89ae408/now')
-            .then(response => {
-                this.setState({
-                    schedule: response.data
-                });
-            })
-            .catch(error => {
-                console.error(error);
-            })
-    }
+        DeviceStorage.loadItem('token').then(token => {
+            const tokenData = parseToken(token)
+            Axios.get('https://mvfagb.herokuapp.com/api/schedule/' + tokenData._id + '/now')
+                .then(response => {
+                    this.setState({
+                        schedule: response.data
+                    });
+                })
+                .catch(error => {
+                    console.error(error);
+                })
+        });
+}
 
     addRecords = (record) => {
         this.setState(prevState => ({
@@ -54,9 +57,7 @@ export default class Records extends Component {
     render() {
         const { navigation } = this.props;
         console.log(this.state.schedule);
-        // const exercises = navigation.getParam('exercises', []);
         return (
-            // Load Exercise Data From State
             <ScrollView>
                 <View style={{
                     padding: 15
@@ -75,7 +76,6 @@ export default class Records extends Component {
                     <Button
                         mode="contained"
                         onPress={() => {
-                            // console.log(this.state.records);
                             navigation.navigate('SaveRecord', {
                                 records: this.state.records
                             })

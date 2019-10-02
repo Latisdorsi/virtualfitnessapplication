@@ -114,7 +114,7 @@ export class Dashboard extends Component {
                                 }} > Start Exercise </Button>
                             </>
                             :
-                            <Subheading style={{textAlign:'center'}}>Exercise succesfully finished!</Subheading>
+                            <Subheading style={{ textAlign: 'center' }}>Exercise succesfully finished!</Subheading>
                         :
                         <Subheading>You have no scheduled exercise today</Subheading>
 
@@ -147,23 +147,25 @@ export class Dashboard extends Component {
                         <Dialog.Actions>
                             <Button onPress={this._hideDialog}>No</Button>
                             <Button onPress={() => {
-                                axios.get('https://mvfagb.herokuapp.com/api/schedule/5ce9092d50081503e89ae408')
-                                    .then(response => {
-                                        console.log(response);
-                                        response.data.forEach(schedule => {
-                                            // console.log(schedule);
-                                            return axios.put('https://mvfagb.herokuapp.com/api/schedule/' + schedule._id + '/deactivate/');
-                                        });
-                                    })
-                                    .then(() => {
-                                        return axios.put('https://mvfagb.herokuapp.com/api/account/cycle/deactivate/5ce9092d50081503e89ae408');
-                                    })
-                                    .then(() => {
-                                        this.props.screenProps.rootNavigation.navigate('Wizard');
-                                    })
-                                    .catch(error => {
-                                        console.log(error);
-                                    })
+                                DeviceStorage.loadItem('token').then(token => {
+                                    const tokenData = parseToken(token)
+                                    axios.get('https://mvfagb.herokuapp.com/api/schedule/'.tokenData._id)
+                                        .then(response => {
+                                            console.log(response);
+                                            response.data.forEach(schedule => {
+                                                return axios.put('https://mvfagb.herokuapp.com/api/schedule/' + schedule._id + '/deactivate/');
+                                            });
+                                        })
+                                        .then(() => {
+                                            return axios.put('https://mvfagb.herokuapp.com/api/account/cycle/deactivate/' + tokenData._id);
+                                        })
+                                        .then(() => {
+                                            this.props.screenProps.rootNavigation.navigate('Wizard');
+                                        })
+                                        .catch(error => {
+                                            console.log(error);
+                                        })
+                                })
                             }}>Yes, I understand</Button>
                         </Dialog.Actions>
                     </Dialog>

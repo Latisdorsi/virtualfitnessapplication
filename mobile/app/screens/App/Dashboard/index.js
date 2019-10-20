@@ -40,8 +40,9 @@ export class Dashboard extends Component {
 
         DeviceStorage.loadItem('token').then(token => {
             const tokenData = parseToken(token);
+
             const account = axios.get('http://mvfagb.herokuapp.com/api/account/detail/' + tokenData._id + '/')
-            const cycle = axios.get('https://mvfagb.herokuapp.com/api/cycle/' + tokenData._id + '/latest');
+            const cycle = axios.get('https://mvfagb.herokuapp.com/api/cycle/' + tokenData._id );
             const schedule = axios.get('https://mvfagb.herokuapp.com/api/schedule/' + tokenData._id + '/now')
             Promise.all([account, cycle, schedule]).then((values) => {
                 const user = values[0].data;
@@ -149,9 +150,8 @@ export class Dashboard extends Component {
                             <Button onPress={() => {
                                 DeviceStorage.loadItem('token').then(token => {
                                     const tokenData = parseToken(token)
-                                    axios.get('https://mvfagb.herokuapp.com/api/schedule/'.tokenData._id)
+                                    axios.get('https://mvfagb.herokuapp.com/api/schedule/' + tokenData._id)
                                         .then(response => {
-                                            console.log(response);
                                             response.data.forEach(schedule => {
                                                 return axios.put('https://mvfagb.herokuapp.com/api/schedule/' + schedule._id + '/deactivate/');
                                             });

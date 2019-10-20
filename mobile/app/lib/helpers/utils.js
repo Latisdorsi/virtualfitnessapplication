@@ -10,13 +10,13 @@ export function CategorizeGroup(sex, bodyFatPercent){
         switch (true) {
             case (bodyFatPercent < 2):
                 return 'Unacceptable'
-            case (bodyFatPercent >= 2 && bodyFatPercent <= 4):
+            case (bodyFatPercent > 2 && bodyFatPercent < 6):
                 return 'Essentail Fat';
-            case (bodyFatPercent >= 6 && bodyFatPercent <= 13):
+            case (bodyFatPercent > 6 && bodyFatPercent < 13):
                 return 'Athletes';
-            case (bodyFatPercent >= 14 && bodyFatPercent <= 17):
+            case (bodyFatPercent > 13 && bodyFatPercent < 17):
                 return 'Fitness';
-            case (bodyFatPercent >= 17 && bodyFatPercent <= 25):
+            case (bodyFatPercent > 17 && bodyFatPercent < 25):
                 return 'Acceptable';
             case (bodyFatPercent > 25):
                 return 'Obese';
@@ -26,13 +26,13 @@ export function CategorizeGroup(sex, bodyFatPercent){
         switch (true) {
             case (bodyFatPercent < 10):
                 return 'Unacceptable'
-            case (bodyFatPercent >= 10 && bodyFatPercent <= 12):
+            case (bodyFatPercent > 10 && bodyFatPercent < 13):
                 return 'Essentail Fat';
-            case (bodyFatPercent >= 14 && bodyFatPercent <= 20):
+            case (bodyFatPercent > 13 && bodyFatPercent < 20):
                 return 'Athletes';
-            case (bodyFatPercent >= 21 && bodyFatPercent <= 24):
+            case (bodyFatPercent > 20 && bodyFatPercent < 24):
                 return 'Fitness';
-            case (bodyFatPercent >= 25 && bodyFatPercent <= 31):
+            case (bodyFatPercent > 24 && bodyFatPercent < 31):
                 return 'Acceptable';
             case (bodyFatPercent > 31):
                 return 'Obese';

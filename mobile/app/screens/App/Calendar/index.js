@@ -4,6 +4,8 @@ import { Agenda } from 'react-native-calendars';
 import RowViewComponent from 'lib/components/RowViewComponent';
 import { Subheading, Button } from 'react-native-paper';
 import axios from 'axios';
+import DeviceStorage from 'lib/services/DeviceStorage';
+import { parseToken } from 'lib/helpers/utils'
 
 export default class AgendaComponent extends Component {
 
@@ -20,7 +22,6 @@ export default class AgendaComponent extends Component {
       const tokenData = parseToken(token);
       axios.get('https://mvfagb.herokuapp.com/api/schedule/' + tokenData._id)
         .then(response => {
-
           const schedules = response.data.map(schedule => {
             const date = schedule.date.slice(0, 10);
             return {
@@ -29,7 +30,7 @@ export default class AgendaComponent extends Component {
                 title: <Subheading>Workout</Subheading>,
                 content: (<View>
                   {schedule.exercises.map(exercise => (
-                    <RowViewComponent>
+                    <RowViewComponent key={exercise._id}>
                       <Text>{exercise.name}</Text>
                       <Text>Sets: {exercise.sets}</Text>
                     </RowViewComponent>
@@ -40,15 +41,15 @@ export default class AgendaComponent extends Component {
               }]
             }
           })
-        })
-      var scheduleObj = schedules.reduce(function (prev, curr) {
-        prev[curr.key] = curr.value;
-        return prev;
-      }, {});
+          var scheduleObj = schedules.reduce(function (prev, curr) {
+            prev[curr.key] = curr.value;
+            return prev;
+          }, {});
 
-      this.setState({
-        schedule: scheduleObj
-      })
+          this.setState({
+            schedule: scheduleObj
+          })
+        })
     })
       .catch(err => {
         console.log(err);
@@ -56,6 +57,7 @@ export default class AgendaComponent extends Component {
   }
 
   render() {
+    console.log(this.state.schedule);
     return (
       <View style={{
         flex: 1
@@ -103,7 +105,7 @@ export default class AgendaComponent extends Component {
             );
           }} // specify your item comparison function for increased performance
           rowHasChanged={(r1, r2) => {
-            return r1.text !== r2.text
+            return r1.value !== r2.value
           }} // agenda theme
           theme={{}} // agenda container style
           style={{}} />

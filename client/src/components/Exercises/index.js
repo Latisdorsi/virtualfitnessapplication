@@ -106,13 +106,9 @@ export class Exercises extends Component {
         const indexOfFirstTodo = indexOfLastTodo - documentsPerPage;
         const currentExercises = exercises.slice(indexOfFirstTodo, indexOfLastTodo);
 
-
-
         const populateTable = currentExercises.map((exercise, i) => {
             return <ExerciseCell exercise={exercise} pushAlertMessage={this.pushAlertMessage} key={i} />
         })
-
-
 
         // Logic for displaying page numbers
         const pageNumbers = [];

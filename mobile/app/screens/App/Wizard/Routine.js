@@ -6,6 +6,9 @@ import axios from 'axios';
 import RowViewComponent from 'lib/components/RowViewComponent';
 // import RowViewComponent from 'lib/components';
 
+import DeviceStorage from 'lib/services/DeviceStorage'
+import { parseToken } from 'lib/helpers/utils'
+
 export default class Routine extends React.Component {
 
     constructor(props) {
@@ -25,7 +28,7 @@ export default class Routine extends React.Component {
         arrDate = [];
 
         while (startDate < endDate) {
-            startDate.setDate(startDate.getDate() + 1);
+
             switch (schedule) {
                 case 0:
                     if (startDate.getDay() == 1) {
@@ -80,6 +83,7 @@ export default class Routine extends React.Component {
                     }
                     break;
             }
+            startDate.setDate(startDate.getDate() + 1);
         }
         return arrDate;
     }
@@ -225,16 +229,15 @@ export default class Routine extends React.Component {
                                             let cycle;
                                             DeviceStorage.loadItem('token').then(token => {
                                                 const tokenData = parseToken(token);
-                                                axios.post('https://mvfagb.herokuapp.com/api/cycle/' + token._id, cycleObj)
-                                                    .then(() => {
-
-                                                        return axios.get('https://mvfagb.herokuapp.com/api/cycle/' + token._id)
-                                                    })
+                                                axios.post('https://mvfagb.herokuapp.com/api/cycle/' + tokenData._id, cycleObj)
+                                                    .then(
+                                                        axios.get('https://mvfagb.herokuapp.com/api/cycle/' + tokenData._id)
+                                                    )
                                                     .then(response => {
 
-                                                        dates = this.getDates(response.data.startDate, response.data.targetDate, 0);
+                                                        dates = this.getDates(response.data.startDate, response.data.targetDate, response.data.schedule);
                                                         cycle = response.data._id;
-                                                        return axios.get('https://mvfagb.herokuapp.com/api/cycle/'+ token._id + '/routine');
+                                                        return axios.get('https://mvfagb.herokuapp.com/api/cycle/' + tokenData._id + '/routine');
                                                     })
                                                     .then(response => {
                                                         scheduleArr = [];
@@ -253,16 +256,14 @@ export default class Routine extends React.Component {
                                                                 exercises: exercisePerDay,
                                                             });
                                                         });
-                                                        console.log(scheduleArr);
-                                                        scheduleArr.forEach(schedule => {
-                                                            return axios.post('https://mvfagb.herokuapp.com/api/schedule/' + token._id, schedule);
-                                                        })
 
-                                                        console.log(scheduleArr);
-                                                        return axios.post('https://mvfagb.herokuapp.com/api/measurement/' + token._id, measurementObj);
+                                                        scheduleArr.forEach(schedule => {
+                                                            return axios.post('https://mvfagb.herokuapp.com/api/schedule/' + tokenData._id, schedule);
+                                                        })
+                                                        return axios.post('https://mvfagb.herokuapp.com/api/measurement/' + tokenData._id, measurementObj);
                                                     })
                                                     .then(() => {
-                                                        return axios.put('https://mvfagb.herokuapp.com/api/account/cycle/activate/' + token._id)
+                                                        return axios.put('https://mvfagb.herokuapp.com/api/account/cycle/activate/' + tokenData._id)
                                                     })
                                                     .then(() => {
                                                         return this.props.screenProps.rootNavigation.navigate('Confirmation')

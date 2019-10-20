@@ -40,14 +40,14 @@ export default function LowerBodyTest({ setValue }) {
     const weight = 63;
     const age = 23;
     const [scoreData, setScoreData] = useState({
-        reps: 0,
-        weight: 0
+        reps: '',
+        weight: ''
     })
     const [oneRepMax, setOneRepMax] = useState(0)
     const [level, setLevel] = useState(0)
 
 
-    handleInputChange = (type, value) => {
+    handleLowerInputChange = (type, value) => {
         if (type == 'reps') {
             if (/^\d+$/.test(value)) {
                 updateSets(type, value)
@@ -108,7 +108,7 @@ export default function LowerBodyTest({ setValue }) {
                         style={styles.recordsInput}
                         placeholder="0"
                         value={scoreData.reps}
-                        onChangeText={value => { handleInputChange('reps', value) }}
+                        onChangeText={value => { this.handleLowerInputChange('reps', value) }}
                         maxLength={2}
                         underlineColorAndroid="#666666"
                         keyboardType='numeric' />
@@ -121,7 +121,7 @@ export default function LowerBodyTest({ setValue }) {
                         placeholder="0"
                         value={scoreData.weight}
                         maxLength={5}
-                        onChangeText={value => { handleInputChange('weight', value) }}
+                        onChangeText={value => { this.handleLowerInputChange('weight', value) }}
                         underlineColorAndroid="#666666"
                         keyboardType='numeric' />
                     <Text style={styles.accentedText}>KG</Text>

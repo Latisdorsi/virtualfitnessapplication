@@ -56,7 +56,7 @@ export default class Records extends Component {
 
     render() {
         const { navigation } = this.props;
-        console.log(this.state.schedule);
+        
         return (
             <ScrollView>
                 <View style={{

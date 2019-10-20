@@ -28,8 +28,7 @@ export default class Assessment extends React.Component {
                             {/* <View style={{ marginVertical: 15, padding: 15 }}>
                                 <CardioRespiratoryTest />
                             </View> */}
-                            <Divider />
-
+                          
                             <View style={{ marginVertical: 15, padding: 15 }}>
                                 <UpperBodyTest setValue={setUpperBodyStrength} />
                             </View>

@@ -95,7 +95,6 @@ class Profile extends React.Component {
                 <Measurement name="Hips" data={hipsData} suffix="cm" value={this.state.hips} setValue={(hips) => this.setState({ hips })} />
               </View>
 
-
               <Button
                 disabled={
                   !(this._checkFields() && this._checkComposition(composition))

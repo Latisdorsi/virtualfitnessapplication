@@ -23,12 +23,7 @@ import Routine from "./Routine";
 
 
 const WizardNavigator = createAppContainer(createStackNavigator({
-    Assessment: {
-        screen: Assessment,
-        navigationOptions: {
-            title: 'Assessment'
-        }
-    },
+
     Start: {
         screen: Start,
         navigationOptions: {
@@ -42,7 +37,12 @@ const WizardNavigator = createAppContainer(createStackNavigator({
             title: 'Profile'
         }
     },
-
+    Assessment: {
+        screen: Assessment,
+        navigationOptions: {
+            title: 'Assessment'
+        }
+    },
     Goal: {
         screen: Goal,
         navigationOptions: {
@@ -61,7 +61,6 @@ const WizardNavigator = createAppContainer(createStackNavigator({
             title: 'Routine'
         }
     }
-
 
 }));
 

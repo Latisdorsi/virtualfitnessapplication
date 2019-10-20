@@ -38,12 +38,16 @@ export default function UpperBodyTest({ setValue }) {
     const gender = 'Male'
     const weight = 63;
     const age = 23;
-    const [scoreData, setScoreData] = useState({
-        reps: 0,
-        weight: 0
+    const [upperScoreData, setUpperScoreData] = useState({
+        reps: '',
+        weight: ''
     })
 
-    handleInputChange = (type, value) => {
+    const [oneRepMax, setOneRepMax] = useState(0)
+    const [level, setLevel] = useState(0)
+
+
+    handleUpperInputChange = (type, value) => {
         if (type == 'reps') {
             if (/^\d+$/.test(value)) {
                 updateSets(type, value)
@@ -55,19 +59,18 @@ export default function UpperBodyTest({ setValue }) {
             }
         }
     }
-    const [oneRepMax, setOneRepMax] = useState(0)
-    const [level, setLevel] = useState(0)
+
 
     const updateSets = (name, value) => {
         const updatedSet = {
-            ...scoreData,
+            ...upperScoreData,
             [name]: value
         }
-        setScoreData(updatedSet)
+        setUpperScoreData(updatedSet)
     }
 
     useEffect(() => {
-        const oneRepMax = Math.round(scoreData.weight * (1 + (scoreData.reps / 30)) * 100) / 100;
+        const oneRepMax = Math.round(upperScoreData.weight * (1 + (upperScoreData.reps / 30)) * 100) / 100;
         const weightRatio = oneRepMax / weight;
 
         //Set OneRepMax and Level
@@ -75,7 +78,7 @@ export default function UpperBodyTest({ setValue }) {
         setLevel(calculateScore(gender, weightRatio, age));
 
 
-    }, [scoreData]);
+    }, [upperScoreData]);
 
     useEffect(() => {
         const weightRatio = oneRepMax / weight;
@@ -109,8 +112,8 @@ export default function UpperBodyTest({ setValue }) {
                     <TextInput
                         style={styles.recordsInput}
                         placeholder="0"
-                        value={scoreData.reps}
-                        onChangeText={value => { handleInputChange('reps', value) }}
+                        value={upperScoreData.reps}
+                        onChangeText={value => { this.handleUpperInputChange('reps', value) }}
                         maxLength={2}
                         underlineColorAndroid="#666666"
                         keyboardType='numeric' />
@@ -121,9 +124,9 @@ export default function UpperBodyTest({ setValue }) {
                     <TextInput
                         style={styles.recordsInput}
                         placeholder="0"
-                        value={scoreData.weight}
+                        value={upperScoreData.weight}
                         maxLength={5}
-                        onChangeText={value => { handleInputChange('reps', value) }}
+                        onChangeText={value => { this.handleUpperInputChange('weight', value) }}
                         underlineColorAndroid="#666666"
                         keyboardType='numeric' />
                     <Text style={styles.accentedText}>KG</Text>

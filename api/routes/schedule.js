@@ -6,7 +6,7 @@ const Exercise = require('../../models/schedule')
 const Schedule = require('../../models/schedule')
 
 router.get('/schedule/:id', (req, res) => {
-    const _id = req.params.id
+    const _id = req.params.id;
     Schedule.find({ user: _id, isActive: true })
         .then(schedule => {
             res.status(200).json(schedule)
@@ -49,7 +49,7 @@ router.get('/schedule/:id/now', (req, res) => {
         })
 })
 
-router.put('/schedule/:id/complete/', (req, res) => {
+router.put('/schedule/:id/complete', (req, res) => {
     const _id = req.params.id;
     Schedule.findOneAndUpdate({ _id }, { $set: { isPending: false } })
     .then(schedule => {

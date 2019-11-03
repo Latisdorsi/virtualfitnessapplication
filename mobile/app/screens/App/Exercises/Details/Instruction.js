@@ -18,16 +18,14 @@ export default class Instruction extends Component {
     componentDidMount() {
         const _id = this.props.navigation.getParam('itemId', '');
         axios
-            .get('http://10.0.2.2:3000/exercise/detail/' + _id)
+            .get('https://mvfagb.herokuapp.com/api/exercise/detail/' + _id)
             .then(response => {
-                console.log(response.data)
                 this.setState({
                     imageName: response.data.imageName,
                     imageUrl: response.data.imageUrl,
                     name: response.data.name,
                     instruction: response.data.instruction
                 });
-                console.log(this.state)
             })
             .catch(function (error) {
                 console.log(error);

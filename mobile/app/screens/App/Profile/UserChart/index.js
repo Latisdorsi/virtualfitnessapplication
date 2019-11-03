@@ -70,129 +70,134 @@ class UserChart extends React.PureComponent {
 
 
         return (
-            <ScrollView>
-                <View style={{ padding: 20 }} pointerEvents="none">
-                    <Subheading>
-                        Weight
+            this.state.measurement.length > 0 ?
+                <ScrollView>
+                    <View style={{ padding: 20 }} pointerEvents="none">
+                        <Subheading>
+                            Weight
                     </Subheading>
 
 
-                    {weight.length > 0 ?
-                        < VictoryChart
-                            width={Dimensions.get('window').width}
-                            theme={VictoryTheme.material}
+                        {weight.length > 0 ?
+                            < VictoryChart
+                                width={Dimensions.get('window').width}
+                                theme={VictoryTheme.material}
 
-                        >
-                            <VictoryAxis
-                                dependentAxis tickFormat={(tick) => `${tick}kg`} />
-                            <VictoryAxis
-                                tickCount={5} />
-                            <VictoryLine
+                            >
+                                <VictoryAxis
+                                    dependentAxis tickFormat={(tick) => `${tick}kg`} />
+                                <VictoryAxis
+                                    tickCount={5} />
+                                <VictoryLine
 
-                                domainPadding={{ x: [20, 0] }}
-                                style={{
-                                    data: { stroke: "#9400D3" },
-                                    parent: { border: "1px solid #ccc" }
-                                }}
-                                data={weight}
-                                text={"Weight"}
-                            />
-                        </VictoryChart>
-                        :
-                        <View>
-                            <ActivityIndicator />
-                            <StatusBar barStyle="default" />
-                        </View>
-                    }
-                    <Subheading>
-                        Neck
+                                    domainPadding={{ x: [20, 0] }}
+                                    style={{
+                                        data: { stroke: "#9400D3" },
+                                        parent: { border: "1px solid #ccc" }
+                                    }}
+                                    data={weight}
+                                    text={"Weight"}
+                                />
+                            </VictoryChart>
+                            :
+                            <View>
+                                <ActivityIndicator />
+                                <StatusBar barStyle="default" />
+                            </View>
+                        }
+                        <Subheading>
+                            Neck
                     </Subheading>
 
-                    {neck.length > 0 ?
-                        < VictoryChart
-                            width={Dimensions.get('window').width}
-                            theme={VictoryTheme.material}
-                        >
-                            <VictoryAxis
+                        {neck.length > 0 ?
+                            < VictoryChart
+                                width={Dimensions.get('window').width}
+                                theme={VictoryTheme.material}
+                            >
+                                <VictoryAxis
 
-                                dependentAxis tickFormat={(tick) => `${tick}cm`} />
-                            <VictoryAxis
-                                tickCount={5} />
-                            <VictoryLine
-                                style={{
-                                    data: { stroke: "#9400D3" },
-                                    parent: { border: "1px solid #ccc" }
-                                }}
-                                data={neck}
-                            />
-                        </VictoryChart>
-                        :
-                        <View>
-                            <ActivityIndicator />
-                            <StatusBar barStyle="default" />
-                        </View>
-                    }
+                                    dependentAxis tickFormat={(tick) => `${tick}cm`} />
+                                <VictoryAxis
+                                    tickCount={5} />
+                                <VictoryLine
+                                    style={{
+                                        data: { stroke: "#9400D3" },
+                                        parent: { border: "1px solid #ccc" }
+                                    }}
+                                    data={neck}
+                                />
+                            </VictoryChart>
+                            :
+                            <View>
+                                <ActivityIndicator />
+                                <StatusBar barStyle="default" />
+                            </View>
+                        }
 
-                    <Subheading>
-                        Waist
-                    </Subheading>
-
-
-                    {waist.length > 0 ?
-                        < VictoryChart
-                            width={Dimensions.get('window').width}
-                            theme={VictoryTheme.material}
-                        >
-                            <VictoryAxis
-                                dependentAxis tickFormat={(tick) => `${tick}cm`} />
-                            <VictoryAxis
-                                tickCount={5}
-                            />
-                            <VictoryLine
-                                style={{
-                                    data: { stroke: "#9400D3" },
-                                    parent: { border: "1px solid #ccc" }
-                                }}
-                                data={waist}
-                            />
-                        </VictoryChart>
-                        :
-                        <View>
-                            <ActivityIndicator />
-                            <StatusBar barStyle="default" />
-                        </View>
-                    }
-
-                    <Subheading>
-                        Hips
+                        <Subheading>
+                            Waist
                     </Subheading>
 
 
-                    {hips.length > 0 ?
-                        < VictoryChart
-                            width={Dimensions.get('window').width}
-                            theme={VictoryTheme.material}
-                        >
-                            <VictoryAxis
-                                dependentAxis tickFormat={(tick) => `${tick}cm`} />
-                            <VictoryAxis
-                                tickCount={5} />
-                            <VictoryLine
-                                style={{
-                                    data: { stroke: "#9400D3" },
-                                    parent: { border: "1px solid #ccc" }
-                                }}
-                                data={hips}
-                            />
-                        </VictoryChart>
-                        :
-                        <View>
-                            <ActivityIndicator />
-                            <StatusBar barStyle="default" />
-                        </View>
-                    }
+                        {waist.length > 0 ?
+                            < VictoryChart
+                                width={Dimensions.get('window').width}
+                                theme={VictoryTheme.material}
+                            >
+                                <VictoryAxis
+                                    dependentAxis tickFormat={(tick) => `${tick}cm`} />
+                                <VictoryAxis
+                                    tickCount={5}
+                                />
+                                <VictoryLine
+                                    style={{
+                                        data: { stroke: "#9400D3" },
+                                        parent: { border: "1px solid #ccc" }
+                                    }}
+                                    data={waist}
+                                />
+                            </VictoryChart>
+                            :
+                            <View>
+                                <ActivityIndicator />
+                                <StatusBar barStyle="default" />
+                            </View>
+                        }
+
+                        <Subheading>
+                            Hips
+                    </Subheading>
+
+
+                        {hips.length > 0 ?
+                            < VictoryChart
+                                width={Dimensions.get('window').width}
+                                theme={VictoryTheme.material}
+                            >
+                                <VictoryAxis
+                                    dependentAxis tickFormat={(tick) => `${tick}cm`} />
+                                <VictoryAxis
+                                    tickCount={5} />
+                                <VictoryLine
+                                    style={{
+                                        data: { stroke: "#9400D3" },
+                                        parent: { border: "1px solid #ccc" }
+                                    }}
+                                    data={hips}
+                                />
+                            </VictoryChart>
+                            :
+                            <View>
+                                <ActivityIndicator />
+                                <StatusBar barStyle="default" />
+                            </View>
+                        }
+                    </View>
+                </ScrollView >
+                :
+                <View style={{ flex: 1, justifyContent: 'center', alignContent: 'center', alignItems: 'center' }}>
+                    <Text>No Previous Measurement</Text>
                 </View>
-            </ScrollView >
         )
     }
 

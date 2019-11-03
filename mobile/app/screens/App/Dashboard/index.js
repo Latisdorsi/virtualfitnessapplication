@@ -5,7 +5,7 @@ import DeviceStorage from 'lib/services/DeviceStorage';
 import { parseToken } from 'lib/helpers/utils';
 import RowViewComponent from 'lib/components/RowViewComponent'
 import axios from 'axios';
-
+import { ActivityIndicator, Colors } from 'react-native-paper';
 
 export class Dashboard extends Component {
     constructor(props) {
@@ -25,7 +25,8 @@ export class Dashboard extends Component {
                 schedule: -1
             },
             isPromptVisible: false,
-            hasExercise: false
+            hasExercise: false,
+            isReseting: false
         }
     }
 
@@ -42,7 +43,7 @@ export class Dashboard extends Component {
             const tokenData = parseToken(token);
 
             const account = axios.get('http://mvfagb.herokuapp.com/api/account/detail/' + tokenData._id + '/')
-            const cycle = axios.get('https://mvfagb.herokuapp.com/api/cycle/' + tokenData._id );
+            const cycle = axios.get('https://mvfagb.herokuapp.com/api/cycle/' + tokenData._id);
             const schedule = axios.get('https://mvfagb.herokuapp.com/api/schedule/' + tokenData._id + '/now')
             Promise.all([account, cycle, schedule]).then((values) => {
                 const user = values[0].data;
@@ -100,77 +101,86 @@ export class Dashboard extends Component {
 
         const { user } = this.state;
         return (
-            <View style={{ padding: 20, flex: 1, justifyContent: 'center' }}>
-                <View style={{ alignContent: 'center', alignItems: 'center' }}>
-                    <Avatar.Image size={80} style={{ backgroundColor: 'white' }} source={{ uri: user.avatarURL || 'https://mvfagb.herokuapp.com/static/media/avatar.5ad30128.png' }} />
-                    <Subheading>{user.name.firstName} {user.name.lastName}</Subheading>
-                </View>
-                <Card style={{ padding: 20, alignContent: 'center', alignItems: 'center' }}>
-                    {this.state.hasExercise ?
-                        this.state.hasExercise.isPending ?
-                            <>
-                                <Subheading>You have a scheduled exercise today</Subheading>
-                                <Button mode="contained" onPress={() => {
-                                    this.props.navigation.navigate('Records')
-                                }} > Start Exercise </Button>
-                            </>
+            !this.state.isReseting ?
+                <View style={{ padding: 20, flex: 1, justifyContent: 'center' }}>
+                    <View style={{ alignContent: 'center', alignItems: 'center' }}>
+                        <Avatar.Image size={80} style={{ backgroundColor: 'white' }} source={{ uri: user.avatarURL || 'https://mvfagb.herokuapp.com/static/media/avatar.5ad30128.png' }} />
+                        <Subheading>{user.name.firstName} {user.name.lastName}</Subheading>
+                    </View>
+                    <Card style={{ padding: 20, alignContent: 'center', alignItems: 'center' }}>
+                        {this.state.hasExercise ?
+                            this.state.hasExercise.isPending ?
+                                <>
+                                    <Subheading>You have a scheduled exercise today</Subheading>
+                                    <Button mode="contained" onPress={() => {
+                                        this.props.navigation.navigate('Records')
+                                    }} > Start Exercise </Button>
+                                </>
+                                :
+                                <Subheading style={{ textAlign: 'center' }}>Exercise succesfully finished!</Subheading>
                             :
-                            <Subheading style={{ textAlign: 'center' }}>Exercise succesfully finished!</Subheading>
-                        :
-                        <Subheading>You have no scheduled exercise today</Subheading>
+                            <Subheading>You have no scheduled exercise today</Subheading>
 
-                    }
-                </Card>
-                <Card style={{ padding: 20, marginTop: 20, alignContent: 'center', alignItems: 'center' }}>
-                    <Subheading>You have an active cycle right now</Subheading>
-                    <RowViewComponent>
-                        <Text>Fitness Level</Text>
-                        <Text>{this.state.cycle.level}</Text>
-                    </RowViewComponent>
-                    <RowViewComponent>
-                        <Text>Goal</Text>
-                        <Text>{this._getGoal(this.state.cycle.goal)}</Text>
-                    </RowViewComponent>
-                    <RowViewComponent>
-                        <Text>Schedule</Text>
-                        <Text>{this._getSchedule(this.state.cycle.schedule)}</Text>
-                    </RowViewComponent>
-                    <Button onPress={this._showDialog} mode="contained">Restart Cycle </Button>
-                </Card>
-                <Portal>
-                    <Dialog
-                        visible={this.state.isPromptVisible}
-                        onDismiss={this._hideDialog}>
-                        <Dialog.Title>Warning!</Dialog.Title>
-                        <Dialog.Content>
-                            <Paragraph>Restarting your cycle will delete your current cycle. Are you sure you wish to proceed?</Paragraph>
-                        </Dialog.Content>
-                        <Dialog.Actions>
-                            <Button onPress={this._hideDialog}>No</Button>
-                            <Button onPress={() => {
-                                DeviceStorage.loadItem('token').then(token => {
-                                    const tokenData = parseToken(token)
-                                    axios.get('https://mvfagb.herokuapp.com/api/schedule/' + tokenData._id)
-                                        .then(response => {
-                                            response.data.forEach(schedule => {
-                                                return axios.put('https://mvfagb.herokuapp.com/api/schedule/' + schedule._id + '/deactivate/');
-                                            });
-                                        })
-                                        .then(() => {
-                                            return axios.put('https://mvfagb.herokuapp.com/api/account/cycle/deactivate/' + tokenData._id);
-                                        })
-                                        .then(() => {
-                                            this.props.screenProps.rootNavigation.navigate('Wizard');
-                                        })
-                                        .catch(error => {
-                                            console.log(error);
-                                        })
-                                })
-                            }}>Yes, I understand</Button>
-                        </Dialog.Actions>
-                    </Dialog>
-                </Portal>
-            </View>
+                        }
+                    </Card>
+                    <Card style={{ padding: 20, marginTop: 20, alignContent: 'center', alignItems: 'center' }}>
+                        <Subheading>You have an active cycle right now</Subheading>
+                        <RowViewComponent>
+                            <Text>Fitness Level</Text>
+                            <Text>{this.state.cycle.level}</Text>
+                        </RowViewComponent>
+                        <RowViewComponent>
+                            <Text>Goal</Text>
+                            <Text>{this._getGoal(this.state.cycle.goal)}</Text>
+                        </RowViewComponent>
+                        <RowViewComponent>
+                            <Text>Schedule</Text>
+                            <Text>{this._getSchedule(this.state.cycle.schedule)}</Text>
+                        </RowViewComponent>
+                        <Button onPress={this._showDialog} mode="contained">Restart Cycle </Button>
+                    </Card>
+                    <Portal>
+                        <Dialog
+                            visible={this.state.isPromptVisible}
+                            onDismiss={this._hideDialog}>
+                            <Dialog.Title>Warning!</Dialog.Title>
+                            <Dialog.Content>
+                                <Paragraph>Restarting your cycle will delete your current cycle. Are you sure you wish to proceed?</Paragraph>
+                            </Dialog.Content>
+                            <Dialog.Actions>
+                                <Button onPress={this._hideDialog}>No</Button>
+                                <Button onPress={() => {
+                                    this.setState({
+                                        isReseting: true
+                                    })
+                                    DeviceStorage.loadItem('token').then(token => {
+                                        const tokenData = parseToken(token)
+                                        axios.get('https://mvfagb.herokuapp.com/api/schedule/' + tokenData._id)
+                                            .then(response => {
+                                                response.data.forEach(schedule => {
+                                                    return axios.put('https://mvfagb.herokuapp.com/api/schedule/' + schedule._id + '/deactivate/');
+                                                });
+                                            })
+                                            .then(() => {
+                                                return axios.put('https://mvfagb.herokuapp.com/api/account/cycle/deactivate/' + tokenData._id);
+                                            })
+                                            .then(() => {
+                                                this.props.screenProps.rootNavigation.navigate('Wizard');
+                                            })
+                                            .catch(error => {
+                                                console.log(error);
+                                            })
+                                    })
+                                }}>Yes, I understand</Button>
+                            </Dialog.Actions>
+                        </Dialog>
+                    </Portal>
+                </View>
+                :
+                <View style={{ flex: 1, justifyContent: 'center', alignContent: 'center', alignItems: 'center' }}>
+                    <ActivityIndicator animating={true} color={Colors.red800} />
+                    <Text>Please wait while we reset your cycle...</Text>
+                </View>
         )
     }
 }

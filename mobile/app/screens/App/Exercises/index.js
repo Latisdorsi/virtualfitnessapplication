@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, ScrollView, FlatList, Text } from 'react-native'
 import { List } from 'react-native-paper';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native';
 import axios from 'axios'
 
 export default class Exercises extends Component {

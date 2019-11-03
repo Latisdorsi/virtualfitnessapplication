@@ -3,12 +3,14 @@ import { View, Text, FlatList } from 'react-native';
 import { Subheading, Divider } from 'react-native-paper';
 import axios from 'axios';
 import RowViewComponent from 'lib/components/RowViewComponent'
+import DeviceStorage from 'lib/services/DeviceStorage';
+import { parseToken } from 'lib/helpers/utils';
 
 const HistoryItem = ({ item }) => {
     return (
         <View style={{ padding: 15 }}>
             <RowViewComponent>
-                <Subheading>Date: {item.date.slice(0,10)}</Subheading>
+                <Subheading>Date: {item.date.slice(0, 10)}</Subheading>
                 <Subheading>1RM</Subheading>
             </RowViewComponent>
             {item.sets.map((value, key) => {
@@ -18,7 +20,7 @@ const HistoryItem = ({ item }) => {
                     >
                         <Text>Set {key + 1}</Text>
                         <Text>{value.weight || 0}kg x {value.rep || 0}</Text>
-                        <Text>{(value.weight * (1 + ( (value.rep || 0) / 30))).toFixed(2)}</Text>
+                        <Text>{(value.weight * (1 + ((value.rep || 0) / 30))).toFixed(2)}</Text>
                     </RowViewComponent>
                 )
             })}
@@ -46,22 +48,22 @@ export default class History extends Component {
 
     componentDidMount() {
         const _id = this.props.navigation.getParam('itemId', '');
-
-        // console.log('https://mvgab.herokuapp.com/api/records/' + _id + '/5ce9092d50081503e89ae408');
-        axios
-            .get('https://mvfagb.herokuapp.com/api/records/' + _id + '/5ce9092d50081503e89ae408')
-            .then(response => {
-                // console.log(response.data)
-                this.setState({
-                    recordDetails: response.data,
-                    hasRecord: true
+        DeviceStorage.loadItem('token').then(token => {
+            const tokenData = parseToken(token)
+            axios
+                .get('https://mvfagb.herokuapp.com/api/records/' + _id + '/' + tokenData._id)
+                .then(response => {
+                    if (response.data.length > 0) {
+                        this.setState({
+                            recordDetails: response.data,
+                            hasRecord: true
+                        })
+                    }
                 })
-
-                console.log(this.state.recordDetails);
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
+                .catch(function (error) {
+                    console.log(error);
+                })
+        });
     }
     render() {
         return (

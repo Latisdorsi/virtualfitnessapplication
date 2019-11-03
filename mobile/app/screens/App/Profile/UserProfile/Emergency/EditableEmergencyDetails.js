@@ -79,7 +79,7 @@ const EditableEmergencyDetails = ({ value, setValue, editable }) => {
                         }
                         <TextInput
                             label="Mobile Number"
-                            value={props.values.contactNumber}
+                            value={props.values.contactNumber.toString()}
                             keyboardType={'numeric'}
                             onChangeText={props.handleChange('contactNumber')}
                             onBlur={() => props.setFieldTouched('contactNumber')}
@@ -109,7 +109,7 @@ const EditableEmergencyDetails = ({ value, setValue, editable }) => {
                             }}
                             // disabled={!props.isValid}
                             onPress={props.handleSubmit}
-                            disabled={!props.isValid}
+                            // disabled={!props.isValid}
                         >Save</Button>
                     </View>
                 )}

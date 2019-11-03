@@ -34,7 +34,7 @@ export default function UserRecords() {
 
             const tokenData = parseToken(token);
             axios
-                .get('http://mvfagb.herokuapp.com/api/measurement/' + tokenData._id)
+                .get('https://mvfagb.herokuapp.com/api/measurement/' + tokenData._id)
                 .then(response => {
                     measurementObj = {
                         weight: response.data.weight,

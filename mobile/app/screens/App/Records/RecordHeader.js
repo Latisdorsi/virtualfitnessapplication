@@ -14,27 +14,12 @@ export default class RecordHeader extends Component {
         super(props);
         this.state = {
             exercise: {
-                "imageUrl": "",
-                "imageName": "",
-                "name": "",
-                "instruction": "",
-                "createdDate": "",
+                name: props.exercise.name || ''
             }
         }
     }
-    componentDidMount() {
-        // console.log('https://mvfagb.herokuapp.com/api/exercise/detail/' + this.state.exercise._id)
-        axios.get('https://mvfagb.herokuapp.com/api/exercise/detail/' + this.props.exercise._id)
-            .then(response => {
-               
-                this.setState({
-                    exercise: response.data
-                })
-            })
-    }
 
     render() {
-        // console.warn(this.state.exercise);
         return (
             <View>
                 <View
@@ -42,7 +27,7 @@ export default class RecordHeader extends Component {
                     <Subheading
                         style={{
                             fontSize: 20
-                        }}>{this.state.exercise.name || 'Loading Name...'}</Subheading>
+                        }}>{this.state.exercise.name}</Subheading>
                     <View
                         style={{
                             flexDirection: 'row'
@@ -51,25 +36,6 @@ export default class RecordHeader extends Component {
                         <IconButton name="info-outline" color="#2a2a2a" size={18} />
                     </View>
                 </View>
-
-                <Divider />
-                {/* <View
-                style={styles.headerContainer}>
-
-                <View>
-                    <Text style={styles.textBlack}>Previous</Text>
-                    <Text>{exercise.previous.date}</Text>
-                </View>
-                <View>
-                    <Text style={styles.textBlack}>1RM</Text>
-                    <Text>{exercise.previous.oneRepMax}lbs</Text>
-                </View>
-                <View>
-                    <Text style={styles.textBlack}>Volume</Text>
-                    <Text>{exercise.previous.volume}lbs</Text>
-                </View>
-
-            </View> */}
 
                 <Divider />
             </View>

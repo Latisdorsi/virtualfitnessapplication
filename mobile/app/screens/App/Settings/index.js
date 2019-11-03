@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, ScrollView } from 'react-native'
 import { List, Appbar } from 'react-native-paper';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native';
 import ModalSelector from 'react-native-modal-selector';
 import DeviceStorage from 'lib/services/DeviceStorage'
 

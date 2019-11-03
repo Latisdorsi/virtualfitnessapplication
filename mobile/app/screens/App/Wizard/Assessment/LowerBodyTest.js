@@ -48,13 +48,14 @@ export default function LowerBodyTest({ setValue }) {
 
 
     handleLowerInputChange = (type, value) => {
+
         if (type == 'reps') {
-            if (/^\d+$/.test(value)) {
+            if (/^[1-9][0-9]*$|^$/.test(value)) {
                 updateSets(type, value)
             }
         }
-        else if(type == 'weight'){    
-            if (/^\d*\.?\d*$/.test(value)) {
+        else if (type == 'weight') {
+            if (/^[1-9][0-9]*\.?\d*$|^$/.test(value)) {
                 updateSets(type, value)
             }
         }
@@ -108,8 +109,8 @@ export default function LowerBodyTest({ setValue }) {
                         style={styles.recordsInput}
                         placeholder="0"
                         value={scoreData.reps}
+                        maxLength={4}
                         onChangeText={value => { this.handleLowerInputChange('reps', value) }}
-                        maxLength={2}
                         underlineColorAndroid="#666666"
                         keyboardType='numeric' />
                     <Text style={styles.accentedText}>Reps</Text>

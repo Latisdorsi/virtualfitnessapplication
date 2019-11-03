@@ -49,12 +49,12 @@ export default function UpperBodyTest({ setValue }) {
 
     handleUpperInputChange = (type, value) => {
         if (type == 'reps') {
-            if (/^\d+$/.test(value)) {
+            if (/^[1-9][0-9]*$|^$/.test(value)) {
                 updateSets(type, value)
             }
         }
         else if (type == 'weight') {
-            if (/^\d*\.?\d*$/.test(value)) {
+            if (/^[1-9][0-9]*\.?\d*$|^$/.test(value)) {
                 updateSets(type, value)
             }
         }
@@ -114,8 +114,8 @@ export default function UpperBodyTest({ setValue }) {
                         placeholder="0"
                         value={upperScoreData.reps}
                         onChangeText={value => { this.handleUpperInputChange('reps', value) }}
-                        maxLength={2}
                         underlineColorAndroid="#666666"
+                        maxLength={4}
                         keyboardType='numeric' />
                     <Text style={styles.accentedText}>Reps</Text>
                 </View>
@@ -125,7 +125,6 @@ export default function UpperBodyTest({ setValue }) {
                         style={styles.recordsInput}
                         placeholder="0"
                         value={upperScoreData.weight}
-                        maxLength={5}
                         onChangeText={value => { this.handleUpperInputChange('weight', value) }}
                         underlineColorAndroid="#666666"
                         keyboardType='numeric' />

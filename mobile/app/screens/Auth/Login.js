@@ -25,7 +25,7 @@ export default class Login extends Component {
     loginUser(values) {
         this.setState({ error: '', loading: true });
         axios
-            .post('http://mvfagb.herokuapp.com/api/account/authenticate', {
+            .post('https://mvfagb.herokuapp.com/api/account/authenticate', {
                 email: values.email,
                 password: values.password
             })

@@ -19,7 +19,9 @@ export default class RecordDetail extends Component {
             record: {
                 id: props.exercise._id,
                 name: props.exercise.name,
-                sets: [],
+                sets: [
+            
+                ],
                 oneRepMax: 0,
                 volume: 0
             }
@@ -31,8 +33,8 @@ export default class RecordDetail extends Component {
 
         for (let index = 0; index < this.props.exercise.sets; index++) {
             sets.push({
-                rep: 0,
-                weight: 0
+                rep: '',
+                weight: ''
             })
         }
 
@@ -46,19 +48,15 @@ export default class RecordDetail extends Component {
         })
     }
 
-    componentWillReceiveProps(newProps) {
-        // console.warn(newProps);
-    }
-
     handleInputChange = (index, type, value) => {
         if (type == 'rep') {
             if (/^\d+$/.test(value)) {
-                updateSets(index, type, value)
+                this.updateSets(index, type, value)
             }
         }
         else if (type == 'weight') {
             if (/^\d*\.?\d*$/.test(value)) {
-                updateSets(index, type, value)
+                this.updateSets(index, type, value)
             }
         }
     }
@@ -101,7 +99,6 @@ export default class RecordDetail extends Component {
                     volume
                 }
             }, () => {
-                // console.warn(this.state.record);
                 this.props.updateRecords(this.props.index, this.state.record);
             })
 

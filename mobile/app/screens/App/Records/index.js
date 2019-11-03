@@ -4,12 +4,15 @@ import {
     ScrollView,
     Text
 } from 'react-native';
-import { Divider, Button } from 'react-native-paper'
+import { Divider, Button, ProgressBar } from 'react-native-paper'
 import update from 'immutability-helper';
 
 import { default as RecordHeader } from './RecordHeader'
 import { default as RecordDetails } from './RecordDetails'
 import Axios from "axios";
+
+import DeviceStorage from 'lib/services/DeviceStorage'
+import { parseToken } from 'lib/helpers/utils'
 
 export default class Records extends Component {
     constructor(props) {
@@ -33,7 +36,7 @@ export default class Records extends Component {
                     console.error(error);
                 })
         });
-}
+    }
 
     addRecords = (record) => {
         this.setState(prevState => ({
@@ -56,7 +59,7 @@ export default class Records extends Component {
 
     render() {
         const { navigation } = this.props;
-        
+
         return (
             <ScrollView>
                 <View style={{
@@ -71,7 +74,9 @@ export default class Records extends Component {
                             </View>
                         )
                     }) :
-                        <Text>No Data Found</Text>
+                        <View>
+                              <ProgressBar progress={0} indeterminate={true} />
+                        </View>
                     }
                     <Button
                         mode="contained"

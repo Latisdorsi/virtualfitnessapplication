@@ -1,5 +1,6 @@
 import React, { useEffect, useState, Component } from "react";
 import {
+    ScrollView,
     View,
     FlatList,
     Text
@@ -30,7 +31,7 @@ const RecordItem = ({ item }) => {
 
             {item.sets.map((set, index) => {
                 return (
-                    <RowViewComponent>
+                    <RowViewComponent key={index}>
                         <Text>Set {index + 1}</Text>
                         <Text>Reps:</Text>
                         <Text>{set.rep}</Text>
@@ -57,28 +58,22 @@ export default class SaveRecord extends Component {
         this._showDialog = this._showDialog.bind(this);
     }
 
-    componentDidMount() {
-
-    }
-
     saveRecords = (records) => {
+        this._hideDialog();
         records.forEach(record => {
             Axios.post('https://mvfagb.herokuapp.com/api/record/5ce9092d50081503e89ae408', record)
-                .then(()=> {
-                    this._hideDialog();
-                    this.props.navigation.popToTop();
-                })
-                .catch(err => {
-                    console.error(err);
-                })
         });
+        
         Axios.get('https://mvfagb.herokuapp.com/api/schedule/5ce9092d50081503e89ae408/now')
-        .then( response => {
-            return Axios.put('https://mvfagb.herokuapp.com/api/schedule/' + response.data._id + '/complete/')
-        })
-        .catch(err => {
-            console.error(err);
-        })
+            .then(response => {
+                return Axios.put('https://mvfagb.herokuapp.com/api/schedule/' + response.data._id + '/complete')
+            })
+            .then(() => {
+                this.props.navigation.popToTop();
+            })
+            .catch(err => {
+                console.error(err);
+            })
     }
 
     _showDialog = () => this.setState({ isPromptVisible: true });
@@ -90,38 +85,40 @@ export default class SaveRecord extends Component {
         const records = navigation.getParam('records', 'NO-RECORDS');
         console.log(records);
         return (
-            <View style={{
-                padding: 15
-            }} >
-                {records
-                    ?
-                    <FlatList
-                        data={records}
-                        keyExtractor={(item) => item.id}
-                        renderItem={({ item }) => <RecordItem item={item} />}
-                    />
-                    :
-                    <Text>Loading Data...</Text>
-                }
-                <Button onPress={this._showDialog} mode="contained">Finalize Records</Button>
-                <Portal>
-                    <Dialog
-                        visible={this.state.isPromptVisible}
-                        onDismiss={this._hideDialog}>
-                        <Dialog.Title>Finalize Data</Dialog.Title>
-                        <Dialog.Content>
-                            <Paragraph>This will save your record for the day. Are you sure you wish to do this?</Paragraph>
-                        </Dialog.Content>
-                        <Dialog.Actions>
-                            <Button onPress={this._hideDialog}>No</Button>
-                            <Button onPress={() => {
-                                this.saveRecords(records)
-                            }}>Yes, I understand</Button>
-                        </Dialog.Actions>
-                    </Dialog>
-                </Portal>
+            <ScrollView>
+                <View style={{
+                    padding: 15
+                }} >
+                    {records
+                        ?
+                        <FlatList
+                            data={records}
+                            keyExtractor={(item) => item.id}
+                            renderItem={({ item }) => <RecordItem item={item} />}
+                        />
+                        :
+                        <Text>Loading Data...</Text>
+                    }
+                    <Button onPress={this._showDialog} mode="contained">Finalize Records</Button>
+                    <Portal>
+                        <Dialog
+                            visible={this.state.isPromptVisible}
+                            onDismiss={this._hideDialog}>
+                            <Dialog.Title>Finalize Data</Dialog.Title>
+                            <Dialog.Content>
+                                <Paragraph>This will save your record for the day. Are you sure you wish to do this?</Paragraph>
+                            </Dialog.Content>
+                            <Dialog.Actions>
+                                <Button onPress={this._hideDialog}>No</Button>
+                                <Button onPress={() => {
+                                    this.saveRecords(records)
+                                }}>Yes, I understand</Button>
+                            </Dialog.Actions>
+                        </Dialog>
+                    </Portal>
 
-            </View>
+                </View>
+            </ScrollView>
         );
     }
 

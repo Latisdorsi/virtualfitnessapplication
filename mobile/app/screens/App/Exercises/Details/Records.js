@@ -5,6 +5,8 @@ import { Subheading } from 'react-native-paper';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import RowViewComponent from 'lib/components/RowViewComponent';
+import DeviceStorage from 'lib/services/DeviceStorage';
+import { parseToken } from 'lib/helpers/utils';
 
 export default class Charts extends Component {
     constructor(props) {
@@ -15,33 +17,38 @@ export default class Charts extends Component {
                 reps: 0,
                 weight: 0
             },
-            hasRecord: true
+            hasRecord: false
         }
     }
 
     componentDidMount() {
-        axios
-            .get('https://mvfagb.herokuapp.com/api/records/5cf4b301edd89700176bc18b/5ce9092d50081503e89ae408/record')
-            .then(response => {
-                this.setState({
-                    oneRepMax: response.data.oneRepMax,
-                    volume: response.data.volume
-                })
-            })
-
         const _id = this.props.navigation.getParam('itemId', '');
 
-        // console.log('https://mvgab.herokuapp.com/api/records/' + _id + '/5ce9092d50081503e89ae408');
-        axios
-            .get('https://mvfagb.herokuapp.com/api/records/5cf4b301edd89700176bc18b/5ce9092d50081503e89ae408/record/all')
-            .then(response => {
-                this.setState({
-                    records: response.data
+        DeviceStorage.loadItem('token').then(token => {
+            const tokenData = parseToken(token);
+            axios
+                .get('https://mvfagb.herokuapp.com/api/records/' + _id + '/' + tokenData._id + '/record')
+                .then(response => {
+                    this.setState({
+                        oneRepMax: response.data.oneRepMax,
+                        volume: response.data.volume
+                    })
                 })
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
+            axios
+                .get('https://mvfagb.herokuapp.com/api/records/' + _id + '/' + tokenData._id + '/record/all')
+                .then(response => {
+                    if (response.data.length > 0) {
+                        // console.warn(response.data);
+                        this.setState({
+                            records: response.data,
+                            hasRecord: true
+                        })
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+        });
 
     }
 
@@ -72,7 +79,7 @@ export default class Charts extends Component {
                         {
                             oneRepMax.length > 0 ?
                                 < VictoryChart
-                                width={Dimensions.get('window').width}
+                                    width={Dimensions.get('window').width}
                                     theme={VictoryTheme.material}
                                     padding={50}
                                 >

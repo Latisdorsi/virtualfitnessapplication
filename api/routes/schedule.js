@@ -21,9 +21,8 @@ router.get('/schedule/:id', (req, res) => {
 
 router.get('/schedule/:id/month/:month', (req, res) => {
     const _id = req.params.id;
-    const _month = req.params.month;
-    const start = new Date();
-    const end = new Date();
+    const _month = req.params.month - 1;
+    const date = new Date();
 
     var start = new Date(date.getFullYear(), _month, 1);
     var end = new Date(date.getFullYear(), _month + 1, 0);

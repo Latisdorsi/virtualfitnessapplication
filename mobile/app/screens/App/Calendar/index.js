@@ -16,11 +16,10 @@ export default class AgendaComponent extends Component {
     }
   }
 
-  // Get Data Here
-  componentDidMount() {
+  loadSchedule(month){
     DeviceStorage.loadItem('token').then(token => {
       const tokenData = parseToken(token);
-      axios.get('https://mvfagb.herokuapp.com/api/schedule/' + tokenData._id)
+      axios.get('https://mvfagb.herokuapp.com/api/schedule/' + tokenData._id + '/month/' + month)
         .then(response => {
           const schedules = response.data.map(schedule => {
             const date = schedule.date.slice(0, 10);
@@ -56,6 +55,11 @@ export default class AgendaComponent extends Component {
       })
   }
 
+  // Get Data Here
+  componentDidMount() {
+  
+  }
+
   render() {
     console.log(this.state.schedule);
     return (
@@ -66,8 +70,8 @@ export default class AgendaComponent extends Component {
           // the value of date key kas to be an empty array []. If there exists no value for date key it is
           // considered that the date in question is not yet loaded
           items={this.state.schedule} // callback that fires when the calendar is opened or closed
-          loadItemsForMonth={(month) => {
-            console.log(month)
+          loadItemsForMonth={(date) => {
+            this.loadSchedule(date.month);
           }} onCalendarToggled={(calendarOpened) => {
             console.log(calendarOpened)
           }} // specify how each item should be rendered in agenda

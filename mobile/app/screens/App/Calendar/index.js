@@ -67,7 +67,7 @@ export default class AgendaComponent extends Component {
           // considered that the date in question is not yet loaded
           items={this.state.schedule} // callback that fires when the calendar is opened or closed
           loadItemsForMonth={(month) => {
-            console.log('trigger items loading')
+            console.log(month)
           }} onCalendarToggled={(calendarOpened) => {
             console.log(calendarOpened)
           }} // specify how each item should be rendered in agenda

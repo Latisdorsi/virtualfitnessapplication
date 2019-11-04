@@ -20,7 +20,7 @@ const UserSchema = new mongoose.Schema({
     },
     hasCycle: {
         type: Boolean,
-        default: true
+        default: false
     },
     name: {
         firstName: {

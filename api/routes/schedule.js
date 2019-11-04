@@ -19,6 +19,37 @@ router.get('/schedule/:id', (req, res) => {
         })
 })
 
+router.get('/schedule/:id/month/:month', (req, res) => {
+    const _id = req.params.id;
+    const _month = req.params.month;
+    const start = new Date();
+    const end = new Date();
+
+    var start = new Date(date.getFullYear(), _month, 1);
+    var end = new Date(date.getFullYear(), _month + 1, 0);
+
+    start.setHours(0, 0, 0, 0);
+    end.setHours(24, 0, 0, 0);
+
+    Schedule.find({
+        "date": {
+            "$gte": start.toISOString(),
+            "$lt": end.toISOString()
+        },
+        user: _id,
+        isActive: true
+    })
+        .then(schedule => {
+            res.status(200).json(schedule)
+        })
+        .catch(error => {
+            res.status(500).json({
+                message: 'Internal Server Error',
+                error: error
+            });
+        })
+})
+
 
 
 router.get('/schedule/:id/now', (req, res) => {
@@ -52,15 +83,15 @@ router.get('/schedule/:id/now', (req, res) => {
 router.put('/schedule/:id/complete', (req, res) => {
     const _id = req.params.id;
     Schedule.findOneAndUpdate({ _id }, { $set: { isPending: false } })
-    .then(schedule => {
-        res.status(200).json(schedule)
-    })
-    .catch(error => {
-        res.status(500).json({
-            message: 'Internal Server Error',
-            error: error
-        });
-    })
+        .then(schedule => {
+            res.status(200).json(schedule)
+        })
+        .catch(error => {
+            res.status(500).json({
+                message: 'Internal Server Error',
+                error: error
+            });
+        })
 
 });
 
